@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.abel533.entity.Example;
+import com.github.abel533.entity.Example.Criteria;
 
 import cn.zju.springboot.mapper.HistoryMapper;
 import cn.zju.springboot.pojo.History;
@@ -23,7 +24,11 @@ public class HistoryServiceImpl implements HistoryService {
 	 */
 	@Override
 	public List<History> getHistoryByUserId(int userId) {
-		return this.historyMapper.select(new History());
+		Example example = new Example(History.class);
+		Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("userId", userId);
+		List<History> result = this.historyMapper.selectByExample(example);
+		return result;
 	}
 
 	/**
@@ -36,21 +41,24 @@ public class HistoryServiceImpl implements HistoryService {
 		return this.historyMapper.selectByPrimaryKey(historyId);
 	}
 
+	/**
+	 * 插入一条history
+	 * @param history
+	 * @return
+	 */
 	@Override
 	public void insertHistory(History history) {
 		this.historyMapper.insert(history);
 	}
 
+	/**
+	 * 根据historyId删除一条history
+	 * @param historyId
+	 * @return
+	 */
 	@Override
-	public int deleteHistoryByHistoryId(int historyId) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int updateHistory(History history) {
-		// TODO Auto-generated method stub
-		return 0;
+	public void deleteHistoryByHistoryId(int historyId) {
+		this.historyMapper.deleteByPrimaryKey(historyId);
 	}
 
 }

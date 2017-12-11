@@ -12,8 +12,6 @@ public interface HistoryService {
 	
 	public void insertHistory(History history);
 	
-	public int deleteHistoryByHistoryId(int historyId);
-	
-	public int updateHistory(History history);
+	public void deleteHistoryByHistoryId(int historyId);
 
 }

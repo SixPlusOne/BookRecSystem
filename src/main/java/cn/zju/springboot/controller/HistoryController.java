@@ -22,19 +22,28 @@ public class HistoryController {
 
 	@Autowired
 	private HistoryServiceImpl historyService;
-	
+
+	/**
+	 * 查询一个用户所有的历史记录
+	 */
 	@RequestMapping(value = "{userId}")
 	@ResponseBody
 	public Object queryUserHistory(@PathVariable("userId") int userId, HttpServletRequest request) {
 		return historyService.getHistoryByUserId(userId);
 	}
-	
+
+	/**
+	 * 根据historyId查询单条历史记录
+	 */
 	@RequestMapping(value = "/getone/{historyId}")
 	@ResponseBody
 	public Object queryHistory(@PathVariable("historyId") int historyId, HttpServletRequest request) {
 		return historyService.getHistoryByHistoryId(historyId);
 	}
-	
+
+	/**
+	 * 插入一条历史记录
+	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	@ResponseBody
 	public ModelMap addHistory(HttpServletRequest request) {
@@ -50,5 +59,18 @@ public class HistoryController {
 		result.put("msg", msg);
 		return result;
 	}
+
+	/**
+	 * 删除一条历史记录
+	 */
+	@RequestMapping(value = "/delete/{historyId}")
+	@ResponseBody
+	public ModelMap deleteHistory(@PathVariable("historyId") int historyId, HttpServletRequest request) {
+		ModelMap result = new ModelMap();
+		historyService.deleteHistoryByHistoryId(historyId);
+		result.put("msg", "删除成功");
+		return result;
+	}
+	
 	
 }
