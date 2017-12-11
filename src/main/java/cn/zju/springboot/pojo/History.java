@@ -34,6 +34,18 @@ public class History {
 	private int bookId;
 	private int userId;
 	private Date createDate;
+	
+	public History() {
+		super();
+	}
+
+	public History(int bookId, int userId, Date createDate) {
+		super();
+		this.bookId = bookId;
+		this.userId = userId;
+		this.createDate = createDate;
+	}
+	
 	public int getId() {
 		return id;
 	}
