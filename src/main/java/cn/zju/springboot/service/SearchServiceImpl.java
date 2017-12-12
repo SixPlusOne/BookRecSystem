@@ -1,0 +1,125 @@
+package cn.zju.springboot.service;
+
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.github.abel533.entity.Example;
+
+import cn.zju.springboot.mapper.AuthorMapper;
+import cn.zju.springboot.mapper.BookMapper;
+import cn.zju.springboot.mapper.BookTagMapper;
+import cn.zju.springboot.pojo.Author;
+import cn.zju.springboot.pojo.Book;
+import cn.zju.springboot.pojo.BookTag;
+
+@Service
+public class SearchServiceImpl implements SearchService{
+	
+	@Autowired
+	BookMapper bookMapper;
+	
+	@Autowired
+	BookTagMapper bookTagMapper;
+	
+	@Autowired
+	AuthorMapper authorMapper;
+	
+	@Override
+	public  List<Book> searchByBook(String word){  //根据书的信息搜索
+		word="%"+word+"%";
+		Set<Book> set=new HashSet<Book>();
+		Example example1=new Example(Book.class);
+		example1.createCriteria().andLike("name", word);
+		set.addAll(bookMapper.selectByExample(example1));
+		Example example2=new Example(Book.class);
+		example2.createCriteria().andLike("summary",word);
+		set.addAll(bookMapper.selectByExample(example2));
+		Example example3=new Example(Book.class);
+		example3.createCriteria().andLike("publisher", word);
+		
+		set.addAll(bookMapper.selectByExample(example3));
+		Example example4=new Example(Book.class);
+		example4.createCriteria().andLike("id", word);
+		set.addAll(bookMapper.selectByExample(example4));
+		
+		Example example5=new Example(Book.class);
+		example5.createCriteria().andLike("isbn", word);
+		set.addAll(bookMapper.selectByExample(example5));
+		List<Book> books=new LinkedList<Book>();
+		books.addAll(set);
+		return books;
+		
+	}
+	
+	@Override
+	public  List<Book> searchByTag(String word){   //根据标签信息搜索
+		word="%"+word+"%";
+		Set<Book> set=new HashSet<Book>();
+		
+		List<BookTag> bookTags=new LinkedList<BookTag>();
+		Example tagExample=new Example(BookTag.class);
+		tagExample.createCriteria().andLike("tag", word);
+		bookTags=bookTagMapper.selectByExample(tagExample);
+		for(BookTag bookTag:bookTags){
+			Book book=bookMapper.selectByPrimaryKey(bookTag.getBookId());
+			set.add(book);
+			
+		}
+		
+		
+		List<Book> books=new LinkedList<Book>();
+		books.addAll(set);
+		return books;
+		
+	}
+	
+	@Override
+	public List<Book> searchByAuthor(String word){  //根据作者信息搜索
+		word="%"+word+"%";
+		Set<Book> set=new HashSet<Book>();
+		Set<Author> authorSet=new HashSet<Author>();
+		Example authorExample=new Example(Author.class);
+		authorExample.createCriteria().andLike("name", word);
+		authorSet.addAll(authorMapper.selectByExample(authorExample));
+		
+		Example author_introExample=new Example(Author.class);
+		author_introExample.createCriteria().andLike("summary", word);
+		authorSet.addAll(authorMapper.selectByExample(author_introExample));
+		for(Author author:authorSet){
+			Example example=new Example(Book.class);
+			example.createCriteria().andEqualTo("authorId", author.getId());
+			set.addAll(bookMapper.selectByExample(example));
+			
+		}
+		List<Book> books=new LinkedList<Book>();
+		books.addAll(set);
+		return books;
+		
+	}
+	
+	public List<Book> search(String word){  //根据所有信息搜索
+		List<Book> books=new LinkedList<Book>();
+		books.addAll(searchByBook(word));
+		books.addAll(searchByAuthor(word));
+		books.addAll(searchByTag(word));
+		return books;
+		
+		
+		
+		
+		
+		
+	
+	}
+		
+		
+		
+	
+		
+}
+
