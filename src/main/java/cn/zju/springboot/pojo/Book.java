@@ -16,9 +16,9 @@ public class Book {
 	private String img1;
 	private String img2;
 	private String img3;
-	private String authorId;
+	private int authorId;
 	private String publisher;
-	private String rating;
+	private double rating;
 	private String summary;
 	public int getId() {
 		return id;
@@ -62,22 +62,24 @@ public class Book {
 	public void setImg3(String img3) {
 		this.img3 = img3;
 	}
-	public String getAuthorId() {
-		return authorId;
-	}
-	public void setAuthorId(String authorId) {
-		this.authorId = authorId;
-	}
+
 	public String getPublisher() {
 		return publisher;
 	}
 	public void setPublisher(String publisher) {
 		this.publisher = publisher;
 	}
-	public String getRating() {
+
+	public int getAuthorId() {
+		return authorId;
+	}
+	public void setAuthorId(int authorId) {
+		this.authorId = authorId;
+	}
+	public double getRating() {
 		return rating;
 	}
-	public void setRating(String rating) {
+	public void setRating(double rating) {
 		this.rating = rating;
 	}
 	public String getSummary() {
