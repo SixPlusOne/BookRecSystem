@@ -40,6 +40,8 @@ public class HistoryServiceImpl implements HistoryService {
 	public History getHistoryByHistoryId(int historyId) {
 		return this.historyMapper.selectByPrimaryKey(historyId);
 	}
+	
+
 
 	/**
 	 * 插入一条history
