@@ -1,5 +1,8 @@
 package cn.zju.springboot.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,30 +15,41 @@ import cn.zju.springboot.pojo.Tag;
 import cn.zju.springboot.service.TagService;
 
 @Controller
-@RequestMapping("tag/update/")
+@RequestMapping("tag/")
 public class TagController {
-	
+
 	@Autowired
 	private TagService tagService;
-	
-	
-	@RequestMapping(value = "{name}")
+
+	@RequestMapping(value = "insert/{name}")
 	@ResponseBody
-	public Object queryTag(@PathVariable("name") String name, HttpServletRequest request) {
-//		查询
-//		return tagService.getTagByName(name);
-		
-//		增加
-//		Tag tag = new Tag();
-//		tag.setName(name);
-//		return tagService.insertTag(tag);
-		
-//		删除
-//		return tagService.deleteTagByName(name);
-	
-//		修改
-		String oldName = "t3";
-		String newName = name;
-		return tagService.updateTag(oldName, newName);
+	public Object insertTagByName(@PathVariable("name") String name, HttpServletRequest request) {
+		Tag tag = new Tag();
+		tag.setName(name);
+		return tagService.insertTag(tag);
+	}
+
+	@RequestMapping(value = "delete/{name}")
+	@ResponseBody
+	public Object deleteTagByName(@PathVariable("name") String name, HttpServletRequest request) {
+		return tagService.deleteTagByName(name);
+	}
+
+	@RequestMapping(value = "queryByName/{name}")
+	@ResponseBody
+	public Object getBooksByTagName(@PathVariable("name") String name, HttpServletRequest request) {
+		return tagService.getBooksByTagName(name);
+	}
+
+	@RequestMapping(value = "queryByNames/{names}")
+	@ResponseBody
+	public Object getBooksByTagNameList(@PathVariable("names") String names, HttpServletRequest request) {
+		String nameArr[] = names.split(",");
+		List<String> nameList = new ArrayList<String>();
+		for (String item : nameArr) {
+			nameList.add(item);
+			System.out.println(item);
+		}
+		return tagService.getBooksByTagNameList(nameList);
 	}
 }
