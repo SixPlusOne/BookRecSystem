@@ -20,6 +20,7 @@ import com.github.abel533.entity.Example.Criterion;
 
 import cn.zju.springboot.mapper.BookMapper;
 import cn.zju.springboot.mapper.BookTagMapper;
+import cn.zju.springboot.mapper.UserMapper;
 import cn.zju.springboot.pojo.Book;
 import cn.zju.springboot.pojo.BookTag;
 
@@ -28,6 +29,9 @@ public class BookRecommendServiceImpl {
 	
 	@Autowired
 	BookMapper bookMapper;
+	
+	@Autowired
+	UserMapper userMapper;
 	
 	@Autowired
 	BookTagMapper bookTagMapper;
@@ -55,9 +59,34 @@ public class BookRecommendServiceImpl {
 		
 		return books;
 	}
-
+	
+	//根据用户获得user-cf算法推荐书籍
+	public List<Book> getRecommendBooksByUserCF(int userId) throws IOException{
+		String link="http://127.0.0.1:5000/user_cf/"+userId;
+		URL url=new URL(link);
+		BufferedReader br=new BufferedReader(new InputStreamReader(url.openStream()));
+		StringBuilder sb=new StringBuilder();
+		String line="";
+		while((line=br.readLine())!=null){
+			sb.append(line);
+		}
+		System.out.println(sb);
+		br.close();
+		List<String> names=new LinkedList<String>();
+		String[] strNames=sb.toString().split("\t");
+		for(String strName:strNames){
+			names.add(strName);
+		}
 		
+		List<Book> books=new LinkedList<Book>();
+		for(String bookName:strNames){
+			Example bookExample = new Example(Book.class);
+			bookExample.createCriteria().andEqualTo("name", bookName);
+			books = this.bookMapper.selectByExample(bookExample);
+		}
 		
+		return books;
+	}
 		
 	}
 	

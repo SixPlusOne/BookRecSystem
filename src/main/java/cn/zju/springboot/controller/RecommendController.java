@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.abel533.entity.Example;
@@ -35,6 +36,12 @@ public class RecommendController {
 	public List<Book> getRecommendBooks(@PathVariable int userId) throws IOException{
 		return bookRecommendService.getRecommendBooks(userId);
 
+	}
+	
+	@GetMapping("/recommend_user_cf/{userId}")  //根据用户给出user-cf推荐书籍
+	@ResponseBody
+	public List<Book> getRecommendBooksByUserCF(@PathVariable int userId) throws IOException{
+		return bookRecommendService.getRecommendBooksByUserCF(userId);
 	}
 	
 	@GetMapping("/tag/{tag}")   //获得指定某一标签的书籍
