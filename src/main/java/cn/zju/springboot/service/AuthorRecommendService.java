@@ -1,6 +1,11 @@
 package cn.zju.springboot.service;
 
-public interface AuthorRecommendService {
+import java.util.List;
 
-	//没有相应的数据库表，实现有待讨论
+import cn.zju.springboot.pojo.Author;
+
+public interface AuthorRecommendService {
+	
+	public List<Author> getAuthorRecommend(int userId);
+	
 }

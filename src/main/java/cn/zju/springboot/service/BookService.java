@@ -28,9 +28,20 @@ public interface BookService {
 	public List<Book> getBookByAuthorId(int authorId);
 	
 	public List<Book> getHotBookList();
+	//实现增删改查找
+	
+	public Book getBookById(int id);
+	
+	public Book getBookByIsbn(String isbn);
+	
+	public List<Book> getBookByName(String name);
+	
+	public List<Book> getBookByPublisher(String publisher);
 	
 	public List<Book> getGoodBookList();
 	
-
+	public void insertBook(Book book);
+	
+	public void deleteBook(Book book);
 }
   
