@@ -20,12 +20,6 @@ public class BookController {
 	@Autowired
 	private BookService bookService;
 	
-	@RequestMapping(value = "{id}")
-	@ResponseBody
-	public Object queryCartList(@PathVariable("id") int id,HttpServletRequest request) {
-//        ModelAndView mv = new ModelAndView("book");
-//        mv.addObject("cartList", bookService.getBookById(id));
-        return bookService.getBookById(id);
-    }
-
+	
+	
 }

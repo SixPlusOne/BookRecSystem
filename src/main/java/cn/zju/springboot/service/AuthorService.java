@@ -19,11 +19,15 @@ package cn.zju.springboot.service;
  * @see        
  */
 
+import java.util.List;
+
 import cn.zju.springboot.pojo.Author;
 
 public interface AuthorService {
 	
 	public Author getAuthorByName(String authorName);
+	
+	public List<Author> getAuthorListByPage(int pageSize,int pageNum);
 
 }
   

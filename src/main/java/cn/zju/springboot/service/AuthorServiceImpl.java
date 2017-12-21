@@ -11,11 +11,14 @@ package cn.zju.springboot.service;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.github.abel533.entity.Example;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 
 import cn.zju.springboot.mapper.AuthorMapper;
 import cn.zju.springboot.pojo.Author;
@@ -51,6 +54,16 @@ public class AuthorServiceImpl implements AuthorService {
 			return null;
 		}
 		return authorList.get(0);
+	}
+
+	@Override
+	public List<Author> getAuthorListByPage(int pageSize, int pageNum) {
+		
+		if(pageSize == 0 || pageNum == 0)
+			return null;
+		PageHelper.startPage(pageNum, pageSize);
+		List<Author> result = authorMapper.selectByExample(null);
+		return result;
 	}
 
 }

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>登陆界面</title>
+	</head>
+	<style>
+
+    </style>
+    <script src="js/vue.js"></script>
+    <script src="js/vue-resource.js"></script>
+	<script>
+	        window.onload=function(){
+	            new Vue({
+	                el:'#login',
+	                data:{
+	                	username:'',
+	                	password:'',
+	                	apiUrl: 'http://127.0.0.1:8080/user/login'
+	                },
+	                methods:{
+	                	login:function(){
+		                	this.$http.post(this.apiUrl,{
+		                        username:this.username,
+		                        password:this.password
+		                    },{
+	                            emulateJSON:true
+	                        }).then(function(res){
+		                        alert(res.data);
+		                    },function(res){
+		                        alert(res.status);
+		                    });
+		                }
+	            	}
+	            });
+	        };
+    </script>
+	
+	
+	<body>
+		<form name="form1">
+			
+			<div id="login" style="position: absolute; width: 428px; height: 296px; left: 461px; top: 148px; z-index: 10008;">
+				<div class="col-sm-4">
+					<h3>用户名
+						<input  id="username" type="text" class="input-lg" v-model="username"/>
+					</h3>
+					<h3>密&nbsp;&nbsp;&nbsp;码
+						<input  id="password" type="password"  v-model="password"/>
+					</h3>
+					<h4>
+						<input type="checkbox" name="save_me" value="1" />
+						保存密码
+					</h4>
+					<h4>
+						<input type="button" value="登录" class="bottom" @click="login()" />
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<a href="#forget"  />忘记密码
+					
+					</h4>
+					
+				</div>
+
+				<br>
+				{{username}},{{password}}
+				
+			</div>
+		</form>
+	</body>
+</html>

@@ -1,21 +1,36 @@
+/**  
+ * Project Name:BookRecSystem  
+ * File Name:BookService.java  
+ * Package Name:cn.zju.springboot.service  
+ * Date:2017年12月18日上午7:16:52  
+ * Copyright (c) 2017, chenzhou1025@126.com All Rights Reserved.  
+ *  
+*/  
+  
 package cn.zju.springboot.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import java.util.List;
 
-import com.github.abel533.entity.Example;
-
-import cn.zju.springboot.mapper.BookMapper;
 import cn.zju.springboot.pojo.Book;
 
-@Service
-public class BookService {
+/**  
+ * ClassName:BookService <br/>  
+ * Function: TODO ADD FUNCTION. <br/>  
+ * Reason:   TODO ADD REASON. <br/>  
+ * Date:     2017年12月18日 上午7:16:52 <br/>  
+ * @author   john-lin  
+ * @version    
+ * @since    JDK 1.6  
+ * @see        
+ */
+public interface BookService {
 	
-	@Autowired
-	private BookMapper bookMapper;
+	public List<Book> getBookByAuthorId(int authorId);
 	
-	public Book getBookById(int id) {
-		return this.bookMapper.selectByPrimaryKey(id);
-	}
+	public List<Book> getHotBookList();
+	
+	public List<Book> getGoodBookList();
+	
 
 }
+  

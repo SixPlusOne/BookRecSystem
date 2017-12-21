@@ -46,6 +46,16 @@ public class AuthorController {
 		return authorService.getAuthorByName(authorName);
 		
 	}
+	
+	@RequestMapping("/test")
+	@ResponseBody
+	public Object test(HttpServletRequest request) {
+		int pageNum = Integer.parseInt(request.getParameter("pageNum"));
+		int pageSize = Integer.parseInt(request.getParameter("pageSize"));
+		
+		return authorService.getAuthorListByPage(pageSize, pageNum);
+		
+	}
 
 }
   
