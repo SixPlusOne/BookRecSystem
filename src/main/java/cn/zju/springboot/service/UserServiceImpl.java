@@ -89,5 +89,20 @@ public class UserServiceImpl implements UserService {
 		return userList.get(0);
 	}
 
+	@Override
+	public boolean update(String UserName, String oldStaffPwd, String newStaffPwd) {
+		
+		Example example = new Example(User.class);
+		example.createCriteria().andEqualTo("name", UserName);
+		User user = userMapper.selectByExample(example).get(0);
+		if(oldStaffPwd.equals(user.getPassword())) {
+			user.setPassword(newStaffPwd);
+			if(userMapper.updateByPrimaryKey(user)>0)
+				return true;
+		}
+		
+		return false;
+	}
+
 }
   

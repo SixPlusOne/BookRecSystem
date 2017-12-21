@@ -9,6 +9,8 @@
   
 package cn.zju.springboot.service;
 
+import java.util.List;
+
 import cn.zju.springboot.pojo.User;
 
 /**  
@@ -28,6 +30,8 @@ public interface UserService {
 	public String login(String userName,String passwd);
 	
 	public User getUserByName(String userName);
+
+	public boolean update(String UserName, String oldStaffPwd, String newStaffPwd);
 
 }
   
