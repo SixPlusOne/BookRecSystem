@@ -78,7 +78,7 @@
 		<ul>
 	
 		
-		<li  th:each="book:${books}">
+		<li  th:each="book:${books.list}">
         		<div class="row">
 			<div class="col-md-4 col-sm-4 col-xs-12 bookItem">
 			<img class="pull-left" th:src="${book.img3}" style="width: 90%;padding-left: 10%;"/>
@@ -115,7 +115,19 @@
 			</ul>
 			
 
-		
+		            <nav>
+                <ul class="pager">
+                    <li th:if=${books.hasPreviousPage} class="previous">
+                        <a th:href="@{'?page=' + ${books.prePage} + '&pageSize=' + ${books.pageSize}}">
+                        <span aria-hidden="true">&larr;
+                        </span> 上一页</a>
+                    </li>
+                    <li th:if=${books.hasNextPage} class="next">
+                      <a th:href="@{'?page=' + ${books.nextPage} + '&pageSize=' + ${books.pageSize}}">下一页 
+                        <span aria-hidden="true">&rarr;</span>
+                    </a></li>
+                </ul>
+            </nav>
 		
 		</body>
 

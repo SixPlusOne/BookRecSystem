@@ -3,6 +3,7 @@ package cn.zju.springboot.controller;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,13 +13,20 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.dubbo.container.page.Page;
 import com.github.abel533.entity.Example;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
+import cn.zju.springboot.mapper.AuthorMapper;
 import cn.zju.springboot.mapper.BookMapper;
+import cn.zju.springboot.mapper.BookTagMapper;
 import cn.zju.springboot.pojo.Author;
 import cn.zju.springboot.pojo.Book;
+import cn.zju.springboot.pojo.BookTag;
 import cn.zju.springboot.pojo.Tag;
 import cn.zju.springboot.pojo.User;
 import cn.zju.springboot.service.AuthorRecommendService;
@@ -34,6 +42,12 @@ public class RecommendController {
 	
 	@Autowired
 	BookService bookService;
+	
+	@Autowired
+	BookTagMapper bookTagMapper;
+	
+	@Autowired
+	AuthorMapper authorMapper;
 	
 	@Autowired
 	BookRecommendServiceImpl bookRecommendService;
@@ -57,14 +71,17 @@ public class RecommendController {
 		return bookRecommendService.getRecommendBooksByUserCF(userId);
 	}
 	
+
+	
 	@GetMapping("/tag/{tag}")   //获得指定某一标签的书籍
-	public String getBooksByTag(@PathVariable String tag,Model model){
-		List<Book> books= tagService.getBooksByTag(tag);
-		int count=books.size();
+	public Object getBooksByTag(@PathVariable String tag,Model model,@RequestParam Optional<Integer> page, @RequestParam Optional<Integer> pageSize){
+		PageHelper.startPage(page.orElse(1), pageSize.orElse(20));
+		PageInfo<Book> books=new PageInfo<Book>(tagService.getBooksByTag(tag));
 		model.addAttribute("books",books);
-		model.addAttribute("count",count);
+		model.addAttribute("count",books.getTotal());
 		model.addAttribute("tag",tag);
 		return "rank";
+
 	}
 	
 	@GetMapping("/test")   //测试标签存入user_tag表
