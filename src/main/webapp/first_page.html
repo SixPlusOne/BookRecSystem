@@ -23,7 +23,37 @@
 				right: 10px;
 			}
 		</style>
+		
+		  <script src="js/vue.js"></script>
+    <script src="js/vue-resource.js"></script>
+	<script>
+	        window.onload=function(){
+	            new Vue({
+	                el:'#recommend',
+	                data:{
+	                	
+	                	apiUrl: 'http://127.0.0.1:8080/bookRecommend/?'
+	                },
+	                methods:{
+	                	login:function(){
+		                	this.$http.get(this.apiUrl,{
+
+		                    },{
+	                            emulateJSON:true
+	                        }).then(function(res){
+		                        alert(res.data);
+		                    },function(res){
+		                        alert(res.status);
+		                    });
+		                }
+	            	}
+	            });
+	        };
+    </script>
+	
 	</head>
+	
+	
 
 	<body>
 	<div class="container">
@@ -40,7 +70,10 @@
 		      </button>
 					<a class="navbar-brand" href="#">图书推荐</a>
 				</div>
-		
+		 <div id="box">
+        <input type="button" @click="get()" value="按钮get">
+        <input type="button" @click="post()" value="按钮post">
+    </div>
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">

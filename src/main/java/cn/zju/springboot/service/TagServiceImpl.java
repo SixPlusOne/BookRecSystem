@@ -110,15 +110,7 @@ public class TagServiceImpl implements TagService {
 
 	// 根据指定单一标签获得书籍
 	public List<Book> getBooksByTag(String tag) {
-		Example example = new Example(BookTag.class);
-		example.createCriteria().andLike("tag", tag);
-		List<BookTag> relations = bookTagMapper.selectByExample(example);
-		List<Book> books = new LinkedList<Book>();
-		for (BookTag relation : relations) {
-			books.add(bookMapper.selectByPrimaryKey(relation.getBookId()));
-		}
-
-		return books;
+		return bookMapper.findBooksByTagPaged(tag);
 
 	}
 

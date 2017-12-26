@@ -1,6 +1,7 @@
 
 package cn.zju.springboot.service;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,9 +109,13 @@ public class BookServiceImpl implements BookService{
 
 	@Override
 	public List<Book> getHotBookList() {
-		  
+		List<Book> books=new LinkedList<Book>();  
+		books.add(bookMapper.selectByPrimaryKey(1000093));
+		books.add(bookMapper.selectByPrimaryKey(1000110));
+		books.add(bookMapper.selectByPrimaryKey(1000110));
+		
 		// TODO Auto-generated method stub  
-		return null;
+		return books;
 	}
 
 	@Override

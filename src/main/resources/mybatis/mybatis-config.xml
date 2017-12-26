@@ -7,6 +7,7 @@
 	<settings>
 		<!-- 驼峰的自动映射 -->
 		<setting name="mapUnderscoreToCamelCase" value="true" />
+		  <setting name="logImpl" value="STDOUT_LOGGING" />
 	</settings>
 
 	<plugins>
