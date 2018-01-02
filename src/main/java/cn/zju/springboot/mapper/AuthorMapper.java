@@ -9,11 +9,14 @@
   
 package cn.zju.springboot.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 import com.github.abel533.mapper.Mapper;
 
 import cn.zju.springboot.pojo.Author;
+import cn.zju.springboot.pojo.Book;
 
 
 /**  
@@ -29,6 +32,7 @@ import cn.zju.springboot.pojo.Author;
 public interface AuthorMapper extends Mapper<Author> {
 	
 	Author findOne(@Param("id") int id);
+	
 
 }
   

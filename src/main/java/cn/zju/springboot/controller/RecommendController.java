@@ -22,10 +22,12 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import cn.zju.springboot.mapper.AuthorMapper;
+import cn.zju.springboot.mapper.BookFormMapper;
 import cn.zju.springboot.mapper.BookMapper;
 import cn.zju.springboot.mapper.BookTagMapper;
 import cn.zju.springboot.pojo.Author;
 import cn.zju.springboot.pojo.Book;
+import cn.zju.springboot.pojo.BookForm;
 import cn.zju.springboot.pojo.BookTag;
 import cn.zju.springboot.pojo.Tag;
 import cn.zju.springboot.pojo.User;
@@ -56,11 +58,14 @@ public class RecommendController {
 	TagServiceImpl tagService;
 	
 	@Autowired
+	BookFormMapper bookFormMapper;
+	
+	@Autowired
 	AuthorRecommendService authorRecommendService;
 	
 	@GetMapping("/recommend/{userId}")  //根据用户给出item-cf推荐书籍
 	@ResponseBody
-	public List<Book> getRecommendBooks(@PathVariable int userId) throws IOException{
+	public List<BookForm> getRecommendBooks(@PathVariable int userId) throws IOException{
 		return bookRecommendService.getRecommendBooks(userId);
 
 	}
@@ -108,15 +113,15 @@ public class RecommendController {
 	@GetMapping("/first_page")
 	public String getFirst_Page(Model model,HttpSession session) throws IOException{
 		User user=(User)session.getAttribute("CURRENT_USER");
-		List<Book> books=bookRecommendService.getRecommendBooks(123);
+		List<BookForm> books=bookRecommendService.getRecommendBooks(123);
 		List<Author> authors=authorRecommendService.getAuthorRecommend(123);
 		model.addAttribute("books",books);
 		model.addAttribute("authors",authors);
-		List<Book> hotBooks=bookService.getHotBookList();
+		List<BookForm> hotBooks=bookService.getHotBookList();
 		model.addAttribute("hotBooks",hotBooks);
 		return "first_page";
 		
 		
 	}
-
+	
 }

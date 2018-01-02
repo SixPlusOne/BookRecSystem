@@ -123,7 +123,7 @@
 						  <a  style="font-size:15px;" th:href="@{'/subject/'+${book.id}}"  th:text="${book.name}" >
                           </a>
                           </p>
-							<p style="font-size:15px;" th:text="@{'作者: '+${book.authorId}}" >作者:  罗贯</p>
+							<p style="font-size:15px;" th:text="@{'作者: '+${book.author.name}}" >作者:  罗贯</p>
 						
 							<p style="font-size:15px;" th:text="@{'出版社: '+${book.publisher}}">出版社: 中华书局</p>
 							<p style="font-size:15px;" th:text="@{'评分: '+${book.rating}}">评分: 9.5</p>
