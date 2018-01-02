@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.zju.springboot.mapper.BookFormMapper">
+  <cache />
+  
+  
+ 
+
+<select id="findone" resultMap="detailedBook">
+SELECT * FROM book where id=#{id}
+</select>
+
+<resultMap id="detailedBook" type="cn.zju.springboot.pojo.BookForm">
+<id property="id" column="id" />
+<collection property="author" column="author_id" ofType="cn.zju.springboot.pojo.Author" select="findAuthorById" />
+</resultMap>
+
+<select id="findAuthorById" resultType="cn.zju.springboot.pojo.Author">
+SELECT * FROM author where id=#{id}
+</select>
+
+<select id="findBooksByTagPaged" resultMap="detailedBook">
+    select B.* from book B,book_tag T where B.id=T.book_id and T.tag=#{tag}
+</select>
+
+<!--  
+<resultMap id="questionDetail" type="Question">
+  <id property="id" column="id" />
+  <collection property="answers" column="id" ofType="Answer" select="findAnswersByQuestion"/>
+  <collection property="tags" column="id" ofType="Tag" select="findTagByQuestion"/>
+</resultMap>
+
+<select id="findAnswersByQuestion" resultType="Answer">
+  SELECT * FROM answer WHERE questionId = #{questionId}
+</select>
+
+<select id="findTagByQuestion" resultType="Tag">
+  SELECT tag.name FROM tag,question_tag_relation WHERE question_tag_relation.questionId = #{questionId} AND question_tag_relation.tag=tag.name;
+</select>
+
+<select id="findOne" resultMap="questionDetail">
+  SELECT * FROM question WHERE id = #{id}
+</select>
+
+
+
+
+  <select id="findAll" resultMap="questionAll">
+    SELECT * FROM question
+  </select>
+  
+  <resultMap id="questionAll" type="Question" autoMapping="true">
+  <id property="id" column="id" />
+  <collection property="tags"  column="id" ofType="Tag"  select="findTagByQuestion"/>
+</resultMap>
+  
+  
+
+  <select id="findByKey" resultMap="questionAll">
+    SELECT * FROM question
+    WHERE  title LIKE CONCAT('%',#{key},'%' ) or description LIKE  CONCAT('%',#{key},'%' );
+    </select>
+  
+  
+  <resultMap id="tagDetail" type="Question">
+  <id property="id" column="id" />
+  <collection property="tags" column="id" ofType="Tag" select="findTagByQuestion"/>
+</resultMap>
+  
+  <select id="findByTag" resultMap="tagDetail">
+   SELECT * FROM question,question_tag_relation
+   WHERE question.Id=question_tag_relation.questionId
+   AND question_tag_relation.tag=#{name};
+  </select>
+  
+  <insert id="create" parameterType="com.tianmaying.qa.model.Question" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO question
+      (title, description, createdTime)
+    VALUES
+      (#{title}, #{description}, #{createdTime,jdbcType=TIMESTAMP})
+  </insert>
+  
+  <update id="update" parameterType="com.tianmaying.qa.model.Question">
+    UPDATE question SET
+        title = #{title},
+        description = #{description}
+    WHERE id = #{id}
+  </update>
+  
+  <delete id="delete">
+    DELETE FROM question WHERE id = #{id}
+  </delete>
+-->
+</mapper>

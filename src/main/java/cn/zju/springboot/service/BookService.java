@@ -12,6 +12,7 @@ package cn.zju.springboot.service;
 import java.util.List;
 
 import cn.zju.springboot.pojo.Book;
+import cn.zju.springboot.pojo.BookForm;
 
 /**  
  * ClassName:BookService <br/>  
@@ -27,7 +28,7 @@ public interface BookService {
 	
 	public List<Book> getBookByAuthorId(int authorId);
 	
-	public List<Book> getHotBookList();
+	public List<BookForm> getHotBookList();
 	//实现增删改查找
 	
 	public Book getBookById(int id);

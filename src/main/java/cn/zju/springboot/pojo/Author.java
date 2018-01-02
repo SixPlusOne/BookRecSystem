@@ -9,6 +9,8 @@
   
 package cn.zju.springboot.pojo;
 
+import java.io.Serializable;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,7 +27,7 @@ import javax.persistence.Table;
  * @see        
  */
 @Table(name = "author")
-public class Author {
+public class Author implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
