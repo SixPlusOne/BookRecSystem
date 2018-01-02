@@ -6,10 +6,7 @@
   <cache />
   
   
-  
-<select id="findBooksByTagPaged" resultType="cn.zju.springboot.pojo.Book">
-    select B.* from book B,book_tag T where B.id=T.book_id and T.tag=#{tag}
-</select>
+ 
 
 <select id="findone" resultMap="detailedBook">
 SELECT * FROM book where id=#{id}
@@ -22,6 +19,10 @@ SELECT * FROM book where id=#{id}
 
 <select id="findAuthorById" resultType="cn.zju.springboot.pojo.Author">
 SELECT * FROM author where id=#{id}
+</select>
+
+<select id="findBooksByTagPaged" resultMap="detailedBook">
+    select B.* from book B,book_tag T where B.id=T.book_id and T.tag=#{tag}
 </select>
 
 <!--  
