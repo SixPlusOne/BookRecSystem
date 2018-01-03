@@ -7,8 +7,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>BC首页</title>
 		<link rel="stylesheet" th:href="@{/css/bootstrap.css}" />
-		<script type="text/javascript" src="js/jquery-1.11.0.js"></script>
-		<script type="text/javascript" src="js/bootstrap.js"></script>
+		<script type="text/javascript" src="/js/jquery-1.11.0.js"></script>
+		<script type="text/javascript" src="/js/bootstrap.js"></script>
 		<style>
 			.bookItem{
 				/*border: 1px;width: 150px;*/
@@ -91,7 +91,7 @@
 						<td>
 				
 						<p>
-						  <a href="https://book.douban.com/subject/1048007/"  th:text="${book.name}" >
+						  <a th:href="@{'/book/'+${book.id}}"  th:text="${book.name}" >
                           </a>
                           </p>
 							<p th:text="@{'作者: '+${book.author.name}}">作者:  罗贯</p>
