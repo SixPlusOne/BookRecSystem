@@ -92,6 +92,11 @@ public class BookRecommendServiceImpl {
 		
 		return books;
 	}
+	
+	public List<BookForm> getSimilarBooks(int id){
+		return bookFormMapper.getSimilarBooks(id);
+		
+	}
 		
 	}
 	

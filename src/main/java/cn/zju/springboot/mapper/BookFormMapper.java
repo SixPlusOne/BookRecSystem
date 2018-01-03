@@ -13,5 +13,6 @@ public interface BookFormMapper extends Mapper<BookForm>{
 	
 	BookForm findone(@Param("id") int id);
 	List<BookForm> findBooksByTagPaged(@Param("tag") String tag);
+	List<BookForm> getSimilarBooks(@Param("id") int id);
 
 }

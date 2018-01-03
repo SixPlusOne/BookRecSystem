@@ -25,6 +25,10 @@ SELECT * FROM author where id=#{id}
     select B.* from book B,book_tag T where B.id=T.book_id and T.tag=#{tag}
 </select>
 
+<select id="getSimilarBooks" resultMap="detailedBook">
+	select B.* from book B,book_similarity_icf C where B.id=C.book_id2 and C.book_id1=#{id}
+</select>
+
 <!--  
 <resultMap id="questionDetail" type="Question">
   <id property="id" column="id" />

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 
 	<head>
 		<meta charset="UTF-8">
@@ -120,7 +121,7 @@
 									<td>
 				
 						<p>
-						  <a  style="font-size:15px;" th:href="@{'/subject/'+${book.id}}"  th:text="${book.name}" >
+						  <a  style="font-size:15px;" th:href="@{'/book/'+${book.id}}"  th:text="${book.name}" >
                           </a>
                           </p>
 							<p style="font-size:15px;" th:text="@{'作者: '+${book.author.name}}" >作者:  罗贯</p>
@@ -262,7 +263,9 @@
 							<img class="pull-right" style="font-size:15px;" th:src="${hotBook.img3}" style="width: 90%;"/>
 						</td>
 						<td>
-							<p th:text="${hotBook.name}">
+							<p>
+							  <a  style="font-size:15px;" th:href="@{'/book/'+${hotBook.id}}"  th:text="${hotBook.name}" >
+                          </a>
 							</p>
 						</td>
 					</tr>
@@ -328,6 +331,7 @@
 			</div>
 		</div>
 	</div>
+	<hr />
 		</body>
 
 </html>
