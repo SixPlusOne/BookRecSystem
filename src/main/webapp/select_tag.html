@@ -23,9 +23,36 @@
 			}
 		</style>
 	</head>
+	
+	<script src="js/vue.js"></script>
+    <script src="js/vue-resource.js"></script>
+	<script>
+	        window.onload=function(){
+	            new Vue({
+	                el:'#addtag',
+	                data:{
+	                	tagname:'',
+	                	apiUrl: 'http://127.0.0.1:8080/usertag/add'
+	                },
+	                methods:{
+	                	tagadd:function(){
+		                	this.$http.post(this.apiUrl,{
+		                        tagname:this.tagname,
+		                    },{
+	                            emulateJSON:true
+	                        }).then(function(res){
+		                        alert(res.data);
+		                    },function(res){
+		                        alert(res.status);
+		                    });
+		                }
+	            	}
+	            });
+	        };
+    </script>
+	
 	<body>
-		
-		
+			
 		<div class="container">
 		<!--导航条-->
 		<nav class="navbar navbar-default">
@@ -38,7 +65,7 @@
 		        <span class="icon-bar"></span>
 		        <span class="icon-bar"></span>
 		      </button>
-					<a class="navbar-brand" href="#">图书推荐</a>
+					<a class="navbar-brand" href="#">荐书</a>
 				</div>
 		
 				<!-- Collect the nav links, forms, and other content for toggling -->
@@ -73,18 +100,14 @@
 		</nav>
 	
 		
-		
-		
-		
-		
-		<h3>热门标签</h3>
+		<h4>选择一些你感兴趣的标签，荐书会挑选一些优质的书籍给你，快试试吧</h4>
 		<div class="col-md-6 col-sm-12">
 			<h4>文学</h4>
-			<div >
-				<a href="#" class="btn btn-default">小说</a>
-				<a href="#" class="btn btn-default">随笔</a>
-				<a href="#" class="btn btn-default">日本文学</a>
-				<a href="#" class="btn btn-default">诗歌</a>
+			<div id="addtag">
+				<input type="button"  class="btn btn-default" value="小说" @click="tagadd()"/>
+				<input type="button"  class="btn btn-default" value="随笔" @click="tagadd()"/>
+				<input type="button"  class="btn btn-default" value="日本文学" @click="tagadd()"/>
+				<input type="button"  class="btn btn-default" value="诗歌" @click="tagadd()"/>
 			</div>
 		</div>
 		<div class="col-md-6 col-sm-12">
@@ -134,8 +157,10 @@
 			</div>
 		</div>
 		
-		
-		
+		<br />
+		<center>
+			<button name="continue">继续</button>
+		</center>
 		
 	</div>
 	</body>

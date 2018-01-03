@@ -1,5 +1,8 @@
 package cn.zju.springboot.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,18 +22,17 @@ public class UserTagController {
 	UserTag tag;
 	
 
-	
 	/**
 	 * 添加标签
 	 * @param tag
 	 * @param userId
 	 * @return
 	 */
-	@RequestMapping(value = "/add/{tagName}")
+	@RequestMapping(value = "add")
 	@ResponseBody
-	public Object addTagToUser(@PathVariable("tagName")String tagName,Integer userId){
-		userId=10;
-		
+	public Object addTagToUser(HttpServletRequest request, HttpServletResponse response){
+		Integer userId=10;
+		String tagName=request.getParameter("tagname");
 		Object re=userTagService.addTagByName(userId, tagName);
 		return re;
 	}

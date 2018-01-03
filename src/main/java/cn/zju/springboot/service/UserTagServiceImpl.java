@@ -38,7 +38,6 @@ public class UserTagServiceImpl implements UserTagService{
 		insertTag.setUserId(userId);
 		insertTag.setTag(tagName);
 		
-		
 		return this.userTagMapper.insert(insertTag);
 	}
 	

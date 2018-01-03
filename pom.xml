@@ -50,7 +50,7 @@
 
 		<artifactId>nekohtml</artifactId>
 
-		<version>1.9.22</version>
+		<version>1.9.22</version><!--$NO-MVN-MAN-VER$-->
 
 	</dependency>
 
