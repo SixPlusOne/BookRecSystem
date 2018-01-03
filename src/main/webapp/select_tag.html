@@ -32,7 +32,8 @@
 	                el:'#addtag',
 	                data:{
 	                	tagname:'',
-	                	apiUrl: 'http://127.0.0.1:8080/usertag/add'
+	                	apiUrl: 'http://127.0.0.1:8080/usertag/add',
+	                	delUrl:  'http://127.0.0.1:8080/usertag/del'
 	                },
 	                methods:{
 	                	tagadd:function(){
@@ -45,7 +46,18 @@
 		                    },function(res){
 		                        alert(res.status);
 		                    });
-		                }
+		                },
+	                	canceltag:function(){
+	                		this.$http.post(this.delUrl,{
+		                        tagname:this.tagname,
+		                    },{
+	                            emulateJSON:true
+	                        }).then(function(res){
+		                        alert(res.data);
+		                    },function(res){
+		                        alert(res.status);
+		                    });
+	                	}
 	            	}
 	            });
 	        };
@@ -107,7 +119,7 @@
 				<input type="button"  class="btn btn-default" value="小说" @click="tagadd()"/>
 				<input type="button"  class="btn btn-default" value="随笔" @click="tagadd()"/>
 				<input type="button"  class="btn btn-default" value="日本文学" @click="tagadd()"/>
-				<input type="button"  class="btn btn-default" value="诗歌" @click="tagadd()"/>
+				<input type="button"  class="btn btn-default" value="诗歌" @click="tagadd()" @dblclick="canceltag()"/>
 			</div>
 		</div>
 		<div class="col-md-6 col-sm-12">
