@@ -40,6 +40,7 @@ public class BookRecommendServiceImpl {
 	
 	@Autowired
 	BookTagMapper bookTagMapper;
+	
 	//根据用户获得item-cf算法推荐书籍
 	public List<BookForm> getRecommendBooks(int userId) throws IOException{ 
 		String link="http://127.0.0.1:5000/recommend/"+userId;
@@ -66,7 +67,7 @@ public class BookRecommendServiceImpl {
 	}
 	
 	//根据用户获得user-cf算法推荐书籍
-	public List<Book> getRecommendBooksByUserCF(int userId) throws IOException{
+	public List<BookForm> getRecommendBooksByUserCF(int userId) throws IOException{
 		String link="http://127.0.0.1:5000/user_cf/"+userId;
 		URL url=new URL(link);
 		BufferedReader br=new BufferedReader(new InputStreamReader(url.openStream()));
@@ -83,11 +84,9 @@ public class BookRecommendServiceImpl {
 			names.add(strName);
 		}
 		
-		List<Book> books=new LinkedList<Book>();
+		List<BookForm> books=new LinkedList<BookForm>();
 		for(String bookName:strNames){
-			Example bookExample = new Example(Book.class);
-			bookExample.createCriteria().andEqualTo("name", bookName);
-			books = this.bookMapper.selectByExample(bookExample);
+			books.add(bookFormMapper.findbyname(bookName));
 		}
 		
 		return books;

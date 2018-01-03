@@ -132,6 +132,35 @@
 				 -->
 			</div>
 			
+		<h3>根据和你相似的用户，我们为你推荐了...</h2>
+		<div class="row" >
+			<!--一本书籍介绍-->
+				<!--中 - 4
+				小 - 6
+				超小 - 12-->
+			<div class="col-md-2 col-sm-6 col-xs-12 bookItem" th:each="user_cf_book:${user_cf_books}">
+							<div style="margin-top: 10px;">
+					<a th:href="@{'/book/'+${user_cf_book.id}}">
+					<img th:src="${user_cf_book.img2}" weight="150" height="150"/>
+					</a>
+				</div>
+									<td>
+				
+						<p>
+						  <a  style="font-size:15px;" th:href="@{'/book/'+${user_cf_book.id}}"  th:text="${user_cf_book.name}" >
+                          </a>
+                          </p>
+							<p style="font-size:15px;" th:text="@{'作者: '+${user_cf_book.author.name}}" >作者:  罗贯</p>
+						
+							<p style="font-size:15px;" th:text="@{'出版社: '+${user_cf_book.publisher}}">出版社: 中华书局</p>
+							<p style="font-size:15px;" th:text="@{'评分: '+${user_cf_book.rating}}">评分: 9.5</p>
+							<p style="font-size:15px;" th:text="@{'定价: '+${user_cf_book.price}}">定价: 70.00元</p>
+							<p style="font-size:15px;">装帧: 平装</p>
+							<p style="font-size:15px;" th:text="@{'ISBN: '+${user_cf_book.isbn}}"></p>
+							
+						</td>
+			</div>
+			
 			
 		</div>
 		<!--作者推荐-->

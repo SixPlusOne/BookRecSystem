@@ -4,12 +4,13 @@
 
 <mapper namespace="cn.zju.springboot.mapper.BookFormMapper">
   <cache />
-  
-  
- 
 
 <select id="findone" resultMap="detailedBook">
 SELECT * FROM book where id=#{id}
+</select>
+
+<select id="findbyname" resultMap="detailedBook">
+SELECT * FROM book where name=#{name} limit 1
 </select>
 
 <resultMap id="detailedBook" type="cn.zju.springboot.pojo.BookForm">
