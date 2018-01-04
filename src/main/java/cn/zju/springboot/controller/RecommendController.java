@@ -72,7 +72,7 @@ public class RecommendController {
 	
 	@GetMapping("/recommend_user_cf/{userId}")  //根据用户给出user-cf推荐书籍
 	@ResponseBody
-	public List<Book> getRecommendBooksByUserCF(@PathVariable int userId) throws IOException{
+	public List<BookForm> getRecommendBooksByUserCF(@PathVariable int userId) throws IOException{
 		return bookRecommendService.getRecommendBooksByUserCF(userId);
 	}
 	
@@ -82,11 +82,12 @@ public class RecommendController {
 	public Object getBooksByTag(@PathVariable String tag,Model model,@RequestParam Optional<Integer> page, @RequestParam Optional<Integer> pageSize){
 		PageHelper.startPage(page.orElse(1), pageSize.orElse(20));
 		PageInfo<BookForm> books=new PageInfo<BookForm>(tagService.getBookFormsByTag(tag));
+		
 		model.addAttribute("books",books);
 		model.addAttribute("count",books.getTotal());
 		model.addAttribute("tag",tag);
 		return "rank";
-
+  
 	}
 	
 	@GetMapping("/test")   //测试标签存入user_tag表
@@ -112,13 +113,15 @@ public class RecommendController {
 	
 	@GetMapping("/first_page")
 	public String getFirst_Page(Model model,HttpSession session) throws IOException{
-		User user=(User)session.getAttribute("CURRENT_USER");
-		List<BookForm> books=bookRecommendService.getRecommendBooks(123);
-		List<Author> authors=authorRecommendService.getAuthorRecommend(123);
-		model.addAttribute("books",books);
-		model.addAttribute("authors",authors);
-		List<BookForm> hotBooks=bookService.getHotBookList();
-		model.addAttribute("hotBooks",hotBooks);
+		//User user=(User)session.getAttribute("CURRENT_USER");
+		//List<BookForm> books=bookRecommendService.getRecommendBooks(user.getId());
+//		List<BookForm> books=bookRecommendService.getRecommendBooks(123);
+//		List<Author> authors=authorRecommendService.getAuthorRecommend(123);
+		List<BookForm> user_cf_books=bookRecommendService.getRecommendBooksByUserCF(123);
+//		model.addAttribute("books",books);
+//		model.addAttribute("authors",authors);
+//		List<BookForm> hotBooks=bookService.getHotBookList();
+		model.addAttribute("user_cf_books",user_cf_books);
 		return "first_page";
 		
 		

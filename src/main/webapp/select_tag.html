@@ -36,9 +36,9 @@
 	                	delUrl:  'http://127.0.0.1:8080/usertag/del'
 	                },
 	                methods:{
-	                	tagadd:function(){
+	                	tagadd:function(val){
 		                	this.$http.post(this.apiUrl,{
-		                        tagname:this.tagname,
+		                        tagname:val,
 		                    },{
 	                            emulateJSON:true
 	                        }).then(function(res){
@@ -116,10 +116,10 @@
 		<div class="col-md-6 col-sm-12">
 			<h4>文学</h4>
 			<div id="addtag">
-				<input type="button"  class="btn btn-default" value="小说" @click="tagadd()"/>
-				<input type="button"  class="btn btn-default" value="随笔" @click="tagadd()"/>
-				<input type="button"  class="btn btn-default" value="日本文学" @click="tagadd()"/>
-				<input type="button"  class="btn btn-default" value="诗歌" @click="tagadd()" @dblclick="canceltag()"/>
+				<input type="button"  class="btn btn-default" value="小说" @click="tagadd('小说')"/>
+				<input type="button"  class="btn btn-default" value="随笔" @click="tagadd('随笔')"/>
+				<input type="button"  class="btn btn-default" value="日本文学" @click="tagadd('日本文学')"/>
+				<input type="button"  class="btn btn-default" value="诗歌" @click="tagadd('诗歌')" @dblclick="canceltag()"/>
 			</div>
 		</div>
 		<div class="col-md-6 col-sm-12">

@@ -115,9 +115,9 @@ public class BookServiceImpl implements BookService{
 	@Override
 	public List<BookForm> getHotBookList() {
 		List<BookForm> books=new LinkedList<BookForm>();  
-		books.add(bookFormMapper.findone(1000110));
-		books.add(bookFormMapper.findone(1000110));
-		books.add(bookFormMapper.findone(1000110));
+		books.add(bookFormMapper.findone(6082808));
+		books.add(bookFormMapper.findone(1008145));
+		books.add(bookFormMapper.findone(1061118));
 		
 		// TODO Auto-generated method stub  
 	return books;
@@ -128,6 +128,10 @@ public class BookServiceImpl implements BookService{
 		  
 		// TODO Auto-generated method stub  
 		return null;
+	}
+	
+	public BookForm getBookFormById(int id){
+		return bookFormMapper.findone(id);
 	}
 	
 	
