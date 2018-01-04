@@ -86,8 +86,8 @@
 				<div class="col-md-6 column">
 					<div class="row clearfix">
 						<div class="col-md-6 column">
-							<em><strong>usrmame</strong></em>
-							<p>
+							<em><strong th:text="${user.name}">usrmame</strong></em>
+							<p th:text="${user.introduction}">
 								 work hard and make progress everyday!!!
 							</p>
 						</div>
@@ -95,12 +95,12 @@
 					<div class="row clearfix">
 						<div class="col-md-3 column">
 							<p>
-								已经读了3 本书
+								已经读了<span th:text="${userRead}">3</span>本书
 							</p>
 						</div>
 						<div class="col-md-3 column">
 							<p>
-								想读8本
+								想读<span th:text="${userFavor}">8</span>本
 							</p>
 						</div>
 					</div>
@@ -136,7 +136,7 @@
 			<div class="col-md-2 col-sm-6 col-xs-12 bookItem" th:each="readBook:${readBooks}" >
 				<!--图片-->
 				<div style="margin-top: 10px;">
-					<<a th:href="@{'/book/'+${readBook.id}}">
+					<a th:href="@{'/book/'+${readBook.id}}">
 					<img th:src="${readBook.img2}"/>
 					</a>
 				</div>

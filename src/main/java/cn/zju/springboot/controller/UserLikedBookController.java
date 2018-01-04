@@ -22,18 +22,29 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import cn.zju.springboot.service.CommentServiceImpl;
+import cn.zju.springboot.service.HistoryServiceImpl;
 import cn.zju.springboot.service.TagService;
 import cn.zju.springboot.service.UserLikedBookService;
+import cn.zju.springboot.service.UserServiceImpl;
 import cn.zju.springboot.mapper.BookMapper;
 import cn.zju.springboot.mapper.UserLikedBookMapper;
 import cn.zju.springboot.pojo.Book;
 import cn.zju.springboot.pojo.Favor;
 import cn.zju.springboot.pojo.History;
 import cn.zju.springboot.pojo.Tag;
+import cn.zju.springboot.pojo.User;
 
 @Controller
 @RequestMapping("userLikedBook")
 public class UserLikedBookController {
+	
+	@Autowired
+	private HistoryServiceImpl historyService;
+	@Autowired
+	private CommentServiceImpl commentService;
+	@Autowired
+	private UserServiceImpl userService;
 	@Autowired
 	private UserLikedBookService userLikedBook;
 	
@@ -98,12 +109,18 @@ public class UserLikedBookController {
 	 */
 	@GetMapping("/favor_books")
 	public Object queryUserFavor(Model model,HttpSession session) throws IOException{
+		User user = userService.getUserById(1);
+		int userFavor = userLikedBook.countUserLikedBooks(1);
+		int userRead = commentService.countReadBooks(1);
 		List<Favor> favorRecords = userLikedBook.getFavorByUserId(1);
 		List<Book> favorBooks = new LinkedList<Book>();
 		for(Favor favorRecord:favorRecords) {
 			favorBooks.add(bookMapper.selectByPrimaryKey(favorRecord.getBookId()));
 		}
 		model.addAttribute("favorBooks", favorBooks);
+		model.addAttribute("user", user);
+		model.addAttribute("userFavor", userFavor);
+		model.addAttribute("userRead", userRead);
 		return "favor_books";
 	}
 

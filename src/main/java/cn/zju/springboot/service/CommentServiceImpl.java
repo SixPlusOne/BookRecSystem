@@ -76,5 +76,13 @@ public class CommentServiceImpl implements CommentService {
 		return commentMapper.findReadBooks(userId);
 	}
 
+	@Override
+	public int countReadBooks(int userId) {
+		Example example = new Example(Comment.class);
+		example.createCriteria().andEqualTo("userId", userId);
+		List<Comment> commentList = this.commentMapper.selectByExample(example);
+		return commentList.size();
+	}
+
 }
   

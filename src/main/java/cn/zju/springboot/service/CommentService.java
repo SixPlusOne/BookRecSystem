@@ -33,7 +33,9 @@ public interface CommentService {
 	
 	public List<Comment> getCommentByBookId(int bookId);
 	
-	public List<Book> getReadBookByUserId(int userId); 
+	public List<Book> getReadBookByUserId(int userId);
+	
+	public int countReadBooks(int userId);
 	
 }
   

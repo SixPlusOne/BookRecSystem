@@ -28,7 +28,12 @@ import cn.zju.springboot.mapper.BookMapper;
 import cn.zju.springboot.pojo.Book;
 import cn.zju.springboot.pojo.Comment;
 import cn.zju.springboot.pojo.History;
+import cn.zju.springboot.pojo.User;
 import cn.zju.springboot.service.CommentService;
+import cn.zju.springboot.service.CommentServiceImpl;
+import cn.zju.springboot.service.HistoryServiceImpl;
+import cn.zju.springboot.service.UserLikedBookServiceImpl;
+import cn.zju.springboot.service.UserServiceImpl;
 
 /**  
  * ClassName:CommentController <br/>  
@@ -45,7 +50,13 @@ import cn.zju.springboot.service.CommentService;
 public class CommentController {
 	
 	@Autowired
+	private HistoryServiceImpl historyService;
+	@Autowired
 	private CommentService commentService;
+	@Autowired
+	private UserServiceImpl userService;
+	@Autowired
+	private UserLikedBookServiceImpl userLikedBookService;
 	
 	@Autowired
 	BookMapper bookMapper;
@@ -98,12 +109,18 @@ public class CommentController {
 	 */
 	@GetMapping("/read_books")
 	public Object queryReadBooks(Model model,HttpSession session) throws IOException{
+		User user = userService.getUserById(1);
+		int userFavor = userLikedBookService.countUserLikedBooks(1);
+		int userRead = commentService.countReadBooks(1);
 		List<Comment> commentRecords = commentService.getCommentByUserId(1);
 		List<Book> readBooks = new LinkedList<Book>();
 		for(Comment commentRecord:commentRecords) {
 			readBooks.add(bookMapper.selectByPrimaryKey(commentRecord.getBookId()));
 		}
 		model.addAttribute("readBooks", readBooks);
+		model.addAttribute("user", user);
+		model.addAttribute("userFavor", userFavor);
+		model.addAttribute("userRead", userRead);
 		return "read_books";
 	}
 	

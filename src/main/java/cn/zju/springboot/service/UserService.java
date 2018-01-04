@@ -18,7 +18,7 @@ import cn.zju.springboot.pojo.User;
  * Date:     2017年12月10日 下午8:53:18 <br/>  
  * @author   john-lin  
  * @version    
- * @since    JDK 1.6  
+ * @since    JDK 1.6 
  * @see        
  */
 public interface UserService {
@@ -28,6 +28,8 @@ public interface UserService {
 	public String login(String userName,String passwd);
 	
 	public User getUserByName(String userName);
+	
+	public User getUserById(int userId);
 
 }
   

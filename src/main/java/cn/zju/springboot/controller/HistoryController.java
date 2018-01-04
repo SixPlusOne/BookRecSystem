@@ -25,8 +25,11 @@ import cn.zju.springboot.pojo.Book;
 import cn.zju.springboot.pojo.BookForm;
 import cn.zju.springboot.pojo.Comment;
 import cn.zju.springboot.pojo.History;
+import cn.zju.springboot.pojo.User;
 import cn.zju.springboot.service.CommentServiceImpl;
-import cn.zju.springboot.service.HistoryServiceImpl;;
+import cn.zju.springboot.service.HistoryServiceImpl;
+import cn.zju.springboot.service.UserLikedBookServiceImpl;
+import cn.zju.springboot.service.UserServiceImpl;;
 
 @Controller
 @RequestMapping("history/")
@@ -34,7 +37,12 @@ public class HistoryController {
 
 	@Autowired
 	private HistoryServiceImpl historyService;
+	@Autowired
 	private CommentServiceImpl commentService;
+	@Autowired
+	private UserServiceImpl userService;
+	@Autowired
+	private UserLikedBookServiceImpl userLikedBookService;
 	
 	@Autowired
 	BookMapper bookMapper;
@@ -44,12 +52,18 @@ public class HistoryController {
 	 */
 	@GetMapping("/viewed_books")
 	public Object queryUserHistory(Model model,HttpSession session) throws IOException{
+		User user = userService.getUserById(1);
+		int userFavor = userLikedBookService.countUserLikedBooks(1);
+		int userRead = commentService.countReadBooks(1);
 		List<History> viewedHistorys = historyService.getHistoryByUserId(1);
 		List<Book> viewedBooks = new LinkedList<Book>();
 		for(History viewedHistory:viewedHistorys) {
 			viewedBooks.add(bookMapper.selectByPrimaryKey(viewedHistory.getBookId()));
 		}
 		model.addAttribute("viewedBooks", viewedBooks);
+		model.addAttribute("user", user);
+		model.addAttribute("userFavor", userFavor);
+		model.addAttribute("userRead", userRead);
 		return "viewed_books";
 	}
 
