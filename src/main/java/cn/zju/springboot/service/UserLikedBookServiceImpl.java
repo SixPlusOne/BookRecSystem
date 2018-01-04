@@ -59,6 +59,16 @@ public class UserLikedBookServiceImpl implements UserLikedBookService {
 		}*/
 		return FavorList.size();
 	}
+
+	@Override
+	public List<Favor> getFavorByUserId(int userId) {
+		Example example = new Example(Favor.class);
+		Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("userId", userId);
+		List<Favor> result = this.userLikedBookMapper.selectByExample(example);
+		return result;
+	}
+	
 	
 	// get liked book from favor table
 	/*public Favor get_favor(int uid)

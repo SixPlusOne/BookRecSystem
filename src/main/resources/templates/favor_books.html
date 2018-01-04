@@ -116,13 +116,13 @@
 			</div>
 			<hr />
 			<ul class="nav nav-tabs">
-				<li>
+				<li class="active">
 					 <a href="personal_center.html">收藏的书</a>
 				</li>
 				<li>
 					 <a href="read.html">读过的书</a>
 				</li>
-				<li class="active">
+				<li>
 					 <a href="history.html">浏览的书</a>
 				</li>
 	
@@ -133,24 +133,24 @@
 				<!--中 - 4
 				小 - 6
 				超小 - 12-->
-			<div class="col-md-2 col-sm-6 col-xs-12 bookItem" th:each="viewedBook:${viewedBooks}" >
+			<div class="col-md-2 col-sm-6 col-xs-12 bookItem" th:each="favorBook:${favorBooks}" >
 				<!--图片-->
 				<div style="margin-top: 10px;">
-					<<a th:href="@{'/book/'+${viewedBook.id}}">
-					<img th:src="${viewedBook.img2}"/>
+					<<a th:href="@{'/book/'+${favorBook.id}}">
+					<img th:src="${favorBook.img2}"/>
 					</a>
 				</div>
 				<td>
 		
 				<p>
-				  <a  style="font-size:15px;" th:href="@{'/book/'+${viewedBook.id}}"  th:text="${viewedBook.name}" >
+				  <a  style="font-size:15px;" th:href="@{'/book/'+${favorBook.id}}"  th:text="${favorBook.name}" >
                         </a>
                         </p>
-					<p style="font-size:15px;" th:text="@{'出版社: '+${viewedBook.publisher}}">出版社: 中华书局</p>
-					<p style="font-size:15px;" th:text="@{'评分: '+${viewedBook.rating}}">评分: 9.5</p>
-					<p style="font-size:15px;" th:text="@{'定价: '+${viewedBook.price}}">定价: 70.00元</p>
+					<p style="font-size:15px;" th:text="@{'出版社: '+${favorBook.publisher}}">出版社: 中华书局</p>
+					<p style="font-size:15px;" th:text="@{'评分: '+${favorBook.rating}}">评分: 9.5</p>
+					<p style="font-size:15px;" th:text="@{'定价: '+${favorBook.price}}">定价: 70.00元</p>
 					<p style="font-size:15px;">装帧: 平装</p>
-					<p style="font-size:15px;" th:text="@{'ISBN: '+${viewedBook.isbn}}"></p>
+					<p style="font-size:15px;" th:text="@{'ISBN: '+${favorBook.isbn}}"></p>
 					
 				</td>
 			</div>

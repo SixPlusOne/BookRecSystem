@@ -1,14 +1,21 @@
 package cn.zju.springboot.controller;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +24,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import cn.zju.springboot.service.TagService;
 import cn.zju.springboot.service.UserLikedBookService;
+import cn.zju.springboot.mapper.BookMapper;
+import cn.zju.springboot.mapper.UserLikedBookMapper;
+import cn.zju.springboot.pojo.Book;
 import cn.zju.springboot.pojo.Favor;
 import cn.zju.springboot.pojo.History;
 import cn.zju.springboot.pojo.Tag;
@@ -26,6 +36,12 @@ import cn.zju.springboot.pojo.Tag;
 public class UserLikedBookController {
 	@Autowired
 	private UserLikedBookService userLikedBook;
+	
+	@Autowired
+	UserLikedBookMapper userLikedBookMapper;
+	
+	@Autowired
+	BookMapper bookMapper;
 	
 //	Favor favorite;
 	
@@ -75,6 +91,20 @@ public class UserLikedBookController {
 	{
 		int userId = Integer.parseInt(request.getParameter("userId"));
 		return userLikedBook.countUserLikedBooks(userId);
+	}
+	
+	/**
+	 * 查询一个用户所有的历史记录
+	 */
+	@GetMapping("/favor_books")
+	public Object queryUserFavor(Model model,HttpSession session) throws IOException{
+		List<Favor> favorRecords = userLikedBook.getFavorByUserId(1);
+		List<Book> favorBooks = new LinkedList<Book>();
+		for(Favor favorRecord:favorRecords) {
+			favorBooks.add(bookMapper.selectByPrimaryKey(favorRecord.getBookId()));
+		}
+		model.addAttribute("favorBooks", favorBooks);
+		return "favor_books";
 	}
 
 }

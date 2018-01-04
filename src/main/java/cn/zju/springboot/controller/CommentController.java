@@ -9,16 +9,25 @@
   
 package cn.zju.springboot.controller;
 
+import java.io.IOException;
 import java.sql.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import cn.zju.springboot.mapper.BookMapper;
+import cn.zju.springboot.pojo.Book;
 import cn.zju.springboot.pojo.Comment;
+import cn.zju.springboot.pojo.History;
 import cn.zju.springboot.service.CommentService;
 
 /**  
@@ -37,6 +46,9 @@ public class CommentController {
 	
 	@Autowired
 	private CommentService commentService;
+	
+	@Autowired
+	BookMapper bookMapper;
 	
 	@RequestMapping("insert")
 	@ResponseBody
@@ -79,6 +91,20 @@ public class CommentController {
 		
 		return commentService.getCommentByBookId(bookId);
 		
+	}
+	
+	/**
+	 * 查询一个用户所有的已读书籍记录
+	 */
+	@GetMapping("/read_books")
+	public Object queryReadBooks(Model model,HttpSession session) throws IOException{
+		List<Comment> commentRecords = commentService.getCommentByUserId(1);
+		List<Book> readBooks = new LinkedList<Book>();
+		for(Comment commentRecord:commentRecords) {
+			readBooks.add(bookMapper.selectByPrimaryKey(commentRecord.getBookId()));
+		}
+		model.addAttribute("readBooks", readBooks);
+		return "read_books";
 	}
 	
 	
