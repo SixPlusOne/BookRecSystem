@@ -60,7 +60,7 @@ public class UserController {
 	@ResponseBody
 	public String login(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
 		request.setCharacterEncoding("utf-8");
-		String userName = request.getParameter("password");
+		String userName = request.getParameter("username");
 		String passWord = request.getParameter("password");
 		if(StringUtils.isEmpty(userName)||StringUtils.isEmpty(passWord))
 			return "账号用户名密码错误";
