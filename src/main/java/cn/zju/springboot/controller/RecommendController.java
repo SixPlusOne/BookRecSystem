@@ -120,7 +120,7 @@ public class RecommendController {
 		List<BookForm> user_cf_books=bookRecommendService.getRecommendBooksByUserCF(123);
 //		model.addAttribute("books",books);
 //		model.addAttribute("authors",authors);
-//		List<BookForm> hotBooks=bookService.getHotBookList();
+//	List<BookForm> hotBooks=bookService.getHotBookFormList();
 		model.addAttribute("user_cf_books",user_cf_books);
 		return "first_page";
 		

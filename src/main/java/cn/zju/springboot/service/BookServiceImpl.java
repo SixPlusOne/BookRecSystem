@@ -11,8 +11,10 @@ import com.github.abel533.entity.Example;
 import com.github.abel533.entity.Example.Criteria;
 import com.github.pagehelper.PageHelper;
 
+import cn.zju.springboot.mapper.BookFormMapper;
 import cn.zju.springboot.mapper.BookMapper;
 import cn.zju.springboot.pojo.Book;
+import cn.zju.springboot.pojo.BookForm;
 import cn.zju.springboot.pojo.History;
 
 @Service
@@ -20,6 +22,9 @@ public class BookServiceImpl implements BookService{
 	
 	@Autowired
 	private BookMapper bookMapper;
+	
+	@Autowired
+	private BookFormMapper bookFormMapper;
 	
 	/**
 	 * 根据bookId查找该书的内容
@@ -138,6 +143,17 @@ public class BookServiceImpl implements BookService{
 	public String getBookNameByIdTest(int id) {
 		Integer temp = new Integer(id);
 		return this.bookMapper.findById(temp.toString());
+	}
+
+	@Override
+	public List<BookForm> getHotBookFormList() {
+		
+			 List<BookForm> books=new LinkedList<BookForm>();  
+			 	books.add(bookFormMapper.findone(6082808));
+			 	books.add(bookFormMapper.findone(1008145));
+			 	books.add(bookFormMapper.findone(1061118));
+		// TODO Auto-generated method stub
+		return books;
 	}
 
 	
