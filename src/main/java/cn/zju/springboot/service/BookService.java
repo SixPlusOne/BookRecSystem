@@ -13,6 +13,7 @@ import java.util.List;
 
 
 import cn.zju.springboot.pojo.Book;
+import cn.zju.springboot.pojo.BookForm;
 
 /**  
  * ClassName:BookService <br/>  
@@ -34,6 +35,8 @@ public interface BookService {
 	public Book getBookById(int id);
 	
 	public Book getBookByIsbn(String isbn);
+	
+	public List<BookForm> getHotBookFormList();
 	
 	public List<Book> getBookByName(String name);
 	
