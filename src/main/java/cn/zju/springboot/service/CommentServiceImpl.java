@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import com.github.abel533.entity.Example;
 
 import cn.zju.springboot.mapper.CommentMapper;
+import cn.zju.springboot.pojo.Book;
+import cn.zju.springboot.pojo.BookForm;
 import cn.zju.springboot.pojo.Comment;
 
 /**  
@@ -65,6 +67,13 @@ public class CommentServiceImpl implements CommentService {
 		Example example = new Example(Comment.class);
 		example.createCriteria().andEqualTo("bookId", bookId);
 		return commentMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<Book> getReadBookByUserId(int userId) {
+		if(userId == 0)
+			return null;
+		return commentMapper.findReadBooks(userId);
 	}
 
 }

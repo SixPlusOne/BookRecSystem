@@ -19,12 +19,18 @@ package cn.zju.springboot.mapper;
  * @see        
  */
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.github.abel533.mapper.Mapper;
 
+import cn.zju.springboot.pojo.Book;
+import cn.zju.springboot.pojo.BookForm;
 import cn.zju.springboot.pojo.Comment;
 
 
 public interface CommentMapper extends Mapper<Comment> {
-
+	List<Book> findReadBooks(@Param("user_id") int user_id);
 }
   

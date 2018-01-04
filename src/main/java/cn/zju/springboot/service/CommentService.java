@@ -11,6 +11,8 @@ package cn.zju.springboot.service;
 
 import java.util.List;
 
+import cn.zju.springboot.pojo.Book;
+import cn.zju.springboot.pojo.BookForm;
 import cn.zju.springboot.pojo.Comment;
 
 /**  
@@ -30,6 +32,8 @@ public interface CommentService {
 	public List<Comment> getCommentByUserId(int userId);
 	
 	public List<Comment> getCommentByBookId(int bookId);
+	
+	public List<Book> getReadBookByUserId(int userId); 
 	
 }
   
