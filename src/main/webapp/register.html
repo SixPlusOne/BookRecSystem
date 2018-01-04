@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" src="js/jquery-1.11.0.js"></script>
+<script type="text/javascript" src="js/jquery.validate.js"></script>
+<script type="text/javascript" src="js/messages_zh.js"></script>
+<link rel="stylesheet" href="css/bootstrap.css" />
+<script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript" src="js/vue.js"></script>
+<script type="text/javascript" src="js/vue-resource.js"></script>
+<title></title>
+</head>
+
+<script>
+	$(function() {
+		$("#formid").validate({
+			rules : {
+				username : "required",
+				password : "required",
+				repassword : {
+					equalTo : "#password"
+				},
+				email : {
+					email : true
+				}
+			},
+
+		})
+	})
+	$(function() {
+		new Vue({
+			el : '#box',
+			data : {
+				username : '',
+				password : '',
+				apiUrl : 'http://127.0.0.1:8080/user/register'
+			},
+			methods : {
+				register : function() {
+					this.$http.post(this.apiUrl, {
+						username : this.username,
+						password : this.password
+					}, {
+						emulateJSON : true
+					}).then(function(res) {
+						alert(res.data);
+					}, function(res) {
+						alert(res.data);
+					});
+				}
+			}
+		})
+	})
+</script>
+<style>
+</style>
+
+<body>
+	<div class="container"  id="box">
+		<form id="formid">
+			<div>
+				<table width="60%" height="60%" align="center" bgcolor="#ffffff">
+					<tr>
+						<th align="right">会员注册</th>
+					</tr>
+					<tr>
+						<td width="20%">用户名:</td>
+						<td width="80%"><input type="text" name="username"
+							id="username" v-model="username"></td>
+					</tr>
+					<tr>
+						<td>密码:</td>
+						<td><input type="password" name="password" id="password"
+							v-model="password"></td>
+					</tr>
+					<tr>
+						<td>确认密码:</td>
+						<td><input type="password" name="repassword" id="repassword"></td>
+					</tr>
+					<tr>
+						<td colspan="2" align="left"><input type="button" value="注册"
+							@click="register()" /></td>
+					</tr>
+				</table>
+			</div>
+		</form>
+
+	</div>
+</body>
+
+</html>
