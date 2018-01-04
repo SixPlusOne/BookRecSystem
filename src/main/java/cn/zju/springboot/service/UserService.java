@@ -34,6 +34,8 @@ public interface UserService {
 	public User getUserById(int userId);
 
 	public boolean update(String UserName, String oldStaffPwd, String newStaffPwd);
+	
+	public boolean updateName(int userId, String userName);
 
 }
   

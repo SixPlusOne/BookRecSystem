@@ -114,5 +114,15 @@ public class UserServiceImpl implements UserService {
 		return false;
 	}
 
+	@Override
+	public boolean updateName(int userId, String userName) {
+		User user = userMapper.selectByPrimaryKey(userId);
+		user.setName(userName);
+		if(userMapper.updateByPrimaryKey(user)>0) {
+			return true;
+		}
+		return false;
+	}
+
 }
   

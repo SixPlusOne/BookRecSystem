@@ -9,19 +9,26 @@
   
 package cn.zju.springboot.controller;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-
+import cn.zju.springboot.pojo.Book;
+import cn.zju.springboot.pojo.Favor;
 import cn.zju.springboot.pojo.User;
 import cn.zju.springboot.service.UserService;
 
@@ -97,6 +104,30 @@ public class UserController {
 		}
 		return "修改失败";
 		
+	}
+	
+	@RequestMapping("/updateName")
+	@ResponseBody
+	public Object updateName(HttpServletRequest request,HttpServletResponse response) {
+		int userId = Integer.parseInt(request.getParameter("userId"));
+		String userName = request.getParameter("userName");
+		if(StringUtils.isEmpty(userName)) {
+			return "昵称不能为空";
+		}
+		if(userService.updateName(userId,userName)) {
+			return "success";
+		}
+		return "fail";
+	}
+	
+	/**
+	 * 查询一个用户的收藏记录
+	 */
+	@GetMapping("/settings")
+	public Object queryUserFavor(Model model,HttpSession session) throws IOException{
+		User user = userService.getUserById(1);
+		model.addAttribute("user", user);
+		return "settings";
 	}
 }
   

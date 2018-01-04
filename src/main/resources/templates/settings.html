@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>账号设置</title>
+		<link rel="stylesheet" href="/css/bootstrap.css" />
+		<script type="text/javascript" src="/js/jquery-1.11.0.js"></script>
+		<script type="text/javascript" src="/js/bootstrap.js"></script>
+	</head>
+	<body>
+	<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<div class="row clearfix">
+				<div class="col-md-8 column">
+					<img  src="img/qidelongd.jpg" />
+					为您推荐
+					<hr />					
+				</div>
+		</div>
+	</div>
+	</div>
+	
+	
+	<table width="100%">
+		<tr align="left">
+          	<td>
+           		<h3>头像</h3>	
+            </td>
+            <td colspan="3">
+            	<img src="img/buqu.jpg" height="60px" align="justify"/>
+           	</td>
+           	           	
+        </tr>
+        <tr align="left">           	
+           	<td >
+            	<h3>昵称</h3>
+            	
+         	</td>
+         	<td colspan="3">
+         		<input type="text" id="changed_name" th:value="${user.name}"/>
+         	</td>
+            	
+        </tr>
+        <tr align="left">
+            	
+           	<td>
+            	<h3>密码</h3>
+           	</td>
+           	<td>
+            	<a href="change_password.html">更改密码</a>
+           	</td>
+           	<td>
+           		<button class="btn" type="button" onclick="saveInfo()">保存</button>
+           	</td>
+        </tr>
+	</table>
+	</body>
+	<script>
+		function saveInfo(){
+			var new_name = $("#changed_name").val();
+			var data = {
+				userId:1,
+				userName:new_name
+			};
+			$.post("./updateName", data, function(res, status){
+				alert("修改成功");
+			})
+		}
+	</script>
+</html>

@@ -105,7 +105,7 @@ public class UserLikedBookController {
 	}
 	
 	/**
-	 * 查询一个用户所有的历史记录
+	 * 查询一个用户的收藏记录
 	 */
 	@GetMapping("/favor_books")
 	public Object queryUserFavor(Model model,HttpSession session) throws IOException{
