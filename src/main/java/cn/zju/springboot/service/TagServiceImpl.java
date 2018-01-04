@@ -12,11 +12,13 @@ import org.springframework.stereotype.Service;
 
 import com.github.abel533.entity.Example;
 
+import cn.zju.springboot.mapper.BookFormMapper;
 import cn.zju.springboot.mapper.BookMapper;
 import cn.zju.springboot.mapper.BookTagMapper;
 import cn.zju.springboot.mapper.TagMapper;
 import cn.zju.springboot.mapper.UserTagMapper;
 import cn.zju.springboot.pojo.Book;
+import cn.zju.springboot.pojo.BookForm;
 import cn.zju.springboot.pojo.BookTag;
 import cn.zju.springboot.pojo.Tag;
 import cn.zju.springboot.pojo.UserTag;
@@ -35,6 +37,9 @@ public class TagServiceImpl implements TagService {
 
 	@Autowired
 	BookTagMapper bookTagMapper;
+	
+	@Autowired
+	BookFormMapper bookFormMapper;
 
 	/**
 	 * 根据tag的name查找tag
@@ -109,6 +114,11 @@ public class TagServiceImpl implements TagService {
 	}
 
 	// 根据指定单一标签获得书籍
+	public List<BookForm> getBookFormsByTag(String tag) {
+		return bookFormMapper.findBooksByTagPaged(tag);
+
+	}
+	
 	public List<Book> getBooksByTag(String tag) {
 		return bookMapper.findBooksByTagPaged(tag);
 

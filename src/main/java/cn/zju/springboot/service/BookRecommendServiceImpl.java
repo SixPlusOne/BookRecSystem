@@ -18,10 +18,12 @@ import com.github.abel533.entity.Example;
 import com.github.abel533.entity.Example.Criteria;
 import com.github.abel533.entity.Example.Criterion;
 
+import cn.zju.springboot.mapper.BookFormMapper;
 import cn.zju.springboot.mapper.BookMapper;
 import cn.zju.springboot.mapper.BookTagMapper;
 import cn.zju.springboot.mapper.UserMapper;
 import cn.zju.springboot.pojo.Book;
+import cn.zju.springboot.pojo.BookForm;
 import cn.zju.springboot.pojo.BookTag;
 
 @Service
@@ -34,9 +36,13 @@ public class BookRecommendServiceImpl {
 	UserMapper userMapper;
 	
 	@Autowired
+	BookFormMapper bookFormMapper;
+	
+	@Autowired
 	BookTagMapper bookTagMapper;
+	
 	//根据用户获得item-cf算法推荐书籍
-	public List<Book> getRecommendBooks(int userId) throws IOException{ 
+	public List<BookForm> getRecommendBooks(int userId) throws IOException{ 
 		String link="http://127.0.0.1:5000/recommend/"+userId;
 		URL url=new URL(link);
 		BufferedReader br=new BufferedReader(new InputStreamReader(url.openStream()));
@@ -52,16 +58,16 @@ public class BookRecommendServiceImpl {
 			ids.add(Integer.parseInt(strId));
 			
 		}
-		List<Book> books=new LinkedList<Book>();
+		List<BookForm> books=new LinkedList<BookForm>();
 		for(Integer bookId:ids){
-			books.add(bookMapper.selectByPrimaryKey(bookId));
+			books.add(bookFormMapper.findone(bookId));
 		}
 		
 		return books;
 	}
 	
 	//根据用户获得user-cf算法推荐书籍
-	public List<Book> getRecommendBooksByUserCF(int userId) throws IOException{
+	public List<BookForm> getRecommendBooksByUserCF(int userId) throws IOException{
 		String link="http://127.0.0.1:5000/user_cf/"+userId;
 		URL url=new URL(link);
 		BufferedReader br=new BufferedReader(new InputStreamReader(url.openStream()));
@@ -78,14 +84,17 @@ public class BookRecommendServiceImpl {
 			names.add(strName);
 		}
 		
-		List<Book> books=new LinkedList<Book>();
+		List<BookForm> books=new LinkedList<BookForm>();
 		for(String bookName:strNames){
-			Example bookExample = new Example(Book.class);
-			bookExample.createCriteria().andEqualTo("name", bookName);
-			books = this.bookMapper.selectByExample(bookExample);
+			books.add(bookFormMapper.findbyname(bookName));
 		}
 		
 		return books;
+	}
+	
+	public List<BookForm> getSimilarBooks(int id){
+		return bookFormMapper.getSimilarBooks(id);
+		
 	}
 		
 	}

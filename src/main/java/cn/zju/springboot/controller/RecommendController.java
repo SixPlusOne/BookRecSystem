@@ -22,10 +22,12 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import cn.zju.springboot.mapper.AuthorMapper;
+import cn.zju.springboot.mapper.BookFormMapper;
 import cn.zju.springboot.mapper.BookMapper;
 import cn.zju.springboot.mapper.BookTagMapper;
 import cn.zju.springboot.pojo.Author;
 import cn.zju.springboot.pojo.Book;
+import cn.zju.springboot.pojo.BookForm;
 import cn.zju.springboot.pojo.BookTag;
 import cn.zju.springboot.pojo.Tag;
 import cn.zju.springboot.pojo.User;
@@ -56,18 +58,21 @@ public class RecommendController {
 	TagServiceImpl tagService;
 	
 	@Autowired
+	BookFormMapper bookFormMapper;
+	
+	@Autowired
 	AuthorRecommendService authorRecommendService;
 	
 	@GetMapping("/recommend/{userId}")  //根据用户给出item-cf推荐书籍
 	@ResponseBody
-	public List<Book> getRecommendBooks(@PathVariable int userId) throws IOException{
+	public List<BookForm> getRecommendBooks(@PathVariable int userId) throws IOException{
 		return bookRecommendService.getRecommendBooks(userId);
 
 	}
 	
 	@GetMapping("/recommend_user_cf/{userId}")  //根据用户给出user-cf推荐书籍
 	@ResponseBody
-	public List<Book> getRecommendBooksByUserCF(@PathVariable int userId) throws IOException{
+	public List<BookForm> getRecommendBooksByUserCF(@PathVariable int userId) throws IOException{
 		return bookRecommendService.getRecommendBooksByUserCF(userId);
 	}
 	
@@ -76,12 +81,13 @@ public class RecommendController {
 	@GetMapping("/tag/{tag}")   //获得指定某一标签的书籍
 	public Object getBooksByTag(@PathVariable String tag,Model model,@RequestParam Optional<Integer> page, @RequestParam Optional<Integer> pageSize){
 		PageHelper.startPage(page.orElse(1), pageSize.orElse(20));
-		PageInfo<Book> books=new PageInfo<Book>(tagService.getBooksByTag(tag));
+		PageInfo<BookForm> books=new PageInfo<BookForm>(tagService.getBookFormsByTag(tag));
+		
 		model.addAttribute("books",books);
 		model.addAttribute("count",books.getTotal());
 		model.addAttribute("tag",tag);
 		return "rank";
-
+  
 	}
 	
 	@GetMapping("/test")   //测试标签存入user_tag表
@@ -107,16 +113,18 @@ public class RecommendController {
 	
 	@GetMapping("/first_page")
 	public String getFirst_Page(Model model,HttpSession session) throws IOException{
-		User user=(User)session.getAttribute("CURRENT_USER");
-		List<Book> books=bookRecommendService.getRecommendBooks(123);
-		List<Author> authors=authorRecommendService.getAuthorRecommend(123);
-		model.addAttribute("books",books);
-		model.addAttribute("authors",authors);
-		List<Book> hotBooks=bookService.getHotBookList();
-		model.addAttribute("hotBooks",hotBooks);
+		//User user=(User)session.getAttribute("CURRENT_USER");
+		//List<BookForm> books=bookRecommendService.getRecommendBooks(user.getId());
+//		List<BookForm> books=bookRecommendService.getRecommendBooks(123);
+//		List<Author> authors=authorRecommendService.getAuthorRecommend(123);
+		List<BookForm> user_cf_books=bookRecommendService.getRecommendBooksByUserCF(123);
+//		model.addAttribute("books",books);
+//		model.addAttribute("authors",authors);
+//		List<BookForm> hotBooks=bookService.getHotBookList();
+		model.addAttribute("user_cf_books",user_cf_books);
 		return "first_page";
 		
 		
 	}
-
+	
 }
