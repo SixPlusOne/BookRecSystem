@@ -10,8 +10,10 @@
 package cn.zju.springboot.service;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -19,7 +21,6 @@ import com.github.abel533.entity.Example;
 
 import cn.zju.springboot.mapper.UserMapper;
 import cn.zju.springboot.pojo.User;
-import cn.zju.springboot.service.UserService;
 
 /**  
  * ClassName:UserServiceImpl <br/>  
@@ -36,6 +37,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private UserMapper userMapper;
+	
+	@Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
 	@Override
 	public String register(User user) {
@@ -71,6 +75,8 @@ public class UserServiceImpl implements UserService {
 			return "用户尚未注册";
 		}
 		if(userList.get(0).getPassword().equals(passwd)) {
+			stringRedisTemplate.opsForValue().set(userName, passwd);
+			stringRedisTemplate.expire(userName, 30, TimeUnit.SECONDS);
 			return "登录成功";
 		}else {
 			return "用户名密码错误";
@@ -92,6 +98,20 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User getUserById(int userId) {
 		return this.userMapper.selectByPrimaryKey(userId);
+	}
+	
+	public boolean update(String UserName, String oldStaffPwd, String newStaffPwd) {
+		
+		Example example = new Example(User.class);
+		example.createCriteria().andEqualTo("name", UserName);
+		User user = userMapper.selectByExample(example).get(0);
+		if(oldStaffPwd.equals(user.getPassword())) {
+			user.setPassword(newStaffPwd);
+			if(userMapper.updateByPrimaryKey(user)>0)
+				return true;
+		}
+		
+		return false;
 	}
 
 }

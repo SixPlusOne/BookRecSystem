@@ -10,7 +10,6 @@
 package cn.zju.springboot.controller;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,10 +17,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 
 import cn.zju.springboot.pojo.User;
 import cn.zju.springboot.service.UserService;
@@ -61,7 +60,7 @@ public class UserController {
 	@ResponseBody
 	public String login(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
 		request.setCharacterEncoding("utf-8");
-		String userName = request.getParameter("password");
+		String userName = request.getParameter("username");
 		String passWord = request.getParameter("password");
 		if(StringUtils.isEmpty(userName)||StringUtils.isEmpty(passWord))
 			return "账号用户名密码错误";
@@ -82,6 +81,22 @@ public class UserController {
 		return userService.getUserByName(userName);
 		
 	}
-
+	
+	
+	@RequestMapping("update")
+	@ResponseBody
+	public Object update(HttpServletRequest request,HttpServletResponse response) {
+		String UserName = request.getParameter("UserName");
+		String OldStaffPwd = request.getParameter("OldStaffPwd");
+		String NewStaffPwd = request.getParameter("NewStaffPwd");
+		if(StringUtils.isEmpty(UserName)||StringUtils.isEmpty(OldStaffPwd)||StringUtils.isEmpty(NewStaffPwd)) {
+			return "密码不能为空";
+		}
+		if(userService.update(UserName,OldStaffPwd,NewStaffPwd)) {
+			return "修改成功";
+		}
+		return "修改失败";
+		
+	}
 }
   

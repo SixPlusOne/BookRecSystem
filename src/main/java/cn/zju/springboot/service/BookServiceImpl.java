@@ -9,11 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.github.abel533.entity.Example;
 import com.github.abel533.entity.Example.Criteria;
+import com.github.pagehelper.PageHelper;
 
-import cn.zju.springboot.mapper.BookFormMapper;
 import cn.zju.springboot.mapper.BookMapper;
 import cn.zju.springboot.pojo.Book;
-import cn.zju.springboot.pojo.BookForm;
 import cn.zju.springboot.pojo.History;
 
 @Service
@@ -21,9 +20,6 @@ public class BookServiceImpl implements BookService{
 	
 	@Autowired
 	private BookMapper bookMapper;
-	
-	@Autowired
-	private BookFormMapper bookFormMapper;
 	
 	/**
 	 * 根据bookId查找该书的内容
@@ -113,14 +109,14 @@ public class BookServiceImpl implements BookService{
 	}
 
 	@Override
-	public List<BookForm> getHotBookList() {
-		List<BookForm> books=new LinkedList<BookForm>();  
-		books.add(bookFormMapper.findone(6082808));
-		books.add(bookFormMapper.findone(1008145));
-		books.add(bookFormMapper.findone(1061118));
+	public List<Book> getHotBookList() {
+		List<Book> books=new LinkedList<Book>();  
+		books.add(bookMapper.selectByPrimaryKey(1000093));
+		books.add(bookMapper.selectByPrimaryKey(1000110));
+		books.add(bookMapper.selectByPrimaryKey(1000110));
 		
 		// TODO Auto-generated method stub  
-	return books;
+		return books;
 	}
 
 	@Override
@@ -129,10 +125,21 @@ public class BookServiceImpl implements BookService{
 		// TODO Auto-generated method stub  
 		return null;
 	}
-	
-	public BookForm getBookFormById(int id){
-		return bookFormMapper.findone(id);
+
+	@Override
+	public List<Book> getBookByPage(int pageSize, int pageNum) {
+		
+		PageHelper.startPage(pageNum, pageSize);
+		List<Book> result = bookMapper.selectByExample(null);
+		return result;
 	}
+	
+	@Override
+	public String getBookNameByIdTest(int id) {
+		Integer temp = new Integer(id);
+		return this.bookMapper.findById(temp.toString());
+	}
+
 	
 	
 }
