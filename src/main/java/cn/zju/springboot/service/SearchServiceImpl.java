@@ -11,10 +11,12 @@ import org.springframework.stereotype.Service;
 import com.github.abel533.entity.Example;
 
 import cn.zju.springboot.mapper.AuthorMapper;
+import cn.zju.springboot.mapper.BookFormMapper;
 import cn.zju.springboot.mapper.BookMapper;
 import cn.zju.springboot.mapper.BookTagMapper;
 import cn.zju.springboot.pojo.Author;
 import cn.zju.springboot.pojo.Book;
+import cn.zju.springboot.pojo.BookForm;
 import cn.zju.springboot.pojo.BookTag;
 
 @Service
@@ -28,6 +30,9 @@ public class SearchServiceImpl implements SearchService{
 	
 	@Autowired
 	AuthorMapper authorMapper;
+	
+	@Autowired
+	BookFormMapper bookFormMapper;
 	
 	@Override
 	public  List<Book> searchByBook(String word){  //根据书的信息搜索
@@ -108,16 +113,8 @@ public class SearchServiceImpl implements SearchService{
 		books.addAll(searchByAuthor(word));
 		books.addAll(searchByTag(word));
 		return books;
-		
-		
-		
-		
-		
-		
 	
-	}
-		
-		
+	}	
 		
 	
 		

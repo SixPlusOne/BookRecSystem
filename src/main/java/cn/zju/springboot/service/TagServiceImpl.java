@@ -116,7 +116,6 @@ public class TagServiceImpl implements TagService {
 	// 根据指定单一标签获得书籍
 	public List<BookForm> getBookFormsByTag(String tag) {
 		return bookFormMapper.findBooksByTagPaged(tag);
-
 	}
 	
 	public List<Book> getBooksByTag(String tag) {
