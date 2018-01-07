@@ -31,14 +31,15 @@
 	            new Vue({
 	                el:'#addtag',
 	                data:{
-	                	tagname:'',
+	                	isA: false,
 	                	apiUrl: 'http://127.0.0.1:8080/usertag/add',
 	                	delUrl:  'http://127.0.0.1:8080/usertag/del'
 	                },
 	                methods:{
 	                	tagadd:function(val){
+	                		this.isA=!this.isA;  
 		                	this.$http.post(this.apiUrl,{
-		                        tagname:val,
+		                        tagname: val.target.innerHTML,
 		                    },{
 	                            emulateJSON:true
 	                        }).then(function(res){
@@ -47,18 +48,8 @@
 		                        alert(res.status);
 		                    });
 		                },
-	                	canceltag:function(){
-	                		this.$http.post(this.delUrl,{
-		                        tagname:this.tagname,
-		                    },{
-	                            emulateJSON:true
-	                        }).then(function(res){
-		                        alert(res.data);
-		                    },function(res){
-		                        alert(res.status);
-		                    });
-	                	}
 	            	}
+	                
 	            });
 	        };
     </script>
@@ -116,10 +107,10 @@
 		<div class="col-md-6 col-sm-12">
 			<h4>文学</h4>
 			<div id="addtag">
-				<input type="button"  class="btn btn-default" value="小说" @click="tagadd('小说')"/>
-				<input type="button"  class="btn btn-default" value="随笔" @click="tagadd('随笔')"/>
-				<input type="button"  class="btn btn-default" value="日本文学" @click="tagadd('日本文学')"/>
-				<input type="button"  class="btn btn-default" value="诗歌" @click="tagadd('诗歌')" @dblclick="canceltag()"/>
+				<a href="#" v-bind:class="{'btn btn-default':!isA,'btn btn-default active':isA}"  @click="tagadd($event)">小说</a>
+				<a href="#" v-bind:class="{'btn btn-default':!isA,'btn btn-default active':isA}"  @click="tagadd($event)">随笔</a>
+				<a href="#" class="btn btn-default"  @click="tagadd($event)">日本文学</a>
+				<a href="#" class="btn btn-default"  @click="tagadd($event)">诗歌</a>
 			</div>
 		</div>
 		<div class="col-md-6 col-sm-12">
@@ -169,7 +160,6 @@
 			</div>
 		</div>
 		
-		<br />
 		<center>
 			<button name="continue">继续</button>
 		</center>
