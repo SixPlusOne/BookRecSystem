@@ -43,11 +43,12 @@ public class UserTagController {
 	 * @param userId
 	 * @return
 	 */
-	@RequestMapping(value = "/del/{tagName}")
+	@RequestMapping(value = "del")
 	@ResponseBody
-	public Object delTagForUser(@PathVariable("tagName")String tag,Integer userId){
-		userId=10;
-		Object re=userTagService.delTag(userId, tag);
+	public Object delTagForUser(HttpServletRequest request, HttpServletResponse response){
+		Integer userId=10;
+		String tagName=request.getParameter("tagname");
+		Object re=userTagService.delTag(userId, tagName);
 		return re;
 	}
 	

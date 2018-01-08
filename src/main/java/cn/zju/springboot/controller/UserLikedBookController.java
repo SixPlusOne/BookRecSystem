@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,18 +82,24 @@ public class UserLikedBookController {
 	
 	@RequestMapping("addLikedBook")
 	@ResponseBody
-	public Object addLikedBook(HttpServletRequest request) throws ParseException
+	public Object addLikedBook(HttpServletRequest request,HttpServletResponse response) throws ParseException
 	{
+		response.setCharacterEncoding("UTF-8");
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
+        response.setHeader("Pragma", "no-cache"); // HTTP 1.0
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setDateHeader("Expires", 0); 
 		int bookId = Integer.parseInt(request.getParameter("bookId"));
 		int userId = Integer.parseInt(request.getParameter("userId"));
-		String createDate=request.getParameter("createDate");
 		
-		System.out.print(createDate);
-		java.sql.Date test_Date= strToDate(createDate);
-        System.out.println(test_Date);
+		java.util.Date time = new java.util.Date();
+		Date createdate = new Date(time.getTime());
+		//System.out.print("----------------------"+createdate);
+		//java.sql.Date test_Date= strToDate(createdate);
+        //System.out.println(test_Date);
 		//Date createDate = new Date(time.getTime());
 		
-		return userLikedBook.addLikedBook(bookId, userId, test_Date);
+		return userLikedBook.addLikedBook(bookId, userId, createdate);
 	}
 	
 	

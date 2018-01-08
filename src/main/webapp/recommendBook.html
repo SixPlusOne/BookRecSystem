@@ -7,6 +7,8 @@
 		<link rel="stylesheet" href="css/bootstrap.css" />
 		<script type="text/javascript" src="js/jquery-1.11.0.js"></script>
 		<script type="text/javascript" src="js/bootstrap.js"></script>
+		<script src="https://cdn.bootcss.com/vue/2.2.2/vue.min.js"></script>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 		<style>
 			.bookItem{
 				/*border: 1px;width: 150px;*/
@@ -24,27 +26,6 @@
 		</style>
 	</head>
 	<body>
-		
-			<script>
-			function changeImage(id)
-			{
-				element=document.getElementById(id)
-				if (element.src.match("hollow"))
-  				{
-  					element.src="img/star_onmouseover.png";
-  				}
-				else
-  				{
-  					element.src="img/star_hollow_hover.png";
- 				}
-			}
-			</script>
-		
-		
-		
-
-		
-		
 		<div class="container">
 		<!--导航条-->
 		<nav class="navbar navbar-default">
@@ -97,372 +78,39 @@
 			<button type="submit" href="personal_center.html">完成 <span class="badge pull-right"></span></button>	
 		</div>
 		
-		<div class="row">
-			<!--一本书籍介绍-->
-				<!--中 - 4
-				小 - 6
-				超小 - 12-->
-			<div class="col-md-2 col-sm-6 col-xs-12 bookItem" >
-				<!--图片-->
-				<div style="margin-top: 10px;">
-					<a href="bookDetails.html">
-					<img src="https://img3.doubanio.com/mpic/s2976745.jpg"/>
-					</a>
-				</div>
-				<!--名称-->
-				<div>
-					金锁记
-				</div>
-				<!--作者-->
-				<div>
-					张爱玲
-				</div>
-				<!--出版社-->
-				<div>
-					哈尔滨出版社
-				</div>
-				<!--评分-->
-				<div>
-					8.5
-				</div>
-				<div>
-					加入收藏
-					<img  onclick="changeImage('collect')"  src="img/star_hollow_hover.png" id="collect" />
-				</div>
-			</div>
-			
-			<div class="col-md-2 col-sm-6 col-xs-12 bookItem" >
-				<!--图片-->
-				<div style="margin-top: 10px;">
-					<a href="bookDetails.html">
-					<img src="https://img3.doubanio.com/mpic/s2976745.jpg"/>
-					</a>
-				</div>
-				<!--名称-->
-				<div>
-					金锁记
-				</div>
-				<!--作者-->
-				<div>
-					张爱玲
-				</div>
-				<!--出版社-->
-				<div>
-					哈尔滨出版社
-				</div>
-				<!--评分-->
-				<div>
-					8.5
-				</div>
-				<div>
-					加入收藏
-					<img  onclick="changeImage('collect2')"  src="img/star_hollow_hover.png" id="collect2" />
-				</div>
-			</div>
-			
-			<div class="col-md-2 col-sm-6 col-xs-12 bookItem" >
-				<!--图片-->
-				<div style="margin-top: 10px;">
-					<a href="bookDetails.html">
-					<img src="https://img3.doubanio.com/mpic/s2976745.jpg"/>
-					</a>
-				</div>
-				<!--名称-->
-				<div>
-					金锁记
-				</div>
-				<!--作者-->
-				<div>
-					张爱玲
-				</div>
-				<!--出版社-->
-				<div>
-					哈尔滨出版社
-				</div>
-				<!--评分-->
-				<div>
-					8.5
-				</div>
-				<div>
-					加入收藏
-					<img  onclick="changeImage('collect3')"  src="img/star_hollow_hover.png" id="collect3" />
-				</div>
-			</div>
-			
-			
-			<div class="col-md-2 col-sm-6 col-xs-12 bookItem" >
-				<!--图片-->
-				<div style="margin-top: 10px;">
-					<a href="bookDetails.html">
-					<img src="https://img3.doubanio.com/mpic/s2976745.jpg"/>
-					</a>
-				</div>
-				<!--名称-->
-				<div>
-					金锁记
-				</div>
-				<!--作者-->
-				<div>
-					张爱玲
-				</div>
-				<!--出版社-->
-				<div>
-					哈尔滨出版社
-				</div>
-				<!--评分-->
-				<div>
-					8.5
-				</div>
-				<div>
-					加入收藏
-					<img  onclick="changeImage('collect4')"  src="img/star_hollow_hover.png" id="collect4"  />
-				</div>
-			</div>
-			
-			<div class="col-md-2 col-sm-6 col-xs-12 bookItem" >
-				<!--图片-->
-				<div style="margin-top: 10px;">
-					<a href="bookDetails.html">
-					<img src="https://img3.doubanio.com/mpic/s2976745.jpg"/>
-					</a>
-				</div>
-				<!--名称-->
-				<div>
-					金锁记
-				</div>
-				<!--作者-->
-				<div>
-					张爱玲
-				</div>
-				<!--出版社-->
-				<div>
-					哈尔滨出版社
-				</div>
-				<!--评分-->
-				<div>
-					8.5
-				</div>
-				<div>
-					加入收藏
-					<img  onclick="changeImage('collect5')"  src="img/star_hollow_hover.png" id="collect5"  />
-				</div>
-			</div>
-			
-			<div class="col-md-2 col-sm-6 col-xs-12 bookItem" >
-				<!--图片-->
-				<div style="margin-top: 10px;">
-					<a href="bookDetails.html">
-					<img src="https://img3.doubanio.com/mpic/s2976745.jpg"/>
-					</a>
-				</div>
-				<!--名称-->
-				<div>
-					金锁记
-				</div>
-				<!--作者-->
-				<div>
-					张爱玲
-				</div>
-				<!--出版社-->
-				<div>
-					哈尔滨出版社
-				</div>
-				<!--评分-->
-				<div>
-					8.5
-				</div>
-				<div>
-					加入收藏
-					<img  onclick="changeImage('collect6')"  src="img/star_hollow_hover.png" id="collect6" />
-				</div>
-			</div>
-			
-			
-			
-		</div>
-		
-		
-			<div class="row">
-
-			<!--一本书籍介绍-->
-				<!--中 - 4
-				小 - 6
-				超小 - 12-->
-			<div class="col-md-2 col-sm-6 col-xs-12 bookItem" >
-				<!--图片-->
-				<div style="margin-top: 10px;">
-					<a href="bookDetails.html">
-					<img src="https://img3.doubanio.com/mpic/s2976745.jpg"/>
-					</a>
-				</div>
-				<!--名称-->
-				<div>
-					金锁记
-				</div>
-				<!--作者-->
-				<div>
-					张爱玲
-				</div>
-				<!--出版社-->
-				<div>
-					哈尔滨出版社
-				</div>
-				<!--评分-->
-				<div>
-					8.5
-				</div>
-				<div>
-					加入收藏
-					<img  onclick="changeImage('collect7')"  src="img/star_hollow_hover.png" id="collect7" />
-				</div>
-			</div>
-			
-			<div class="col-md-2 col-sm-6 col-xs-12 bookItem" >
-				<!--图片-->
-				<div style="margin-top: 10px;">
-					<a href="bookDetails.html">
-					<img src="https://img3.doubanio.com/mpic/s2976745.jpg"/>
-					</a>
-				</div>
-				<!--名称-->
-				<div>
-					金锁记
-				</div>
-				<!--作者-->
-				<div>
-					张爱玲
-				</div>
-				<!--出版社-->
-				<div>
-					哈尔滨出版社
-				</div>
-				<!--评分-->
-				<div>
-					8.5
-				</div>
-				<div>
-					加入收藏
-					<img  onclick="changeImage('collect8')"  src="img/star_hollow_hover.png" id="collect8" />
-				</div>
-			</div>
-			
-			<div class="col-md-2 col-sm-6 col-xs-12 bookItem" >
-				<!--图片-->
-				<div style="margin-top: 10px;">
-					<a href="bookDetails.html">
-					<img src="https://img3.doubanio.com/mpic/s2976745.jpg"/>
-					</a>
-				</div>
-				<!--名称-->
-				<div>
-					金锁记
-				</div>
-				<!--作者-->
-				<div>
-					张爱玲
-				</div>
-				<!--出版社-->
-				<div>
-					哈尔滨出版社
-				</div>
-				<!--评分-->
-				<div>
-					8.5
-				</div>
-				<div>
-					加入收藏
-					<img  onclick="changeImage('collect9')"  src="img/star_hollow_hover.png" id="collect9" />
-				</div>
-			</div>
-			
-			
-			<div class="col-md-2 col-sm-6 col-xs-12 bookItem" >
-				<!--图片-->
-				<div style="margin-top: 10px;">
-					<a href="bookDetails.html">
-					<img src="https://img3.doubanio.com/mpic/s2976745.jpg"/>
-					</a>
-				</div>
-				<!--名称-->
-				<div>
-					金锁记
-				</div>
-				<!--作者-->
-				<div>
-					张爱玲
-				</div>
-				<!--出版社-->
-				<div>
-					哈尔滨出版社
-				</div>
-				<!--评分-->
-				<div>
-					8.5
-				</div>
-				<div>
-					加入收藏
-					<img  onclick="changeImage('collect10')"  src="img/star_hollow_hover.png" id="collect10"  />
-				</div>
-			</div>
-			
-			<div class="col-md-2 col-sm-6 col-xs-12 bookItem" >
-				<!--图片-->
-				<div style="margin-top: 10px;">
-					<a href="bookDetails.html">
-					<img src="https://img3.doubanio.com/mpic/s2976745.jpg"/>
-					</a>
-				</div>
-				<!--名称-->
-				<div>
-					金锁记
-				</div>
-				<!--作者-->
-				<div>
-					张爱玲
-				</div>
-				<!--出版社-->
-				<div>
-					哈尔滨出版社
-				</div>
-				<!--评分-->
-				<div>
-					8.5
-				</div>
-				<div>
-					加入收藏
-					<img  onclick="changeImage('collect11')"  src="img/star_hollow_hover.png" id="collect11"  />
-				</div>
-			</div>
-			
-			<div class="col-md-2 col-sm-6 col-xs-12 bookItem" >
-				<!--图片-->
-				<div style="margin-top: 10px;">
-					<a href="bookDetails.html">
-					<img src="https://img3.doubanio.com/mpic/s2976745.jpg"/>
-					</a>
-				</div>
-				<!--名称-->
-				<div>
-					金锁记
-				</div>
-				<!--作者-->
-				<div>
-					张爱玲
-				</div>
-				<!--出版社-->
-				<div>
-					哈尔滨出版社
-				</div>
-				<!--评分-->
-				<div>
-					8.5
-				</div>
-				<div>
-					加入收藏
-					<img  onclick="changeImage('collect12')"  src="img/star_hollow_hover.png" id="collect12" />
-				</div>
-			</div>
-			
+		<div class="row" id="book_list">
+				<!--一本书籍介绍-->
+					<!--中 - 4
+					小 - 6
+					超小 - 12-->
+				<div class="col-md-2 col-sm-6 col-xs-12 bookItem" v-for="book in bookList">
+					<!--图片-->
+					<div style="margin-top: 10px;">
+						<a href="bookDetails.html">
+						<img src="https://img3.doubanio.com/mpic/s2976745.jpg"/>
+						</a>
+					</div>
+					<!--名称-->
+					<div >
+						{{book.name}}
+					</div>
+					
+					<div>
+						{{book.isbn}}
+					</div>
+					
+					<div >
+						{{book.publisher}}
+					</div>
+					
+					<div>
+						{{book.price}}
+					</div>
+					<div>
+						加入收藏
+						<!-- <img  onclick="changeImage('collect')"  src="img/star_hollow_hover.png" id="collect" /> -->
+						<img  @click="changeCollectState(book.itemId)" v-bind:src="book.imgUrl" id="collect" /> 
+					</div>
 			</div>
 		
 		<div class="col-xs-4" align="center">
@@ -476,5 +124,63 @@
 		<div class="col-xs-4" align="center">
 			
 		</div>	
+
+
+		<script>
+			
+			var book_list = new Vue({
+				el: "#book_list",
+				data: {
+					bookList: [],
+				},
+				//钩子函数，当所有DOM挂载在页面上时，加载此方法，相当于window.onload=function(){}
+				mounted:function(){
+//					//需要用$nextTick来保证所有节点挂载后才执行方法
+					this.$nextTick(function(){
+						this.bookView();
+					})
+				},
+				methods:{
+					bookView:function(){
+						var _this = this;
+						console.log(" ---------- 执行网络请求");
+						//Vue.source插件，目前已经被axios代替
+						axios.get('http://localhost:8080/tag/queryByNames/%E4%B8%89%E5%9B%BD,%E9%99%88%E6%9F%90')
+						.then(function(res){
+							console.log(res.data);
+							var dataLength = res.data.length < 12 ? res.data.length : 12;
+							for (var i = 0; i < dataLength; i++) {
+								let bookItem = res.data[i];
+								bookItem.imgUrl = "img/star_hollow_hover.png";
+								bookItem.itemId = i;
+								bookItem.isCollected = false
+								_this.bookList.push(res.data[i]);
+							}
+						})
+						.catch(function(error){
+							console.log(error);
+						});
+					},
+					changeCollectState:function(id) {
+						console.log(" --------------------- ", id);
+						let bookItem = this.bookList[id];
+						console.log(bookItem);
+						bookItem.isCollected = !bookItem.isCollected;
+						bookItem.imgUrl = bookItem.isCollected ? "img/star_onmouseover.png" : "img/star_hollow_hover.png";
+						
+				axios.get('http://localhost:8080/userLikedBook/addLikedBook?bookId='+bookItem.id+'&userId=8')
+				.then(function(res){
+							console.log(res.data);	
+						})
+						.catch(function(error){
+							console.log(error);
+						});
+
+					}
+				}
+			})
+
+			
+		</script>
 	</body>
 </html>
