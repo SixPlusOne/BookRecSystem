@@ -1,8 +1,9 @@
-package cn.zju.springboot.controller;
+ package cn.zju.springboot.controller;
 
 
 import java.util.List;
 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +12,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import cn.zju.springboot.mapper.BookFormMapper;
 import cn.zju.springboot.pojo.Book;
-import cn.zju.springboot.pojo.BookForm;
-import cn.zju.springboot.pojo.Comment;
 import cn.zju.springboot.service.BookService;
-import cn.zju.springboot.service.CommentService;
 
 @Controller
 @RequestMapping("book/")
@@ -29,9 +29,6 @@ public class BookController {
 	
 	@Autowired
 	private BookFormMapper bookFormMapper;
-	
-	@Autowired
-	private CommentService commentService;
 	
 	@RequestMapping("getBookById")
 	@ResponseBody
@@ -92,25 +89,15 @@ public class BookController {
 		
 	}
 	
-	@GetMapping("/{userId}/{bookId}")
-	public String getDetailedBookForm(@PathVariable int userId,@PathVariable int bookId,Model model){
-		System.out.println("userId: " + userId);
-		System.out.println("bookId: " + bookId);
-		model.addAttribute("book",bookFormMapper.findone(bookId));
-		List<Comment> commentList = commentService.getCommentByUserIdAndBookId(userId, bookId);
-		Comment comment = new Comment();
-		if (!commentList.isEmpty()) {
-			comment = commentList.get(0);
-		}
-		model.addAttribute("comment",comment);
-		// 此处暂时不使用分页, 通过if判断只显示前5本书籍
-		List<BookForm> tem = bookFormMapper.getSimilarBooks(bookId);
-		List<BookForm> simbooks = tem;
-		if (tem.size() > 6) {
-			simbooks = tem.subList(0, 6);
-		}
-		model.addAttribute("simbooks",simbooks);
+	@RequestMapping("id")
+	public String getDetailedBookForm(HttpServletRequest request,Model model){
+		int id = Integer.parseInt(request.getParameter("id"));
+		model.addAttribute("book",bookFormMapper.findone(id));
+
+		model.addAttribute("simbooks",bookFormMapper.getSimilarBooks(id));
 		return "bookDetails";
+		
+	
 	}
 	
 }
