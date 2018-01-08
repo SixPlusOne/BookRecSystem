@@ -6,8 +6,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>BookDetail</title>
 <link rel="stylesheet" th:href="@{/css/bootstrap.css}" />
+<!-- 
 <script type="text/javascript" src="js/jquery-1.11.0.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
+ -->
+<script type="text/javascript" th:src="@{/js/jquery-1.11.0.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+
 <script type="text/javascript">
 	window.onload = function() {
 		var star = document.getElementsByTagName('em');
@@ -20,13 +25,13 @@
 			star[i].onmouseover = function() {
 				clear();
 				for (var j = 0; j < this.index + 1; j++) {
-					star[j].style.background = "url(img/star_onmouseover.png) ";
+					star[j].style.background = "url(/img/star_onmouseover.png) ";
 				}
 			}
 
 			star[i].onmouseout = function() {
 				for (var j = 0; j < this.index + 1; j++) {
-					star[j].style.background = "url(img/star_hollow_hover.png) ";
+					star[j].style.background = "url(/img/star_hollow_hover.png) ";
 				}
 				current(temp);
 			}
@@ -40,15 +45,17 @@
 		//清除所有
 		function clear() {
 			for (var i = 0, len = star.length; i < len; i++) {
-				star[i].style.background = "url(img/star_hollow_hover.png) ";
+				star[i].style.background = "url(/img/star_hollow_hover.png) ";
 			}
 		}
 		//显示当前第几颗星
 		function current(temp) {
+			$("#score").val(temp);
 			for (var i = 0; i < temp; i++) {
-				star[i].style.background = "url(img/star_onmouseover.png) ";
+				star[i].style.background = "url(/img/star_onmouseover.png) ";
 			}
 		}
+		
 	};
 </script>
 <title>BookDetails</title>
@@ -62,7 +69,7 @@ p {
 	float: left;
 	width: 16px;
 	height: 16px;
-	background: url(img/star_hollow_hover.png)
+	background: url(/img/star_hollow_hover.png)
 }
 
 #star-container {
@@ -159,11 +166,10 @@ p {
 			<div class="col-md-4 col-sm-6 col-xs-12">
 				<table>
 					<tr>
+						<td><img class="pull-left" th:src="${book.img3}"
+							style="width: 90%; padding-left: 10%;" /></td>
 						<td>
-							<img class="pull-left" th:src="${book.img3}" style="width: 90%; padding-left: 10%;" />
-						</td>
-						<td>
-							<p style="font-size:20px">
+							<p style="font-size: 20px">
 								<a th:href="@{'/book/' + ${book.id}}" th:text="${book.name}"></a>
 							</p>
 							<p th:text="@{'作者: ' + ${book.author.name}}">作者: 张爱玲</p>
@@ -189,32 +195,30 @@ p {
 
 								<h4 class="modal-title" id="myModalLabel">我读过这本书</h4>
 							</div>
-							<div class="modal-body" id="modal-container">
-
-
-
-								<div id="model-text-line">给个评价吧</div>
-
-
-								<div id="star-container">
-									<!-- <img id="star1" src="img/star_hollow_hover.png" />	
-									<img id="star2" src="img/star_hollow_hover.png" />
-									<img id="star3" src="img/star_hollow_hover.png" />
-									<img id="star4" src="img/star_hollow_hover.png" />
-									<img id="star5" src="img/star_hollow_hover.png" /> -->
-									<em id="star1"></em> <em id="star2"></em> <em id="star3"></em>
-									<em id="star4"></em> <em id="star5"></em>
+							<form action="http://127.0.0.1:8080/comment/insertIfAbsent" method="post">
+								<div class="modal-body" id="modal-container">
+									<div id="model-text-line">给个评价吧</div>
+									<div id="star-container">
+										<em id="star1" onclick="setScore(this)"></em>
+										<em id="star2" onclick="setScore(this)"></em>
+										<em id="star3" onclick="setScore(this)"></em>
+										<em id="star4" onclick="setScore(this)"></em>
+										<em id="star5" onclick="setScore(this)"></em>
+									</div>
+									<div id="model-text-line">写个评价吧</div>
+									<input type="text" id="commond" height="400px"
+										th:value="${comment.content}" name="content" />
 								</div>
-								<div id="model-text-line">写个评价吧</div>
-								<input type="text" id="commond" height="400px" />
-
-
-							</div>
-							<div class="modal-footer">
-								<button id="click_close" type="button" class="btn btn-default"
-									data-dismiss="modal">关闭</button>
-								<button type="button" class="btn btn-primary">提交</button>
-							</div>
+								<div class="modal-footer">
+									<button id="click_close" type="button" class="btn btn-default"
+										data-dismiss="modal">关闭</button>
+									<button type="submit" class="btn btn-primary">提交</button>
+								</div>
+								<input name="bookId" type="hidden" th:value="${book.id}">
+								<!-- 此处userid暂时写死, 后序了解了如何获得userid再进行修改 -->
+								<input name="userId" type="hidden" value="10">
+								<input name="score" type="hidden" id="score" value="0">
+							</form>
 						</div>
 						<!-- /.modal-content -->
 					</div>
@@ -227,9 +231,7 @@ p {
 			<div class="col-md-10">
 				<h3>内容简介</h3>
 				<div style="border: gainsboro solid 1px;">
-					<p th:text="${book.summary}">
-						三国时期是个激动人心的时代。
-					</p>
+					<p th:text="${book.summary}">三国时期是个激动人心的时代。</p>
 				</div>
 			</div>
 		</div>
@@ -238,10 +240,8 @@ p {
 			<div class="col-md-10">
 				<h3>作者简介</h3>
 				<div style="border: gainsboro solid 1px;">
-						<p th:text="${book.author.name}">
-						张爱玲（1920年9月30日-1995年9月8日）
-						</p>
-		
+					<p th:text="${book.author.name}">张爱玲（1920年9月30日-1995年9月8日）</p>
+
 					<p th:text="${book.author.summary}">
 						散文集《流言》、散文小说合集《张看》、中短篇小说集《传奇》、长篇小说《倾城之恋》、《半生缘》、《赤地之恋》。晚年从事中国文学评价和《红楼梦》研究。
 						说张爱玲是中国文学史上的一个“异数”当不为过。文字在她的笔下，才真正的有了生命，直钻进你的心里去。喜欢张爱玲的人对她的书真是喜欢，阅读的本身就能给读书的人莫大的快感。阅读的快乐只有在她那里才可以得到，至少对我是这样。读别的书你或许能知道道理，了解知识，得到震撼，但是只有读张爱玲的文章你才是快乐的。即便是有点悲剧意味的《十八春》依然如此！
@@ -250,21 +250,23 @@ p {
 			</div>
 		</div>
 		<!--喜欢该书的人也喜欢-->
-		<h3 th:text="@{'与' + ${book.name} + '相似的书'}">喜欢读"金锁记"的人也喜欢 · · · · · ·</h3>
+		<h3 th:text="@{'与' + ${book.name} + '相似的书'}">喜欢读"金锁记"的人也喜欢 · · ·
+			· · ·</h3>
 		<div class="row">
 			<!--一本书籍介绍-->
 			<!--中 - 4
 				小 - 6
 				超小 - 12-->
-			<div class="col-md-2 col-sm-6 col-xs-12 bookItem" th:each="simbook:${simbooks}">
+			<div class="col-md-2 col-sm-6 col-xs-12 bookItem"
+				th:each="simbook:${simbooks}">
 				<!--图片-->
 				<div style="margin-top: 10px;">
-					<a th:href="@{'/book/' + ${simbook.id}}">
-						<img th:src="${simbook.img3}" height="150" width="150"/>
+					<a th:href="@{'/book/' + ${simbook.id}}"> <img
+						th:src="${simbook.img3}" height="150" width="150" />
 					</a>
 				</div>
 				<!--名称-->
-				<div >
+				<div>
 					<a th:href="@{'/book/' + ${simbook.id}}" th:text="${simbook.name}"></a>
 				</div>
 				<!--作者-->

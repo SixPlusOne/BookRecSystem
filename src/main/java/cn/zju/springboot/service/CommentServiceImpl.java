@@ -83,6 +83,29 @@ public class CommentServiceImpl implements CommentService {
 		List<Comment> commentList = this.commentMapper.selectByExample(example);
 		return commentList.size();
 	}
+	
+	@Override
+	public List<Comment> getCommentByUserIdAndBookId(int userId, int bookId) {
+		Example example = new Example(Comment.class);
+		example.createCriteria().andEqualTo("userId", userId).andEqualTo("bookId", bookId);
+		List<Comment> commentList = this.commentMapper.selectByExample(example);
+		return commentList;
+	}
 
+	@Override
+	public boolean update(Comment comment) {
+		int userId = comment.getUserId();
+		int bookId = comment.getBookId();
+		Example example = new Example(Comment.class);
+		example.createCriteria().andEqualTo("userId", userId).andEqualTo("bookId", bookId);
+		int ret = commentMapper.updateByExample(comment, example);
+		if (ret == 0) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+
+	
 }
   
