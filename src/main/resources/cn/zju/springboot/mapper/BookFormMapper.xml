@@ -30,6 +30,10 @@ SELECT * FROM author where id=#{id}
 	select B.* from book B,book_similarity_icf C where B.id=C.book_id2 and C.book_id1=#{id}
 </select>
 
+<select id="findBooksByWords" resultMap="detailedBook">
+	select B.* from book B,book_tag T,author A where B.id=T.book_id and B.author_id=A.id and (B.name=#{words} or T.tag=#{words} or A.name=#{words})
+</select>
+
 <!--  
 <resultMap id="questionDetail" type="Question">
   <id property="id" column="id" />
