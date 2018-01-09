@@ -163,13 +163,13 @@ p {
 		</nav>
 		<!--图书照片以及metadata-->
 		<div class="row">
-			<div class="col-md-4 col-sm-6 col-xs-12">
+			<div class="col-md-6 col-sm-6 col-xs-12">
 				<table>
 					<tr>
 						<td><img class="pull-left" th:src="${book.img3}"
-							style="width: 90%; padding-left: 10%;" /></td>
-						<td>
-							<p style="font-size: 20px">
+							style="width: 75%; padding-left: 10%;" /></td>
+						<td width="30%">
+							<p style="font-size: 15px">
 								<a th:href="@{'/book/' + ${book.id}}" th:text="${book.name}"></a>
 							</p>
 							<p th:text="@{'作者: ' + ${book.author.name}}">作者: 张爱玲</p>
