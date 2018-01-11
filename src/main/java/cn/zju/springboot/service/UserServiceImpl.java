@@ -46,15 +46,14 @@ public class UserServiceImpl implements UserService {
 		int insertResult = 0;
 		if(user == null)
 			return "注册信息不能为空";
-		
-		User selectOne = userMapper.selectOne(user);
-		
-		if(selectOne == null) {
+		Example example = new Example(User.class);
+		example.createCriteria().andEqualTo("name", user.getName());
+		List<User> list = userMapper.selectByExample(example);
+		if(!list.isEmpty()) {
 			insertResult = userMapper.insert(user);
 		}else {
 			return "用户已注册";
 		}
-		
 		if(insertResult > 0) {
 			return "注册成功";
 		}else {

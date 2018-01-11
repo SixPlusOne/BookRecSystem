@@ -51,7 +51,7 @@ public class UserController {
 	
 	@RequestMapping("register")
 	@ResponseBody
-	public String register(HttpServletRequest request) {
+	public String register(HttpServletRequest request, HttpServletResponse response) {
 		String userName = request.getParameter("username");
 		String password = request.getParameter("password");
 		if(StringUtils.isEmpty(userName)||StringUtils.isEmpty(password))
@@ -59,7 +59,9 @@ public class UserController {
 		User user = new User();
 		user.setName(userName);
 		user.setPassword(password);
-		return userService.register(user);
+		String res = userService.register(user);
+//		if(res.equals("注册成功")) {
+		return res;
 		
 	}
 	

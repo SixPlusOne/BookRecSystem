@@ -1,9 +1,12 @@
  package cn.zju.springboot.controller;
 
 
+import static org.junit.Assert.assertNotNull;
+
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -92,17 +95,20 @@ public class BookController {
 		
 	}
 	
-	@GetMapping("/{userId}/{bookId}")
-	public String getDetailedBookForm(@PathVariable int userId,@PathVariable int bookId,Model model){
-		System.out.println("userId: " + userId);
-		System.out.println("bookId: " + bookId);
-		model.addAttribute("book",bookFormMapper.findone(bookId));
-		List<Comment> commentList = commentService.getCommentByUserIdAndBookId(userId, bookId);
+	@GetMapping("/{bookId}")
+	public String getDetailedBookForm(@PathVariable int bookId,Model model, HttpServletRequest request){
+		HttpSession s = request.getSession();
+		Integer userId = (Integer)s.getAttribute("userId");
+		List<Comment> commentList = null;
 		Comment comment = new Comment();
-		if (!commentList.isEmpty()) {
-			comment = commentList.get(0);
+		if(userId != null) {
+			commentList = commentService.getCommentByUserIdAndBookId(userId, bookId);
+			if (!commentList.isEmpty()) {
+				comment = commentList.get(0);
+			}
+			model.addAttribute("comment",comment);
 		}
-		model.addAttribute("comment",comment);
+		model.addAttribute("book",bookFormMapper.findone(bookId));
 		// 此处暂时不使用分页, 通过if判断只显示前5本书籍
 		List<BookForm> tem = bookFormMapper.getSimilarBooks(bookId);
 		List<BookForm> simbooks = tem;
