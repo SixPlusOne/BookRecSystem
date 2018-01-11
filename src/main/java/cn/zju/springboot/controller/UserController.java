@@ -12,8 +12,6 @@ package cn.zju.springboot.controller;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,8 +27,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import cn.zju.springboot.pojo.Book;
-import cn.zju.springboot.pojo.Favor;
 import cn.zju.springboot.pojo.User;
 import cn.zju.springboot.service.UserService;
 
