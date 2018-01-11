@@ -11,8 +11,10 @@ package cn.zju.springboot.controller;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -124,7 +126,32 @@ public class CommentController {
 		return "read_books";
 	}
 	
-	
+	@RequestMapping("insertIfAbsent")
+	@ResponseBody
+	public String insertIfAbsent(HttpServletRequest request) {
+		Comment comment =new Comment();
+		int userId = Integer.parseInt(request.getParameter("userId"));
+		int bookId = Integer.parseInt(request.getParameter("bookId"));
+		int score = Integer.parseInt(request.getParameter("score"));
+		String content = request.getParameter("content");
+		comment.setBookId(bookId);
+		comment.setUserId(userId);
+		comment.setScore(score);
+		comment.setContent(content);
+		comment.setCreateDate(new Date(System.currentTimeMillis()));
+		List<Comment> commentList = commentService.getCommentByUserIdAndBookId(userId, bookId);
+		boolean res = true;
+		if (commentList.isEmpty()) {
+			res = commentService.insert(comment);
+		}else {
+			res = commentService.update(comment);
+		}
+		if (res) {
+			return "评价成功";
+		}else {
+			return "评价失败";
+		}
+	}
 
 }
   

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>AuthorDetail</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.css}" />
+	<script type="text/javascript" src="js/jquery-1.11.0.js"></script>
+	<script type="text/javascript" src="js/bootstrap.js"></script>
+	<script type="text/javascript">
+        window.onload = function() {
+            var star = document.getElementsByTagName('em');
+            var oDiv = document.getElementById('star-container');
+            var temp = 0;
+
+            for (var i = 0, len = star.length; i < len; i++) {
+                star[i].index = i;
+
+                star[i].onmouseover = function() {
+                    clear();
+                    for (var j = 0; j < this.index + 1; j++) {
+                        star[j].style.background = "url(img/star_onmouseover.png) ";
+                    }
+                }
+
+                star[i].onmouseout = function() {
+                    for (var j = 0; j < this.index + 1; j++) {
+                        star[j].style.background = "url(img/star_hollow_hover.png) ";
+                    }
+                    current(temp);
+                }
+
+                //某颗星点击的时候
+                star[i].onclick = function() {
+                    temp = this.index + 1;
+                    current(temp);
+                }
+            }
+            //清除所有
+            function clear() {
+                for (var i = 0, len = star.length; i < len; i++) {
+                    star[i].style.background = "url(img/star_hollow_hover.png) ";
+                }
+            }
+            //显示当前第几颗星
+            function current(temp) {
+                for (var i = 0; i < temp; i++) {
+                    star[i].style.background = "url(img/star_onmouseover.png) ";
+                }
+            }
+        };
+	</script>
+		<style>
+			p{
+				text-indent: 2em;
+				word-break: normal;
+			}
+			.pos_bottom{
+				position: relative;
+				bottom: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+					<!--导航条-->
+			<nav class="navbar navbar-default">
+				<div class="container-fluid">
+					<!-- Brand and toggle get grouped for better mobile display -->
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+			        <span class="sr-only">Toggle navigation</span>
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			      </button>
+						<a class="navbar-brand" href="#">图书推荐</a>
+					</div>
+			
+					<!-- Collect the nav links, forms, and other content for toggling -->
+					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+						<ul class="nav navbar-nav">
+							<li class="active">
+								<a href="index.html">首页<span class="sr-only">(current)</span></a>
+							</li>
+							<li>
+								<a href="#">排行榜</a>
+							</li>
+							<li>
+								<a href="#">发现</a>
+							</li>
+							<li>
+								<a href="#">书籍详情</a>
+							</li>
+						</ul>
+						<ul class="nav nav-pills pull-right">
+							<li style="margin-right: 30px;">
+								<form class="navbar-form navbar-right">
+									<div class="form-group">
+										<input type="text" class="form-control" placeholder="Search">
+									</div>
+									<!--<button type="submit" class="btn btn-default">个人中心</button>-->
+								</form>
+							</li>
+							<li role="presentation" class="active"><a href="#">Home <span class="badge">42</span></a></li>					
+						</ul>
+					</div>
+					<!-- /.navbar-collapse -->
+				</div>
+				<!-- /.container-fluid -->
+			</nav>
+		<!--图书照片以及metadata-->
+		<div class="row">
+			<div class="col-md-4 col-sm-6 col-xs-12">
+				<table>
+					<tr>
+						<td>
+							暂时没有作者图片
+						</td>
+
+						<td>
+							<p th:text="@{'作者: ' + ${author.name}}">村上春树</p>
+							<!--<p th:text="@ ${author.name}"> 村上春树 </p>-->
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<!--作者简介-->
+		<div class="row">
+			<div class="col-md-10" >
+				<h3>
+					作者简介
+				</h3>
+				<div style="border: gainsboro solid 1px;">
+					<!--作者简介-->
+					<p th:text="@{${author.summary}}">
+						村上春树，1949年1月12日出生，日本现代小说家，生于京都伏见区。毕业于早稻田大学第一文学部演剧科。村上春树29岁开始写作，第一部作品《且听风吟》即获得日本群像新人奖，1987年第五部长篇小说《挪威的森林》上市至2010年在日本畅销一千万册，国内简体版到2004年销售总量786万，引起“村上现象”。其作品风格深受欧美作家的影响，基调轻盈，少有日本战后阴郁沉重的文字气息，被称作第一个纯正的“二战后时期作家”，并被誉为日本80年代的文学旗手，其作品在世界范围内具有广泛知名度。2017年2月24日，村上春树出版两卷本长篇小说《骑士团长杀人事件》，小说上卷命名为“念头显露篇”，下卷命名为“隐喻改变篇”。
+					</p>
+				</div>
+			</div>
+		</div>
+		<!--评分最高的六部作品-->
+			<h3>
+				评分最高的五部作品  · · · · · ·
+			</h3>
+			<div class="row">
+			<!--一本书籍介绍-->
+				<!--中 - 4
+				小 - 6
+				超小 - 12-->
+				<div class="col-md-2 col-sm-6 col-xs-12 bookItem" >
+					<!--推荐书籍1-->
+						<!--图片-->
+					<div style="margin-top: 10px;" id = 'image'>
+						<img class="pull-left" th:src="${book1.img3}" style="width: 100%;" />
+					</div>
+
+					<!--名称-->
+					<div th:text="@{${book1.name}}" align="left">
+						金锁记
+					</div>
+
+					<!--出版社-->
+					<div th:text="@{${book1.publisher}}">
+						哈尔滨出版社
+					</div>
+
+					<!--评分-->
+					<div th:text="@{${book1.rating}}">
+						8.5
+					</div>
+
+				</div>
+
+				<div class="col-md-2 col-sm-6 col-xs-12 bookItem" >
+					<!--推荐书籍2-->
+
+					<!--图片-->
+					<div style="margin-top: 10px;">
+						<img class="pull-left" th:src="${book2.img3}" style="width: 100%;" />
+					</div>
+
+					<!--名称-->
+					<div th:text="@{${book2.name}}">
+						金锁记
+					</div>
+
+					<!--出版社-->
+					<div th:text="@{${book2.publisher}}">
+						哈尔滨出版社
+					</div>
+
+					<!--评分-->
+					<div th:text="@{${book2.rating}}">
+						8.5
+					</div>
+				</div>
+
+				<div class="col-md-2 col-sm-6 col-xs-12 bookItem" >
+					<!--推荐书籍3-->
+
+					<!--图片-->
+					<div style="margin-top: 10px;">
+						<img class="pull-left" th:src="${book3.img3}" style="width: 100%;" />
+					</div>
+
+					<!--名称-->
+					<div th:text="@{${book3.name}}">
+						金锁记
+					</div>
+
+					<!--出版社-->
+					<div th:text="@{${book3.publisher}}">
+						哈尔滨出版社
+					</div>
+
+					<!--评分-->
+					<div th:text="@{${book3.rating}}">
+						8.5
+					</div>
+				</div>
+
+				<div class="col-md-2 col-sm-6 col-xs-12 bookItem" >
+					<!--推荐书籍4-->
+
+					<!--图片-->
+					<div style="margin-top: 10px;">
+						<img class="pull-left" th:src="${book4.img3}" style="width: 100%;" />
+					</div>
+
+					<!--名称-->
+					<div th:text="@{${book4.name}}">
+						金锁记
+					</div>
+
+					<!--出版社-->
+					<div th:text="@{${book4.publisher}}">
+						哈尔滨出版社
+					</div>
+
+					<!--评分-->
+					<div th:text="@{${book4.rating}}">
+						8.5
+					</div>
+				</div>
+
+				<div class="col-md-2 col-sm-6 col-xs-12 bookItem" >
+					<!--推荐书籍5-->
+
+					<!--图片-->
+					<div style="margin-top: 10px;">
+						<img class="pull-left" th:src="${book5.img3}" style="width: 100%;" />
+					</div>
+
+					<!--名称-->
+					<div th:text="@{${book5.name}}">
+						金锁记
+					</div>
+
+					<!--出版社-->
+					<div th:text="@{${book5.publisher}}">
+						哈尔滨出版社
+					</div>
+
+					<!--评分-->
+					<div th:text="@{${book5.rating}}">
+						8.5
+					</div>
+				</div>
+
+
+
+		</div>
+		</div>
+	</body>
+</html>

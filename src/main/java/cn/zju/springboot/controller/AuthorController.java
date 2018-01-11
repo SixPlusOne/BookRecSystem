@@ -11,13 +11,22 @@ package cn.zju.springboot.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import cn.zju.springboot.pojo.Author;
+import cn.zju.springboot.pojo.Book;
+import cn.zju.springboot.service.BookService;
+import cn.zju.springboot.service.BookServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.zju.springboot.service.AuthorService;
+
+import java.util.List;
 
 /**  
  * ClassName:AuthorController <br/>  
@@ -35,6 +44,9 @@ public class AuthorController {
 	
 	@Autowired
 	private AuthorService authorService;
+	
+	@Autowired
+	private BookService bookService;
 	
 	@RequestMapping("/getAuthorByName")
 	@ResponseBody
@@ -55,6 +67,30 @@ public class AuthorController {
 		
 		return authorService.getAuthorListByPage(pageSize, pageNum);
 		
+	}
+	
+	@RequestMapping("/getAuthorDetail")
+	public String getAuthorDetail(HttpServletRequest request, Model model){
+		//获取作者信息并添加到Model中
+		String name = request.getParameter("name");
+		System.out.println(name);
+
+		Author author = authorService.getAuthorByName(name);
+		System.out.println("成功获取作者" + name);
+
+		model.addAttribute("author", author);
+
+		//获取该作者的六本书籍
+		System.out.println("author.id = " + author.getId());
+
+		List<Book> bookList = bookService.getBookByAuthorId(author.getId());
+		System.out.println("成功获取该作者的书籍");
+		if(bookList != null && bookList.size() != 0){
+			for(int i = 0; i < 6 && i < bookList.size(); i++){
+				model.addAttribute("book" + i, bookList.get(i));
+			}
+		}
+		return "authorDetails";
 	}
 
 }

@@ -21,6 +21,12 @@
 			.lunboPic{
 				right: 10px;
 			}
+			#addtag .active {
+				color: red;
+			}
+			#addtags .btn-li {
+				margin: 0 5px;
+			}
 		</style>
 	</head>
 	
@@ -28,33 +34,59 @@
     <script src="js/vue-resource.js"></script>
 	<script>
 	        window.onload=function(){
-	            new Vue({
+	             new Vue({
 	                el:'#addtag',
 	                data:{
 	                	isA: false,
+	                	isChecked: {
+	                		a: false,b: false,c: false,d: false,
+	                		e: false,f: false,g: false,h: false,
+	                		i: false,j: false,k: false,l: false,
+	                		m: false,n: false,o: false,p: false,
+	                		q: false,r: false,s: false,t: false,
+	                		u: false,v: false,w: false,x: false,
+	                	},
 	                	apiUrl: 'http://127.0.0.1:8080/usertag/add',
-	                	delUrl:  'http://127.0.0.1:8080/usertag/del'
 	                },
 	                methods:{
 	                	tagadd:function(val){
-	                		this.isA=!this.isA;  
+	                		var key = val.target.getAttribute('data-key')
+	                		console.log(key)
+	                		this.isChecked[key] = !this.isChecked[key]
+	                		console.log(this.isChecked[key])
 		                	this.$http.post(this.apiUrl,{
 		                        tagname: val.target.innerHTML,
+		                        status: this.isChecked[key],
+		                        
 		                    },{
 	                            emulateJSON:true
 	                        }).then(function(res){
-		                        alert(res.data);
+		                        //alert(res.data);
 		                    },function(res){
-		                        alert(res.status);
+// 		                        //alert(res.status); 
 		                    });
 		                },
 	            	}
 	                
-	            });
+	            }); 
+	          /*   new Vue({
+	                el:'#addtags',
+	                data:{
+	                	items: {
+                	      firstName: 'John',
+                	      lastName: 'Doe',
+                	      age: 30
+                	    }
+	                },
+	                methods:{
+	                	
+	            	}
+	                
+	            }); */
 	        };
     </script>
 	
-	<body>
+	<body id="addtag">
 			
 		<div class="container">
 		<!--导航条-->
@@ -104,59 +136,64 @@
 	
 		
 		<h4>选择一些你感兴趣的标签，荐书会挑选一些优质的书籍给你，快试试吧</h4>
-		<div class="col-md-6 col-sm-12">
+		<div class="col-md-6 col-sm-12" >
 			<h4>文学</h4>
-			<div id="addtag">
-				<a href="#" v-bind:class="{'btn btn-default':!isA,'btn btn-default active':isA}"  @click="tagadd($event)">小说</a>
-				<a href="#" v-bind:class="{'btn btn-default':!isA,'btn btn-default active':isA}"  @click="tagadd($event)">随笔</a>
-				<a href="#" class="btn btn-default"  @click="tagadd($event)">日本文学</a>
-				<a href="#" class="btn btn-default"  @click="tagadd($event)">诗歌</a>
+			<!-- <ul id="addtags">
+			  <li v-for="value in items" v-bind:class="['btn','btn-default', 'btn-li']">
+			    {{ value }}
+			  </li>
+			</ul> -->
+			<div >
+				<a href="#" data-key="a" v-bind:class="['btn','btn-default',{active: isChecked.a}]"  @click="tagadd($event)">小说</a>
+				<a href="#" data-key="b" v-bind:class="['btn','btn-default',{active: isChecked.b}]"  @click="tagadd($event)">随笔</a>
+				<a href="#" data-key="c" v-bind:class="['btn','btn-default',{active: isChecked.c}]"  @click="tagadd($event)">日本文学</a>
+				<a href="#" data-key="d" v-bind:class="['btn','btn-default',{active: isChecked.d}]"  @click="tagadd($event)">诗歌</a>
 			</div>
 		</div>
 		<div class="col-md-6 col-sm-12">
-			<h4>文学</h4>
+			<h4>文化</h4>
 			<div >
-				<a href="#" class="btn btn-default">小说</a>
-				<a href="#" class="btn btn-default">随笔</a>
-				<a href="#" class="btn btn-default">日本文学</a>
-				<a href="#" class="btn btn-default">诗歌</a>
+				<a href="#" data-key="e" v-bind:class="['btn','btn-default',{active: isChecked.e}]"  @click="tagadd($event)">历史</a>
+				<a href="#" data-key="f" v-bind:class="['btn','btn-default',{active: isChecked.f}]"  @click="tagadd($event)">哲学</a>
+				<a href="#" data-key="g" v-bind:class="['btn','btn-default',{active: isChecked.g}]"  @click="tagadd($event)">传记</a>
+				<a href="#" data-key="h" v-bind:class="['btn','btn-default',{active: isChecked.h}]"  @click="tagadd($event)">设计</a>
 			</div>
 		</div>
 		<div class="col-md-6 col-sm-12">
-			<h4>文学</h4>
+			<h4>流行</h4>
 			<div >
-				<a href="#" class="btn btn-default">小说</a>
-				<a href="#" class="btn btn-default">随笔</a>
-				<a href="#" class="btn btn-default">日本文学</a>
-				<a href="#" class="btn btn-default">诗歌</a>
+				<a href="#" data-key="i" v-bind:class="['btn','btn-default',{active: isChecked.i}]"  @click="tagadd($event)">漫画</a>
+				<a href="#" data-key="j" v-bind:class="['btn','btn-default',{active: isChecked.j}]"  @click="tagadd($event)">推理</a>
+				<a href="#" data-key="k" v-bind:class="['btn','btn-default',{active: isChecked.k}]"  @click="tagadd($event)">回本</a>
+				<a href="#" data-key="l" v-bind:class="['btn','btn-default',{active: isChecked.l}]"  @click="tagadd($event)">青春</a>
 			</div>
 		</div>
 		<div class="col-md-6 col-sm-12">
-			<h4>文学</h4>
+			<h4>生活</h4>
 			<div >
-				<a href="#" class="btn btn-default">小说</a>
-				<a href="#" class="btn btn-default">随笔</a>
-				<a href="#" class="btn btn-default">日本文学</a>
-				<a href="#" class="btn btn-default">诗歌</a>
+				<a href="#" data-key="m" v-bind:class="['btn','btn-default',{active: isChecked.m}]"  @click="tagadd($event)">旅行</a>
+				<a href="#" data-key="n" v-bind:class="['btn','btn-default',{active: isChecked.n}]"  @click="tagadd($event)">励志</a>
+				<a href="#" data-key="o" v-bind:class="['btn','btn-default',{active: isChecked.o}]"  @click="tagadd($event)">职场</a>
+				<a href="#" data-key="p" v-bind:class="['btn','btn-default',{active: isChecked.p}]"  @click="tagadd($event)">教育</a>
 			</div>
 		</div>
 		
 			<div class="col-md-6 col-sm-12">
-			<h4>文学</h4>
+			<h4>经管</h4>
 			<div >
-				<a href="#" class="btn btn-default">小说</a>
-				<a href="#" class="btn btn-default">随笔</a>
-				<a href="#" class="btn btn-default">日本文学</a>
-				<a href="#" class="btn btn-default">诗歌</a>
+				<a href="#" data-key="q" v-bind:class="['btn','btn-default',{active: isChecked.q}]"  @click="tagadd($event)">经济学</a>
+				<a href="#" data-key="r" v-bind:class="['btn','btn-default',{active: isChecked.r}]"  @click="tagadd($event)">管理</a>
+				<a href="#" data-key="s" v-bind:class="['btn','btn-default',{active: isChecked.s}]"  @click="tagadd($event)">商业</a>
+				<a href="#" data-key="t" v-bind:class="['btn','btn-default',{active: isChecked.t}]"  @click="tagadd($event)">金融</a>
 			</div>
 		</div>
 			<div class="col-md-6 col-sm-12">
-			<h4>文学</h4>
+			<h4>科技</h4>
 			<div >
-				<a href="#" class="btn btn-default">小说</a>
-				<a href="#" class="btn btn-default">随笔</a>
-				<a href="#" class="btn btn-default">日本文学</a>
-				<a href="#" class="btn btn-default">诗歌</a>
+				<a href="#" data-key="u" v-bind:class="['btn','btn-default',{active: isChecked.u}]"  @click="tagadd($event)">科普</a>
+				<a href="#" data-key="v" v-bind:class="['btn','btn-default',{active: isChecked.v}]"  @click="tagadd($event)">互联网</a>
+				<a href="#" data-key="w" v-bind:class="['btn','btn-default',{active: isChecked.w}]"  @click="tagadd($event)">编程</a>
+				<a href="#" data-key="x" v-bind:class="['btn','btn-default',{active: isChecked.x}]"  @click="tagadd($event)">交互设计</a>
 			</div>
 		</div>
 		
