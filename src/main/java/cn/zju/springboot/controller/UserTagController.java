@@ -21,9 +21,9 @@ public class UserTagController {
 	private UserTagService userTagService;
 	UserTag tag;
 	
-	
+
 	/**
-	 * 添加标签和删除标签
+	 * 添加标签
 	 * @param tag
 	 * @param userId
 	 * @return
@@ -32,21 +32,10 @@ public class UserTagController {
 	@ResponseBody
 	public Object addTagToUser(HttpServletRequest request, HttpServletResponse response){
 		Integer userId=10;
-		//根据返回类型判断是添加还是删除操作
-		String type=request.getParameter("status");
 		String tagName=request.getParameter("tagname");
-		Object re=null;
-		System.out.println(type);
-		if(type.equals("true")) {
-			re=userTagService.addTagByName(userId, tagName);
-			
-		}else{
-			re=userTagService.delTag(userId, tagName);
-		}
+		Object re=userTagService.addTagByName(userId, tagName);
 		return re;
 	}
-	
-	
 	
 	/**
 	 * 删除标签
@@ -62,11 +51,6 @@ public class UserTagController {
 		Object re=userTagService.delTag(userId, tagName);
 		return re;
 	}
-	
-
-	
-	
-	
 	
 	
 	/**

@@ -37,5 +37,8 @@ public interface CommentService {
 	
 	public int countReadBooks(int userId);
 	
+	public List<Comment> getCommentByUserIdAndBookId(int userId, int bookId);
+	
+	public boolean update(Comment comment);
 }
   

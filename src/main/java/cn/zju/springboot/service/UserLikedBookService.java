@@ -9,7 +9,7 @@ public interface UserLikedBookService {
 	
 	public Object addLikedBook(int bookId,int userId,Date createdate);
 	
-	public int deletefaovr(int bookId);
+	public int deletefaovr(int bookId,int userId);
 	
 	public int countUserLikedBooks(int userId);
 	
