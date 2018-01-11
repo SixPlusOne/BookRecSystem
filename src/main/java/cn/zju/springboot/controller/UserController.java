@@ -49,15 +49,29 @@ public class UserController {
 	
 	@RequestMapping("register")
 	@ResponseBody
-	public String register(HttpServletRequest request) {
+	public String register(HttpServletRequest request, HttpServletResponse response) {
 		String userName = request.getParameter("username");
 		String password = request.getParameter("password");
+		HttpSession session = request.getSession();
 		if(StringUtils.isEmpty(userName)||StringUtils.isEmpty(password))
 			return "账号用户名密码错误";
 		User user = new User();
 		user.setName(userName);
 		user.setPassword(password);
-		return userService.register(user);
+		Integer res = userService.register(user);
+		Integer falseRes = new Integer(-1);
+		if(!res.equals(falseRes)) {
+			session.setAttribute("userId", res);
+			try {
+				response.sendRedirect("/first_page.html");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return "登录成功";
+		} else {
+			return "账户名密码不匹配";
+		}
 		
 	}
 	

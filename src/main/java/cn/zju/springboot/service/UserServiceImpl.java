@@ -42,22 +42,23 @@ public class UserServiceImpl implements UserService {
     private StringRedisTemplate stringRedisTemplate;
 
 	@Override
-	public String register(User user) {
+	public Integer register(User user) {
 		int insertResult = 0;
 		if(user == null)
-			return "注册信息不能为空";
-		User selectOne = userMapper.selectOne(user);
-		
-		if(selectOne == null) {
+			return -1;
+		Example example = new Example(User.class);
+		example.createCriteria().andEqualTo("name", user.getName());
+		List<User> list = userMapper.selectByExample(example);
+		if(!list.isEmpty()) {
 			insertResult = userMapper.insert(user);
+			list = userMapper.selectByExample(example);
 		}else {
-			return "用户已注册";
+			return -1;
 		}
-		
 		if(insertResult > 0) {
-			return "注册成功";
+			return 1;
 		}else {
-			return "注册失败";
+			return list.get(0).getId();
 		}
 
 	}
