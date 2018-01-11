@@ -128,10 +128,17 @@ public class UserLikedBookController {
 	 */
 	@GetMapping("/favor_books")
 	public Object queryUserFavor(Model model,HttpSession session) throws IOException{
-		User user = userService.getUserById(1);
-		int userFavor = userLikedBook.countUserLikedBooks(1);
-		int userRead = commentService.countReadBooks(1);
-		List<Favor> favorRecords = userLikedBook.getFavorByUserId(1);
+		Map<String, Object> result = new HashMap<>();
+		if(session.getAttribute("userId") == null) {
+			result.put("success", false);
+			result.put("Msg", "Time out,please login again!");
+			return result;
+		}
+		int userId = (int) session.getAttribute("userId");
+		User user = userService.getUserById(userId);
+		int userFavor = userLikedBook.countUserLikedBooks(userId);
+		int userRead = commentService.countReadBooks(userId);
+		List<Favor> favorRecords = userLikedBook.getFavorByUserId(userId);
 		List<Book> favorBooks = new LinkedList<Book>();
 		for(Favor favorRecord:favorRecords) {
 			favorBooks.add(bookMapper.selectByPrimaryKey(favorRecord.getBookId()));

@@ -12,8 +12,6 @@ package cn.zju.springboot.controller;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,8 +27,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import cn.zju.springboot.pojo.Book;
-import cn.zju.springboot.pojo.Favor;
 import cn.zju.springboot.pojo.User;
 import cn.zju.springboot.service.UserService;
 
@@ -53,15 +49,28 @@ public class UserController {
 	
 	@RequestMapping("register")
 	@ResponseBody
-	public String register(HttpServletRequest request) {
+	public String register(HttpServletRequest request, HttpServletResponse response) {
 		String userName = request.getParameter("username");
 		String password = request.getParameter("password");
+		HttpSession session = request.getSession();
 		if(StringUtils.isEmpty(userName)||StringUtils.isEmpty(password))
 			return "账号用户名密码错误";
 		User user = new User();
 		user.setName(userName);
 		user.setPassword(password);
-		return userService.register(user);
+		Integer res = userService.register(user);
+		Integer falseRes = new Integer(-1);
+		if(!res.equals(falseRes)) {
+			session.setAttribute("userId", res);
+//			try {
+//				response.sendRedirect("/login.html");
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+			return "登录成功";
+		} else {
+			return "账户名密码不匹配";
+		}
 		
 	}
 	
@@ -137,8 +146,14 @@ public class UserController {
 	
 	@RequestMapping("/updateName")
 	@ResponseBody
-	public Object updateName(HttpServletRequest request,HttpServletResponse response) {
-		int userId = Integer.parseInt(request.getParameter("userId"));
+	public Object updateName(HttpServletRequest request, HttpSession session, HttpServletResponse response) {
+		Map<String, Object> result = new HashMap<>();
+		if(session.getAttribute("userId") == null) {
+			result.put("success", false);
+			result.put("Msg", "Time out,please login again!");
+			return result;
+		}
+		int userId = (int) session.getAttribute("userId");
 		String userName = request.getParameter("userName");
 		if(StringUtils.isEmpty(userName)) {
 			return "昵称不能为空";
@@ -154,7 +169,14 @@ public class UserController {
 	 */
 	@GetMapping("/settings")
 	public Object queryUserFavor(Model model,HttpSession session) throws IOException{
-		User user = userService.getUserById(1);
+		Map<String, Object> result = new HashMap<>();
+		if(session.getAttribute("userId") == null) {
+			result.put("success", false);
+			result.put("Msg", "Time out,please login again!");
+			return result;
+		}
+		int userId = (int) session.getAttribute("userId");		
+		User user = userService.getUserById(userId);
 		model.addAttribute("user", user);
 		return "settings";
 	}

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.zju.springboot.mapper.UserMapper">
+	<insert id="insertUserAndGetId" parameterType="cn.zju.springboot.pojo.User">
+		<selectKey keyProperty="id" order="AFTER" resultType="Integer">
+			select last_insert_id()
+		</selectKey>
+		insert into user (name, password)
+		values(#{name}, #{password})
+	</insert>
+</mapper>

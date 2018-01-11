@@ -1,8 +1,10 @@
 package cn.zju.springboot.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
@@ -112,12 +114,19 @@ public class RecommendController {
 	}
 	
 	@GetMapping("/first_page")
-	public String getFirst_Page(Model model,HttpSession session) throws IOException{
+	public Object getFirst_Page(Model model,HttpSession session) throws IOException{
+		Map<String, Object> result = new HashMap<>();
+		if(session.getAttribute("userId") == null) {
+			result.put("success", false);
+			result.put("Msg", "Time out,please login again!");
+			return result;
+		}
+		int userId = (int) session.getAttribute("userId");
 		//User user=(User)session.getAttribute("CURRENT_USER");
 		//List<BookForm> books=bookRecommendService.getRecommendBooks(user.getId());
 //		List<BookForm> books=bookRecommendService.getRecommendBooks(123);
 //		List<Author> authors=authorRecommendService.getAuthorRecommend(123);
-		List<BookForm> user_cf_books=bookRecommendService.getRecommendBooksByUserCF(123);
+		List<BookForm> user_cf_books=bookRecommendService.getRecommendBooksByUserCF(userId);
 //		model.addAttribute("books",books);
 //		model.addAttribute("authors",authors);
 //	List<BookForm> hotBooks=bookService.getHotBookFormList();

@@ -12,6 +12,7 @@ package cn.zju.springboot.controller;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -29,11 +30,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import cn.zju.springboot.mapper.BookMapper;
 import cn.zju.springboot.pojo.Book;
 import cn.zju.springboot.pojo.Comment;
-import cn.zju.springboot.pojo.History;
 import cn.zju.springboot.pojo.User;
 import cn.zju.springboot.service.CommentService;
-import cn.zju.springboot.service.CommentServiceImpl;
-import cn.zju.springboot.service.HistoryServiceImpl;
 import cn.zju.springboot.service.UserLikedBookServiceImpl;
 import cn.zju.springboot.service.UserServiceImpl;
 
@@ -52,8 +50,6 @@ import cn.zju.springboot.service.UserServiceImpl;
 public class CommentController {
 	
 	@Autowired
-	private HistoryServiceImpl historyService;
-	@Autowired
 	private CommentService commentService;
 	@Autowired
 	private UserServiceImpl userService;
@@ -65,14 +61,21 @@ public class CommentController {
 	
 	@RequestMapping("insert")
 	@ResponseBody
-	public String insert(HttpServletRequest request) {
-		
-		Comment comment =new Comment();
-		int userId = Integer.parseInt(request.getParameter("userId"));
+	public Object insert(HttpServletRequest request) {
+		Map<String, Object> result = new HashMap<>();
+		HttpSession session = request.getSession();
+		if(session==null||session.getAttribute("userId")==null)
+		{
+			result.put("success", false);
+			result.put("Msg", "Time out,please login again!");
+			return result;
+		}
+		int userId = (int) session.getAttribute("userId");
 		int bookId = Integer.parseInt(request.getParameter("bookId"));
 		int score = Integer.parseInt(request.getParameter("score"));
 		String content = request.getParameter("content");
 		
+		Comment comment =new Comment();
 		comment.setBookId(bookId);
 		comment.setUserId(userId);
 		comment.setScore(score);
@@ -90,8 +93,15 @@ public class CommentController {
 	@RequestMapping("getCommentByUserId")
 	@ResponseBody
 	public Object getCommentByUserId(HttpServletRequest request) {
-		
-		int userId = Integer.parseInt(request.getParameter("userId"));
+		HttpSession session = request.getSession();
+		Map<String, Object> result = new HashMap<>();
+		if(session==null||session.getAttribute("userId")==null)
+		{
+			result.put("success", false);
+			result.put("Msg", "Time out,please login again!");
+			return result;
+		}
+		int userId = (int) session.getAttribute("userId");
 		
 		return commentService.getCommentByUserId(userId);
 		
@@ -111,10 +121,18 @@ public class CommentController {
 	 */
 	@GetMapping("/read_books")
 	public Object queryReadBooks(Model model,HttpSession session) throws IOException{
-		User user = userService.getUserById(1);
-		int userFavor = userLikedBookService.countUserLikedBooks(1);
-		int userRead = commentService.countReadBooks(1);
-		List<Comment> commentRecords = commentService.getCommentByUserId(1);
+		Map<String, Object> result = new HashMap<>();
+		if(session==null||session.getAttribute("userId")==null)
+		{
+			result.put("success", false);
+			result.put("Msg", "Time out,please login again!");
+			return result;
+		}
+		int userId = (int) session.getAttribute("userId");
+		User user = userService.getUserById(userId);
+		int userFavor = userLikedBookService.countUserLikedBooks(userId);
+		int userRead = commentService.countReadBooks(userId);
+		List<Comment> commentRecords = commentService.getCommentByUserId(userId);
 		List<Book> readBooks = new LinkedList<Book>();
 		for(Comment commentRecord:commentRecords) {
 			readBooks.add(bookMapper.selectByPrimaryKey(commentRecord.getBookId()));
@@ -128,9 +146,17 @@ public class CommentController {
 	
 	@RequestMapping("insertIfAbsent")
 	@ResponseBody
-	public String insertIfAbsent(HttpServletRequest request) {
+	public Object insertIfAbsent(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		Map<String, Object> result = new HashMap<>();
+		if(session==null||session.getAttribute("userId")==null)
+		{
+			result.put("success", false);
+			result.put("Msg", "Time out,please login again!");
+			return result;
+		}
+		int userId = (int) session.getAttribute("userId");
 		Comment comment =new Comment();
-		int userId = Integer.parseInt(request.getParameter("userId"));
 		int bookId = Integer.parseInt(request.getParameter("bookId"));
 		int score = Integer.parseInt(request.getParameter("score"));
 		String content = request.getParameter("content");
@@ -147,9 +173,13 @@ public class CommentController {
 			res = commentService.update(comment);
 		}
 		if (res) {
-			return "评价成功";
+			result.put("success", false);
+			result.put("Msg", "评价成功");
+			return result;
 		}else {
-			return "评价失败";
+			result.put("success", false);
+			result.put("Msg", "评价失败");
+			return result;
 		}
 	}
 
