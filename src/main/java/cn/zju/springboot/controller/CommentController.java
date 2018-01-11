@@ -12,6 +12,7 @@ package cn.zju.springboot.controller;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -111,10 +112,17 @@ public class CommentController {
 	 */
 	@GetMapping("/read_books")
 	public Object queryReadBooks(Model model,HttpSession session) throws IOException{
-		User user = userService.getUserById(1);
-		int userFavor = userLikedBookService.countUserLikedBooks(1);
-		int userRead = commentService.countReadBooks(1);
-		List<Comment> commentRecords = commentService.getCommentByUserId(1);
+		Map<String, Object> result = new HashMap<>();
+		if(session.getAttribute("userId") == null) {
+			result.put("success", false);
+			result.put("Msg", "Time out,please login again!");
+			return result;
+		}
+		int userId = (int) session.getAttribute("userId");
+		User user = userService.getUserById(userId);
+		int userFavor = userLikedBookService.countUserLikedBooks(userId);
+		int userRead = commentService.countReadBooks(userId);
+		List<Comment> commentRecords = commentService.getCommentByUserId(userId);
 		List<Book> readBooks = new LinkedList<Book>();
 		for(Comment commentRecord:commentRecords) {
 			readBooks.add(bookMapper.selectByPrimaryKey(commentRecord.getBookId()));

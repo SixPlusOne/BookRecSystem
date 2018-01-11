@@ -137,8 +137,14 @@ public class UserController {
 	
 	@RequestMapping("/updateName")
 	@ResponseBody
-	public Object updateName(HttpServletRequest request,HttpServletResponse response) {
-		int userId = Integer.parseInt(request.getParameter("userId"));
+	public Object updateName(HttpServletRequest request, HttpSession session, HttpServletResponse response) {
+		Map<String, Object> result = new HashMap<>();
+		if(session.getAttribute("userId") == null) {
+			result.put("success", false);
+			result.put("Msg", "Time out,please login again!");
+			return result;
+		}
+		int userId = (int) session.getAttribute("userId");
 		String userName = request.getParameter("userName");
 		if(StringUtils.isEmpty(userName)) {
 			return "昵称不能为空";
@@ -154,7 +160,14 @@ public class UserController {
 	 */
 	@GetMapping("/settings")
 	public Object queryUserFavor(Model model,HttpSession session) throws IOException{
-		User user = userService.getUserById(1);
+		Map<String, Object> result = new HashMap<>();
+		if(session.getAttribute("userId") == null) {
+			result.put("success", false);
+			result.put("Msg", "Time out,please login again!");
+			return result;
+		}
+		int userId = (int) session.getAttribute("userId");		
+		User user = userService.getUserById(userId);
 		model.addAttribute("user", user);
 		return "settings";
 	}

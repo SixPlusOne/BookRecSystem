@@ -3,8 +3,10 @@ package cn.zju.springboot.controller;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -51,11 +53,18 @@ public class HistoryController {
 	 * 查询一个用户所有的历史记录
 	 */
 	@GetMapping("/viewed_books")
-	public Object queryUserHistory(Model model,HttpSession session) throws IOException{
-		User user = userService.getUserById(1);
-		int userFavor = userLikedBookService.countUserLikedBooks(1);
-		int userRead = commentService.countReadBooks(1);
-		List<History> viewedHistorys = historyService.getHistoryByUserId(1);
+	public Object queryUserHistory(Model model, HttpSession session) throws IOException{
+		Map<String, Object> result = new HashMap<>();
+		if(session.getAttribute("userId") == null) {
+			result.put("success", false);
+			result.put("Msg", "Time out,please login again!");
+			return result;
+		}
+		int userId = (int) session.getAttribute("userId");
+		User user = userService.getUserById(userId);
+		int userFavor = userLikedBookService.countUserLikedBooks(userId);
+		int userRead = commentService.countReadBooks(userId);
+		List<History> viewedHistorys = historyService.getHistoryByUserId(userId);
 		List<Book> viewedBooks = new LinkedList<Book>();
 		for(History viewedHistory:viewedHistorys) {
 			viewedBooks.add(bookMapper.selectByPrimaryKey(viewedHistory.getBookId()));
