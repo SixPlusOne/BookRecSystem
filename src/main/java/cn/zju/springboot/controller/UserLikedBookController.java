@@ -59,15 +59,21 @@ public class UserLikedBookController {
 	
 	@RequestMapping("deleteFavor")
 	@ResponseBody
-	public Object deletefavor(HttpServletRequest request) 
+	public Object deletefavor(HttpServletRequest request,HttpServletResponse response) 
 	{
+		response.setCharacterEncoding("UTF-8");
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
+        response.setHeader("Pragma", "no-cache"); // HTTP 1.0
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setDateHeader("Expires", 0); 
 		int bookId = Integer.parseInt(request.getParameter("bookId"));
+		int userId = Integer.parseInt(request.getParameter("userId"));
 //		return "hello";
-		return userLikedBook.deletefaovr(bookId);
+		return userLikedBook.deletefaovr(bookId,userId);
 	
 	}
 	
-	public static java.sql.Date strToDate(String strDate) {  
+	/*public static java.sql.Date strToDate(String strDate) {  
         String str = strDate;  
         SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");  
         java.util.Date d = null;  
@@ -78,7 +84,7 @@ public class UserLikedBookController {
         }  
         java.sql.Date date = new java.sql.Date(d.getTime());  
         return date;  
-    }  
+    }  */
 	
 	@RequestMapping("addLikedBook")
 	@ResponseBody

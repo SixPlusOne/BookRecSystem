@@ -9,6 +9,7 @@ import com.github.abel533.entity.Example.Criteria;
 import cn.zju.springboot.mapper.UserLikedBookMapper;
 import cn.zju.springboot.pojo.Favor;
 import cn.zju.springboot.pojo.History;
+import cn.zju.springboot.pojo.UserTag;
 
 import java.sql.Date;
 import java.util.List;
@@ -36,11 +37,12 @@ public class UserLikedBookServiceImpl implements UserLikedBookService {
 	
 	// delete liked book from favor table
 	
-	public int deletefaovr(int bookId)
+	public int deletefaovr(int bookId,int userId)
 	{
+		
 		Example example = new Example(Favor.class);
-		Criteria criteria = example.createCriteria();
-		criteria.andEqualTo("bookId", bookId);
+		
+		example.createCriteria().andEqualTo("bookId", bookId).andEqualTo("userId", userId);
 		return this.userLikedBookMapper.deleteByExample(example);
 	}
 	
