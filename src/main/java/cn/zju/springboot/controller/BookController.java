@@ -96,7 +96,6 @@ public class BookController {
 		model.addAttribute("simbooks",bookFormMapper.getSimilarBooks(id));
 		return "bookDetails";
 		
-	
 	}
 	
 }
