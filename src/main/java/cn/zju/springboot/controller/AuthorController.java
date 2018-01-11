@@ -14,13 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import cn.zju.springboot.pojo.Author;
 import cn.zju.springboot.pojo.Book;
 import cn.zju.springboot.service.BookService;
-import cn.zju.springboot.service.BookServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 

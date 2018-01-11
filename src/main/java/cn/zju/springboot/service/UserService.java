@@ -25,7 +25,7 @@ import cn.zju.springboot.pojo.User;
  */
 public interface UserService {
 	
-	public String register(User user);
+	public Integer register(User user);
 	
 	public int login(String userName,String passwd);
 	
