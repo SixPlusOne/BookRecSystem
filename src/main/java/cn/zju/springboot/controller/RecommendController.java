@@ -135,5 +135,15 @@ public class RecommendController {
 		
 		
 	}
+	@GetMapping("/ranklist")   //获得指定某一标签的书籍
+	public Object getRank(Model model,@RequestParam Optional<Integer> page, @RequestParam Optional<Integer> pageSize){
+		PageHelper.startPage(page.orElse(1), pageSize.orElse(20));
+		PageInfo<BookForm> books=new PageInfo<BookForm>(tagService.getBookFormsByTag("文学"));
+		
+		model.addAttribute("books",books);
+
+		return "ranklist";
+  
+	}
 	
 }
