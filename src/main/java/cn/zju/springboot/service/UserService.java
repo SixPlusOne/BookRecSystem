@@ -27,9 +27,9 @@ public interface UserService {
 	
 	public String register(User user);
 	
-	public String login(String userName,String passwd);
+	public int login(String userName,String passwd);
 	
-	public User getUserByName(String userName);
+	public User getUserBySession(int userId);
 	
 	public User getUserById(int userId);
 

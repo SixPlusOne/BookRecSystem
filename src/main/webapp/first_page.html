@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>BC首页</title>
-		<link rel="stylesheet" href="css/bootstrap.css" />
-		<script type="text/javascript" src="js/jquery-1.11.0.js"></script>
-		<script type="text/javascript" src="js/bootstrap.js"></script>
+		<link rel="stylesheet" th:href="@{/css/bootstrap.css}" />
+		<script type="text/javascript" src="/js/jquery-1.11.0.js"></script>
+		<script type="text/javascript" src="/js/bootstrap.js"></script>
 		<style>
 			.bookItem{
 				/*border: 1px;width: 150px;*/
@@ -26,30 +27,7 @@
 		
 		  <script src="js/vue.js"></script>
     <script src="js/vue-resource.js"></script>
-	<script>
-	        window.onload=function(){
-	            new Vue({
-	                el:'#recommend',
-	                data:{
-	                	
-	                	apiUrl: 'http://127.0.0.1:8080/bookRecommend/?'
-	                },
-	                methods:{
-	                	login:function(){
-		                	this.$http.get(this.apiUrl,{
 
-		                    },{
-	                            emulateJSON:true
-	                        }).then(function(res){
-		                        alert(res.data);
-		                    },function(res){
-		                        alert(res.status);
-		                    });
-		                }
-	            	}
-	            });
-	        };
-    </script>
 	
 	</head>
 	
@@ -71,8 +49,7 @@
 					<a class="navbar-brand" href="#">图书推荐</a>
 				</div>
 		 <div id="box">
-        <input type="button" @click="get()" value="按钮get">
-        <input type="button" @click="post()" value="按钮post">
+
     </div>
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -107,187 +84,101 @@
 	
 		<!--每日推荐-->
 		<h3>每日推荐</h2>
-		<div class="row">
+		<div class="row" >
 			<!--一本书籍介绍-->
 				<!--中 - 4
 				小 - 6
 				超小 - 12-->
-			<div class="col-md-2 col-sm-6 col-xs-12 bookItem" >
-				<!--图片-->
-				<div style="margin-top: 10px;">
+			<div class="col-md-2 col-sm-6 col-xs-12 bookItem" th:each="book:${books}">
+							<div style="margin-top: 10px;">
 					<a href="bookDetails.html">
-					<img src="https://img3.doubanio.com/mpic/s2976745.jpg"/>
+					<img th:src="${book.img2}" weight="150" height="150"/>
 					</a>
 				</div>
+									<td>
+				
+						<p>
+						  <a  style="font-size:15px;" th:href="@{'/book/'+${book.id}}"  th:text="${book.name}" >
+                          </a>
+                          </p>
+							<p style="font-size:15px;" th:text="@{'作者: '+${book.author.name}}" >作者:  罗贯</p>
+						
+							<p style="font-size:15px;" th:text="@{'出版社: '+${book.publisher}}">出版社: 中华书局</p>
+							<p style="font-size:15px;" th:text="@{'评分: '+${book.rating}}">评分: 9.5</p>
+							<p style="font-size:15px;" th:text="@{'定价: '+${book.price}}">定价: 70.00元</p>
+							<p style="font-size:15px;">装帧: 平装</p>
+							<p style="font-size:15px;" th:text="@{'ISBN: '+${book.isbn}}"></p>
+							
+						</td>
+				<!--图片-->
+
 				<!--名称-->
-				<div>
+				<!-- 
+				<div th:text="${book.name}">
 					金锁记
 				</div>
-				<!--作者-->
-				<div>
+		
+				<div th:text="${book.authorId}">
 					张爱玲
-				</div>
-				<!--出版社-->
-				<div>
+				</div >
+		
+				<div th:text="${book.publisher}">
 					哈尔滨出版社
 				</div>
-				<!--评分-->
-				<div>
+			
+				<div th:text="${book.rating}">
 					8.5
 				</div>
+				 -->
 			</div>
-			<div class="col-md-2 col-sm-6 col-xs-12 bookItem" >
-				<!--图片-->
-				<div style="margin-top: 10px;">
-					<a href="bookDetails.html">
-					<img src="https://img3.doubanio.com/mpic/s2976745.jpg" />
+			
+		<h3>根据和你相似的用户，我们为你推荐了...</h2>
+		<div class="row" >
+			<!--一本书籍介绍-->
+				<!--中 - 4
+				小 - 6
+				超小 - 12-->
+			<div class="col-md-2 col-sm-6 col-xs-12 bookItem" th:each="user_cf_book:${user_cf_books}">
+							<div style="margin-top: 10px;">
+					<a th:href="@{'/book/'+${user_cf_book.id}}">
+					<img th:src="${user_cf_book.img2}" weight="150" height="150"/>
 					</a>
 				</div>
-				<!--名称-->
-				<div>
-					金锁记
-				</div>
-				<!--作者-->
-				<div>
-					张爱玲
-				</div>
-				<!--出版社-->
-				<div>
-					哈尔滨出版社
-				</div>
-				<!--评分-->
-				<div>
-					8.5
-				</div>
+									<td>
+				
+						<p>
+						  <a  style="font-size:15px;" th:href="@{'/book/'+${user_cf_book.id}}"  th:text="${user_cf_book.name}" >
+                          </a>
+                          </p>
+							<p style="font-size:15px;" th:text="@{'作者: '+${user_cf_book.author.name}}" >作者:  罗贯</p>
+						
+							<p style="font-size:15px;" th:text="@{'出版社: '+${user_cf_book.publisher}}">出版社: 中华书局</p>
+							<p style="font-size:15px;" th:text="@{'评分: '+${user_cf_book.rating}}">评分: 9.5</p>
+							<p style="font-size:15px;" th:text="@{'定价: '+${user_cf_book.price}}">定价: 70.00元</p>
+							<p style="font-size:15px;">装帧: 平装</p>
+							<p style="font-size:15px;" th:text="@{'ISBN: '+${user_cf_book.isbn}}"></p>
+							
+						</td>
 			</div>
-			<div class="col-md-2 col-sm-6 col-xs-12 bookItem" >
-				<!--图片-->
-				<div style="margin-top: 10px;">
-					<a href="bookDetails.html">
-					<img src="https://img3.doubanio.com/mpic/s2976745.jpg" />
-					</a>
-				</div>
-				<!--名称-->
-				<div>
-					金锁记
-				</div>
-				<!--作者-->
-				<div>
-					张爱玲
-				</div>
-				<!--出版社-->
-				<div>
-					哈尔滨出版社
-				</div>
-				<!--评分-->
-				<div>
-					8.5
-				</div>
-			</div>
-			<div class="col-md-2 col-sm-6 col-xs-12 bookItem" >
-				<!--图片-->
-				<div style="margin-top: 10px;">
-					<a href="bookDetails.html">
-					<img src="https://img3.doubanio.com/mpic/s2976745.jpg" />
-					</a>
-				</div>
-				<!--名称-->
-				<div>
-					金锁记
-				</div>
-				<!--作者-->
-				<div>
-					张爱玲
-				</div>
-				<!--出版社-->
-				<div>
-					哈尔滨出版社
-				</div>
-				<!--评分-->
-				<div>
-					8.5
-				</div>
-			</div>
-			<div class="col-md-2 col-sm-6 col-xs-12 bookItem" >
-				<!--图片-->
-				<div style="margin-top: 10px;">
-					<a href="bookDetails.html">
-					<img src="https://img3.doubanio.com/mpic/s2976745.jpg" />
-					</a>
-				</div>
-				<!--名称-->
-				<div>
-					金锁记
-				</div>
-				<!--作者-->
-				<div>
-					张爱玲
-				</div>
-				<!--出版社-->
-				<div>
-					哈尔滨出版社
-				</div>
-				<!--评分-->
-				<div>
-					8.5
-				</div>
-			</div>
-			<div class="col-md-2 col-sm-6 col-xs-12 bookItem" >
-				<!--图片-->
-				<div style="margin-top: 10px;">
-					<a href="bookDetails.html">
-					<img src="https://img3.doubanio.com/mpic/s2976745.jpg" />
-					</a>
-				</div>
-				<!--名称-->
-				<div>
-					金锁记
-				</div>
-				<!--作者-->
-				<div>
-					张爱玲
-				</div>
-				<!--出版社-->
-				<div>
-					哈尔滨出版社
-				</div>
-				<!--评分-->
-				<div>
-					8.5
-				</div>
-			</div>
+			
 			
 		</div>
 		<!--作者推荐-->
 		<h3>作者推荐</h3>
 		<div class="row">
-			<div class="col-md-4 col-sm-6 col-xs-12">
+			<div class="col-md-4 col-sm-6 col-xs-12" th:each="author:${authors}">
 				<div class="col-md-9">
 					<img src="https://img1.doubanio.com/img/author/large/1489073160.17.jpg" />
 				</div>
-				<div class="col-md-3">
-					this is a author
-					she is beautiful
+				<div class="col-md-3" >
+					<p>
+						  <a  style="font-size:15px;" th:href="@{'/subject/'+${author.id}}"  th:text="${author.name}" >
+                          </a>
+                          </p>
 				</div>
 			</div>
-			<div class="col-md-4 col-sm-6 col-xs-12">
-				<div class="col-md-9">
-					<img src="https://img1.doubanio.com/img/author/large/1489073160.17.jpg" />
-				</div>
-				<div class="col-md-3">
-					this is a author
-					she is beautiful
-				</div>
-			</div>
-						<div class="col-md-4 col-sm-6 col-xs-12">
-				<div class="col-md-9">
-					<img src="https://img1.doubanio.com/img/author/large/1489073160.17.jpg" />
-				</div>
-				<div class="col-md-3">
-					this is a author
-					she is beautiful
-				</div>
-			</div>
+			
+		
 		</div>
 		<!--图书资讯-->
 		<h3>图书资讯</h3>
@@ -371,88 +262,82 @@
 		<h3>最热图书</h3>
 		<!--<hr>-->
 		<div class="row">
-			<div class="col-md-4 col-sm-6 col-xs-12">
+			<div class="col-md-4 col-sm-6 col-xs-12" th:each="hotBook:${hotBooks}">
 				<table>
 					<tr>
 						<td>
-							<img class="pull-right" src="https://img3.doubanio.com/lpic/s2976745.jpg" style="width: 90%;"/>
+							<img class="pull-right" style="font-size:15px;" th:src="${hotBook.img3}" style="width: 90%;"/>
 						</td>
 						<td>
-							this is a hot book<br />
-							this is a hot book<br />
-							this is a hot book<br />
+							<p>
+							  <a  style="font-size:15px;" th:href="@{'/book/'+${hotBook.id}}"  th:text="${hotBook.name}" >
+                          </a>
+							</p>
 						</td>
 					</tr>
 				</table>
 			</div>
-						<div class="col-md-4 col-sm-6 col-xs-12">
-				<table>
-					<tr>
-						<td>
-							<img class="pull-right" src="https://img3.doubanio.com/lpic/s2976745.jpg" style="width: 90%;"/>
-						</td>
-						<td>
-							this is a hot book<br />
-							this is a hot book<br />
-							this is a hot book<br />
-						</td>
-					</tr>
-				</table>
+						
 			</div>
-						<div class="col-md-4 col-sm-6 col-xs-12">
-				<table>
-					<tr>
-						<td>
-							<img class="pull-right" src="https://img3.doubanio.com/lpic/s2976745.jpg" style="width: 90%;"/>
-						</td>
-						<td>
-							this is a hot book<br />
-							this is a hot book<br />
-							this is a hot book<br />
-						</td>
-					</tr>
-				</table>
-			</div>
-		</div>
+	
 		<!--热门标签-->
 		<h3>热门标签</h3>
 		<div class="col-md-6 col-sm-12">
 			<h4>文学</h4>
 			<div >
-				<a href="#" class="btn btn-default">小说</a>
-				<a href="#" class="btn btn-default">随笔</a>
-				<a href="#" class="btn btn-default">日本文学</a>
-				<a href="#" class="btn btn-default">诗歌</a>
+				<a href="/tag/小说" class="btn btn-default">小说</a>
+				<a href="/tag/随笔" class="btn btn-default">随笔</a>
+				<a href="/tag/日本文学" class="btn btn-default">日本文学</a>
+				<a href="/tag/诗歌" class="btn btn-default">诗歌</a>
 			</div>
 		</div>
 		<div class="col-md-6 col-sm-12">
-			<h4>文学</h4>
+			<h4>流行</h4>
 			<div >
-				<a href="#" class="btn btn-default">小说</a>
-				<a href="#" class="btn btn-default">随笔</a>
-				<a href="#" class="btn btn-default">日本文学</a>
-				<a href="#" class="btn btn-default">诗歌</a>
+				<a href="/tag/漫画" class="btn btn-default">漫画</a>
+				<a href="/tag/绘本" class="btn btn-default">绘本</a>
+				<a href="/tag/推理" class="btn btn-default">推理</a>
+				<a href="/tag/青春" class="btn btn-default">青春</a>
 			</div>
 		</div>
 		<div class="col-md-6 col-sm-12">
-			<h4>文学</h4>
+			<h4>生活</h4>
 			<div >
-				<a href="#" class="btn btn-default">小说</a>
-				<a href="#" class="btn btn-default">随笔</a>
-				<a href="#" class="btn btn-default">日本文学</a>
-				<a href="#" class="btn btn-default">诗歌</a>
+				<a href="/tag/旅行" class="btn btn-default">旅行</a>
+				<a href="/tag/励志" class="btn btn-default">励志</a>
+				<a href="/tag/职场" class="btn btn-default">职场</a>
+				<a href="/tag/教育" class="btn btn-default">教育</a>
 			</div>
 		</div>
 		<div class="col-md-6 col-sm-12">
-			<h4>文学</h4>
+			<h4>文化</h4>
 			<div >
-				<a href="#" class="btn btn-default">小说</a>
-				<a href="#" class="btn btn-default">随笔</a>
-				<a href="#" class="btn btn-default">日本文学</a>
-				<a href="#" class="btn btn-default">诗歌</a>
+				<a href="/tag/历史" class="btn btn-default">历史</a>
+				<a href="/tag/哲学" class="btn btn-default">哲学</a>
+				<a href="/tag/日本文学" class="btn btn-default">日本文学</a>
+				<a href="/tag/诗歌" class="btn btn-default">诗歌</a>
+			</div>
+		</div>
+		<div class="col-md-6 col-sm-12">
+			<h4>经管</h4>
+			<div >
+				<a href="/tag/经济学" class="btn btn-default">经济学</a>
+				<a href="/tag/管理" class="btn btn-default">管理</a>
+				<a href="/tag/商业" class="btn btn-default">商业</a>
+				<a href="/tag/金融" class="btn btn-default">金融</a>
+			</div>
+		</div>
+		<div class="col-md-6 col-sm-12">
+			<h4>科技</h4>
+			<div >
+				<a href="/tag/科普" class="btn btn-default">科普</a>
+				<a href="/tag/互联网" class="btn btn-default">互联网</a>
+				<a href="/tag/编程" class="btn btn-default">编程</a>
+				<a href="/tag/交互设计" class="btn btn-default">交互设计</a>
 			</div>
 		</div>
 	</div>
+	<hr />
 		</body>
 
 </html>
