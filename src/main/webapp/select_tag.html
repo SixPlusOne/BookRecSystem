@@ -46,7 +46,7 @@
 	                		q: false,r: false,s: false,t: false,
 	                		u: false,v: false,w: false,x: false,
 	                	},
-	                	apiUrl: 'http://127.0.0.1:8080/usertag/add',
+	                	apiUrl: 'http://127.0.0.1:8080/usertag/operate',
 	                },
 	                methods:{
 	                	tagadd:function(val){
@@ -121,7 +121,7 @@
 						<li style="margin-right: 30px;">
 							<form class="navbar-form navbar-right">
 								<div class="form-group">
-									<input type="text" class="form-control" placeholder="Search">
+									<input type="text" class="form-control" placeholder="Search" onkeyup=" if(event.keyCode==13) {search(' + userFunction + ')}">
 								</div>
 								<!--<button type="submit" class="btn btn-default"></button>-->
 							</form>
@@ -204,3 +204,13 @@
 	</div>
 	</body>
 </html>
+
+<script>
+function search(fuc){  
+	 window.location.href='login.html'
+    var myInput=document.getElementById("text").value;  
+    if(myInput==null ) myInput=1;  
+    var  func=eval(fuc);  
+    new func(myInput);  
+}  
+</script>
