@@ -2,6 +2,7 @@ package cn.zju.springboot.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,17 +24,25 @@ public class UserTagController {
 	
 
 	/**
-	 * 添加标签
+	 * 添加标签和删除标签
 	 * @param tag
 	 * @param userId
 	 * @return
 	 */
-	@RequestMapping(value = "add")
+	@RequestMapping(value = "operate")
 	@ResponseBody
 	public Object addTagToUser(HttpServletRequest request, HttpServletResponse response){
-		Integer userId=10;
+		//Integer userId=10;
+		HttpSession session=request.getSession();
+		Integer userId=(Integer) session.getAttribute("userId");
 		String tagName=request.getParameter("tagname");
-		Object re=userTagService.addTagByName(userId, tagName);
+		String type=request.getParameter("status");
+		Object re=null;
+		if(type.equals("true")) {
+			re=userTagService.addTagByName(userId, tagName);
+		}else {
+			re=userTagService.delTag(userId, tagName);
+		}
 		return re;
 	}
 	
@@ -46,7 +55,9 @@ public class UserTagController {
 	@RequestMapping(value = "del")
 	@ResponseBody
 	public Object delTagForUser(HttpServletRequest request, HttpServletResponse response){
-		Integer userId=10;
+		//Integer userId=10;
+		HttpSession session=request.getSession();
+		Integer userId=(Integer) session.getAttribute("userId");
 		String tagName=request.getParameter("tagname");
 		Object re=userTagService.delTag(userId, tagName);
 		return re;

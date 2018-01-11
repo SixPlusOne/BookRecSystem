@@ -27,6 +27,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+<<<<<<< Updated upstream
+=======
+import cn.zju.springboot.pojo.Favor;
+>>>>>>> Stashed changes
 import cn.zju.springboot.pojo.User;
 import cn.zju.springboot.service.UserService;
 
