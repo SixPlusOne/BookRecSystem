@@ -6,8 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -66,9 +68,13 @@ public class UserLikedBookController {
         response.setHeader("Pragma", "no-cache"); // HTTP 1.0
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setDateHeader("Expires", 0); 
-		int bookId = Integer.parseInt(request.getParameter("bookId"));
-		int userId = Integer.parseInt(request.getParameter("userId"));
+        Integer bookId = Integer.parseInt(request.getParameter("bookId"));
+		//int userId = Integer.parseInt(request.getParameter("userId"));
 //		return "hello";
+		HttpSession session = request.getSession();
+		Map<String, Object> result = new HashMap<>();
+	
+		Integer userId = (int) session.getAttribute("userId");
 		return userLikedBook.deletefaovr(bookId,userId);
 	
 	}
@@ -90,21 +96,21 @@ public class UserLikedBookController {
 	@ResponseBody
 	public Object addLikedBook(HttpServletRequest request,HttpServletResponse response) throws ParseException
 	{
-		response.setCharacterEncoding("UTF-8");
-        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
-        response.setHeader("Pragma", "no-cache"); // HTTP 1.0
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setDateHeader("Expires", 0); 
-		int bookId = Integer.parseInt(request.getParameter("bookId"));
-		int userId = Integer.parseInt(request.getParameter("userId"));
+//		response.setCharacterEncoding("UTF-8");
+//        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
+//        response.setHeader("Pragma", "no-cache"); // HTTP 1.0
+//        response.setHeader("Access-Control-Allow-Origin", "*");
+//        response.setDateHeader("Expires", 0); 
+		Integer bookId = Integer.parseInt(request.getParameter("bookId"));
+		//int userId = Integer.parseInt(request.getParameter("userId"));
 		
 		java.util.Date time = new java.util.Date();
 		Date createdate = new Date(time.getTime());
-		//System.out.print("----------------------"+createdate);
-		//java.sql.Date test_Date= strToDate(createdate);
-        //System.out.println(test_Date);
-		//Date createDate = new Date(time.getTime());
+		HttpSession session = request.getSession();
+		Map<String, Object> result = new HashMap<>();
 		
+		Integer userId = (Integer) session.getAttribute("userId");
+		System.out.print("date"+createdate+"uid"+userId+"bid"+bookId);
 		return userLikedBook.addLikedBook(bookId, userId, createdate);
 	}
 	
@@ -113,7 +119,7 @@ public class UserLikedBookController {
 	@ResponseBody
 	public int countUserLikedBook(HttpServletRequest request)
 	{
-		int userId = Integer.parseInt(request.getParameter("userId"));
+		Integer userId = Integer.parseInt(request.getParameter("userId"));
 		return userLikedBook.countUserLikedBooks(userId);
 	}
 	
