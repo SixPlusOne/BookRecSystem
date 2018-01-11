@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BookDetail</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.css}" />
+<!-- 
+<script type="text/javascript" src="js/jquery-1.11.0.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
+ -->
+<script type="text/javascript" th:src="@{/js/jquery-1.11.0.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+
+<script type="text/javascript">
+	window.onload = function() {
+		var star = document.getElementsByTagName('em');
+		var oDiv = document.getElementById('star-container');
+		var temp = 0;
+
+		for (var i = 0, len = star.length; i < len; i++) {
+			star[i].index = i;
+
+			star[i].onmouseover = function() {
+				clear();
+				for (var j = 0; j < this.index + 1; j++) {
+					star[j].style.background = "url(/img/star_onmouseover.png) ";
+				}
+			}
+
+			star[i].onmouseout = function() {
+				for (var j = 0; j < this.index + 1; j++) {
+					star[j].style.background = "url(/img/star_hollow_hover.png) ";
+				}
+				current(temp);
+			}
+
+			//某颗星点击的时候
+			star[i].onclick = function() {
+				temp = this.index + 1;
+				current(temp);
+			}
+		}
+		//清除所有
+		function clear() {
+			for (var i = 0, len = star.length; i < len; i++) {
+				star[i].style.background = "url(/img/star_hollow_hover.png) ";
+			}
+		}
+		//显示当前第几颗星
+		function current(temp) {
+			$("#score").val(temp);
+			for (var i = 0; i < temp; i++) {
+				star[i].style.background = "url(/img/star_onmouseover.png) ";
+			}
+		}
+		
+	};
+</script>
+<title>BookDetails</title>
+<style>
+p {
+	text-indent: 2em;
+	word-break: normal;
+}
+
+#star-container em {
+	float: left;
+	width: 16px;
+	height: 16px;
+	background: url(/img/star_hollow_hover.png)
+}
+
+#star-container {
+	margin-left: -145px;
+	position: relative;
+	min-height: 1px;
+	padding-right: 1px;
+	padding-left: 1px;
+	float: left;
+	text-align: left;
+	width: 400px;
+	margin-top: 10px;
+}
+
+#commond {
+	height: 200px;
+	margin-left: 15px;
+	margin-right: 15px;
+	margin-top: 10px;
+}
+
+#modal-container {
+	height: 245px;
+	border: 1px solid #c3c3c3;
+	display: -webkit-flex; /* Safari */
+	-webkit-flex-direction: column; /* Safari 6.1+ */
+	display: flex;
+	-webkit-justify-content: flex-end;
+	justify-content: flex-end;
+	flex-direction: column;
+}
+
+#myModalLabel {
+	text-align: left;
+}
+
+#model-text-line {
+	position: relative;
+	min-height: 1px;
+	padding-right: 15px;
+	padding-left: 15px;
+	float: left;
+	text-align: left;
+	margin-top: 15px;
+}
+</style>
+</head>
+<body>
+	<div class="container">
+		<!--导航条-->
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed"
+						data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+						aria-expanded="false">
+						<span class="sr-only">Toggle navigation</span> <span
+							class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#">图书推荐</a>
+				</div>
+
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse"
+					id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li><a href="first_page.html">首页<span class="sr-only">(current)</span></a>
+						</li>
+						<li><a href="#">排行榜</a></li>
+						<li><a href="#">发现</a></li>
+						<li class="active"><a href="#">书籍详情</a></li>
+					</ul>
+					<ul class="nav nav-pills pull-right">
+						<li style="margin-right: 30px;">
+							<form class="navbar-form navbar-right">
+								<div class="form-group">
+									<input type="text" class="form-control" placeholder="Search">
+								</div>
+								<!--<button type="submit" class="btn btn-default">个人中心</button>-->
+							</form>
+						</li>
+						<li role="presentation" class="active"><a
+							href="personal_center.html">Home <span class="badge">42</span></a></li>
+					</ul>
+				</div>
+				<!-- /.navbar-collapse -->
+			</div>
+			<!-- /.container-fluid -->
+		</nav>
+		<!--图书照片以及metadata-->
+		<div class="row">
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<table>
+					<tr>
+						<td><img class="pull-left" th:src="${book.img3}"
+							style="width: 75%; padding-left: 10%;" /></td>
+						<td width="30%">
+							<p style="font-size: 15px">
+								<a th:href="@{'/book/' + ${book.id}}" th:text="${book.name}"></a>
+							</p>
+							<p th:text="@{'作者: ' + ${book.author.name}}">作者: 张爱玲</p>
+							<p th:text="@{'出版社: ' + ${book.publisher}}">出版社: 哈尔滨出版社</p>
+							<p th:text="@{'评分: ' + ${book.rating}}">评分: 9.5</p>
+							<p th:text="@{'定价: ' + ${book.price}}">定价: 13.5元</p>
+							<p>装帧: 平装</p>
+							<p th:text="@{'ISBN: ' + ${book.isbn}}">ISBN: 9788781074519</p>
+						</td>
+					</tr>
+				</table>
+
+			</div>
+			<div class="col-xs-4" align="center">
+				<button class="btn btn-primary btn-lg" data-toggle="modal"
+					data-target="#myModal">我要评价</button>
+				<!-- 模态框（Modal） -->
+				<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+					aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+
+								<h4 class="modal-title" id="myModalLabel">我读过这本书</h4>
+							</div>
+							<form action="http://127.0.0.1:8080/comment/insertIfAbsent" method="post">
+								<div class="modal-body" id="modal-container">
+									<div id="model-text-line">给个评价吧</div>
+									<div id="star-container">
+										<em id="star1" onclick="setScore(this)"></em>
+										<em id="star2" onclick="setScore(this)"></em>
+										<em id="star3" onclick="setScore(this)"></em>
+										<em id="star4" onclick="setScore(this)"></em>
+										<em id="star5" onclick="setScore(this)"></em>
+									</div>
+									<div id="model-text-line">写个评价吧</div>
+									<input type="text" id="commond" height="400px"
+										th:value="${comment.content}" name="content" />
+								</div>
+								<div class="modal-footer">
+									<button id="click_close" type="button" class="btn btn-default"
+										data-dismiss="modal">关闭</button>
+									<button type="submit" class="btn btn-primary">提交</button>
+								</div>
+								<input name="bookId" type="hidden" th:value="${book.id}">
+								<!-- 此处userid暂时写死, 后序了解了如何获得userid再进行修改 -->
+								<input name="userId" type="hidden" value="10">
+								<input name="score" type="hidden" id="score" value="0">
+							</form>
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal -->
+				</div>
+			</div>
+		</div>
+		<!--内容简介-->
+		<div class="row">
+			<div class="col-md-10">
+				<h3>内容简介</h3>
+				<div style="border: gainsboro solid 1px;">
+					<p th:text="${book.summary}">三国时期是个激动人心的时代。</p>
+				</div>
+			</div>
+		</div>
+		<!--作者简介-->
+		<div class="row">
+			<div class="col-md-10">
+				<h3>作者简介</h3>
+				<div style="border: gainsboro solid 1px;">
+					<p th:text="${book.author.name}">张爱玲（1920年9月30日-1995年9月8日）</p>
+
+					<p th:text="${book.author.summary}">
+						散文集《流言》、散文小说合集《张看》、中短篇小说集《传奇》、长篇小说《倾城之恋》、《半生缘》、《赤地之恋》。晚年从事中国文学评价和《红楼梦》研究。
+						说张爱玲是中国文学史上的一个“异数”当不为过。文字在她的笔下，才真正的有了生命，直钻进你的心里去。喜欢张爱玲的人对她的书真是喜欢，阅读的本身就能给读书的人莫大的快感。阅读的快乐只有在她那里才可以得到，至少对我是这样。读别的书你或许能知道道理，了解知识，得到震撼，但是只有读张爱玲的文章你才是快乐的。即便是有点悲剧意味的《十八春》依然如此！
+					</p>
+				</div>
+			</div>
+		</div>
+		<!--喜欢该书的人也喜欢-->
+		<h3 th:text="@{'与' + ${book.name} + '相似的书'}">喜欢读"金锁记"的人也喜欢 · · ·
+			· · ·</h3>
+		<div class="row">
+			<!--一本书籍介绍-->
+			<!--中 - 4
+				小 - 6
+				超小 - 12-->
+			<div class="col-md-2 col-sm-6 col-xs-12 bookItem"
+				th:each="simbook:${simbooks}">
+				<!--图片-->
+				<div style="margin-top: 10px;">
+					<a th:href="@{'/book/' + ${simbook.id}}"> <img
+						th:src="${simbook.img3}" height="150" width="150" />
+					</a>
+				</div>
+				<!--名称-->
+				<div>
+					<a th:href="@{'/book/' + ${simbook.id}}" th:text="${simbook.name}"></a>
+				</div>
+				<!--作者-->
+				<div th:text="${simbook.author.name}"></div>
+				<!--出版社-->
+				<div th:text="${simbook.publisher}"></div>
+				<!--评分-->
+				<div th:text="${simbook.rating}">8.5</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

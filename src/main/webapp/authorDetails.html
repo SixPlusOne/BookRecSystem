@@ -1,17 +1,64 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>BookDetail</title>
-		<link rel="stylesheet" href="css/bootstrap.css" />
-		<script type="text/javascript" src="js/jquery-1.11.0.js"></script>
-		<script type="text/javascript" src="js/bootstrap.js"></script>
-		<title>BookDetails</title>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>AuthorDetail</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.css}" />
+	<script type="text/javascript" src="js/jquery-1.11.0.js"></script>
+	<script type="text/javascript" src="js/bootstrap.js"></script>
+	<script type="text/javascript">
+        window.onload = function() {
+            var star = document.getElementsByTagName('em');
+            var oDiv = document.getElementById('star-container');
+            var temp = 0;
+
+            for (var i = 0, len = star.length; i < len; i++) {
+                star[i].index = i;
+
+                star[i].onmouseover = function() {
+                    clear();
+                    for (var j = 0; j < this.index + 1; j++) {
+                        star[j].style.background = "url(img/star_onmouseover.png) ";
+                    }
+                }
+
+                star[i].onmouseout = function() {
+                    for (var j = 0; j < this.index + 1; j++) {
+                        star[j].style.background = "url(img/star_hollow_hover.png) ";
+                    }
+                    current(temp);
+                }
+
+                //某颗星点击的时候
+                star[i].onclick = function() {
+                    temp = this.index + 1;
+                    current(temp);
+                }
+            }
+            //清除所有
+            function clear() {
+                for (var i = 0, len = star.length; i < len; i++) {
+                    star[i].style.background = "url(img/star_hollow_hover.png) ";
+                }
+            }
+            //显示当前第几颗星
+            function current(temp) {
+                for (var i = 0; i < temp; i++) {
+                    star[i].style.background = "url(img/star_onmouseover.png) ";
+                }
+            }
+        };
+	</script>
 		<style>
 			p{
 				text-indent: 2em;
 				word-break: normal;
+			}
+			.pos_bottom{
+				position: relative;
+				bottom: 10px;
 			}
 		</style>
 	</head>
@@ -69,13 +116,12 @@
 				<table>
 					<tr>
 						<td>
-					<img class="pull-left" src="https://img3.doubanio.com/lpic/s2976745.jpg" style="width: 90%;padding-left: 10%;"/>
+							暂时没有作者图片
 						</td>
+
 						<td>
-							<h3>村上村树 </h3>
-							性别:  男<br /> 
-							出生日期: 1949-01-12<br />
-							国家/地区: 日本<br />
+							<p th:text="@{'作者: ' + ${author.name}}">村上春树</p>
+							<!--<p th:text="@ ${author.name}"> 村上春树 </p>-->
 						</td>
 					</tr>
 				</table>
@@ -88,7 +134,8 @@
 					作者简介
 				</h3>
 				<div style="border: gainsboro solid 1px;">
-					<p>
+					<!--作者简介-->
+					<p th:text="@{${author.summary}}">
 						村上春树，1949年1月12日出生，日本现代小说家，生于京都伏见区。毕业于早稻田大学第一文学部演剧科。村上春树29岁开始写作，第一部作品《且听风吟》即获得日本群像新人奖，1987年第五部长篇小说《挪威的森林》上市至2010年在日本畅销一千万册，国内简体版到2004年销售总量786万，引起“村上现象”。其作品风格深受欧美作家的影响，基调轻盈，少有日本战后阴郁沉重的文字气息，被称作第一个纯正的“二战后时期作家”，并被誉为日本80年代的文学旗手，其作品在世界范围内具有广泛知名度。2017年2月24日，村上春树出版两卷本长篇小说《骑士团长杀人事件》，小说上卷命名为“念头显露篇”，下卷命名为“隐喻改变篇”。
 					</p>
 				</div>
@@ -96,158 +143,135 @@
 		</div>
 		<!--评分最高的六部作品-->
 			<h3>
-				评分最高的六部作品  · · · · · ·
+				评分最高的五部作品  · · · · · ·
 			</h3>
 			<div class="row">
 			<!--一本书籍介绍-->
 				<!--中 - 4
 				小 - 6
 				超小 - 12-->
-			<div class="col-md-2 col-sm-6 col-xs-12 bookItem" >
-				<!--图片-->
-				<div style="margin-top: 10px;">
-					<a href="bookDetails.html">
-					<img src="https://img3.doubanio.com/mpic/s2976745.jpg"/>
-					</a>
+				<div class="col-md-2 col-sm-6 col-xs-12 bookItem" >
+					<!--推荐书籍1-->
+						<!--图片-->
+					<div style="margin-top: 10px;" id = 'image'>
+						<img class="pull-left" th:src="${book1.img3}" style="width: 100%;" />
+					</div>
+
+					<!--名称-->
+					<div th:text="@{${book1.name}}" align="left">
+						金锁记
+					</div>
+
+					<!--出版社-->
+					<div th:text="@{${book1.publisher}}">
+						哈尔滨出版社
+					</div>
+
+					<!--评分-->
+					<div th:text="@{${book1.rating}}">
+						8.5
+					</div>
+
 				</div>
-				<!--名称-->
-				<div>
-					金锁记
+
+				<div class="col-md-2 col-sm-6 col-xs-12 bookItem" >
+					<!--推荐书籍2-->
+
+					<!--图片-->
+					<div style="margin-top: 10px;">
+						<img class="pull-left" th:src="${book2.img3}" style="width: 100%;" />
+					</div>
+
+					<!--名称-->
+					<div th:text="@{${book2.name}}">
+						金锁记
+					</div>
+
+					<!--出版社-->
+					<div th:text="@{${book2.publisher}}">
+						哈尔滨出版社
+					</div>
+
+					<!--评分-->
+					<div th:text="@{${book2.rating}}">
+						8.5
+					</div>
 				</div>
-				<!--作者-->
-				<div>
-					张爱玲
+
+				<div class="col-md-2 col-sm-6 col-xs-12 bookItem" >
+					<!--推荐书籍3-->
+
+					<!--图片-->
+					<div style="margin-top: 10px;">
+						<img class="pull-left" th:src="${book3.img3}" style="width: 100%;" />
+					</div>
+
+					<!--名称-->
+					<div th:text="@{${book3.name}}">
+						金锁记
+					</div>
+
+					<!--出版社-->
+					<div th:text="@{${book3.publisher}}">
+						哈尔滨出版社
+					</div>
+
+					<!--评分-->
+					<div th:text="@{${book3.rating}}">
+						8.5
+					</div>
 				</div>
-				<!--出版社-->
-				<div>
-					哈尔滨出版社
+
+				<div class="col-md-2 col-sm-6 col-xs-12 bookItem" >
+					<!--推荐书籍4-->
+
+					<!--图片-->
+					<div style="margin-top: 10px;">
+						<img class="pull-left" th:src="${book4.img3}" style="width: 100%;" />
+					</div>
+
+					<!--名称-->
+					<div th:text="@{${book4.name}}">
+						金锁记
+					</div>
+
+					<!--出版社-->
+					<div th:text="@{${book4.publisher}}">
+						哈尔滨出版社
+					</div>
+
+					<!--评分-->
+					<div th:text="@{${book4.rating}}">
+						8.5
+					</div>
 				</div>
-				<!--评分-->
-				<div>
-					8.5
+
+				<div class="col-md-2 col-sm-6 col-xs-12 bookItem" >
+					<!--推荐书籍5-->
+
+					<!--图片-->
+					<div style="margin-top: 10px;">
+						<img class="pull-left" th:src="${book5.img3}" style="width: 100%;" />
+					</div>
+
+					<!--名称-->
+					<div th:text="@{${book5.name}}">
+						金锁记
+					</div>
+
+					<!--出版社-->
+					<div th:text="@{${book5.publisher}}">
+						哈尔滨出版社
+					</div>
+
+					<!--评分-->
+					<div th:text="@{${book5.rating}}">
+						8.5
+					</div>
 				</div>
-			</div>
-			<div class="col-md-2 col-sm-6 col-xs-12 bookItem" >
-				<!--图片-->
-				<div style="margin-top: 10px;">
-					<a href="bookDetails.html">
-					<img src="https://img3.doubanio.com/mpic/s2976745.jpg" />
-					</a>
-				</div>
-				<!--名称-->
-				<div>
-					金锁记
-				</div>
-				<!--作者-->
-				<div>
-					张爱玲
-				</div>
-				<!--出版社-->
-				<div>
-					哈尔滨出版社
-				</div>
-				<!--评分-->
-				<div>
-					8.5
-				</div>
-			</div>
-			<div class="col-md-2 col-sm-6 col-xs-12 bookItem" >
-				<!--图片-->
-				<div style="margin-top: 10px;">
-					<a href="bookDetails.html">
-					<img src="https://img3.doubanio.com/mpic/s2976745.jpg" />
-					</a>
-				</div>
-				<!--名称-->
-				<div>
-					金锁记
-				</div>
-				<!--作者-->
-				<div>
-					张爱玲
-				</div>
-				<!--出版社-->
-				<div>
-					哈尔滨出版社
-				</div>
-				<!--评分-->
-				<div>
-					8.5
-				</div>
-			</div>
-			<div class="col-md-2 col-sm-6 col-xs-12 bookItem" >
-				<!--图片-->
-				<div style="margin-top: 10px;">
-					<a href="bookDetails.html">
-					<img src="https://img3.doubanio.com/mpic/s2976745.jpg" />
-					</a>
-				</div>
-				<!--名称-->
-				<div>
-					金锁记
-				</div>
-				<!--作者-->
-				<div>
-					张爱玲
-				</div>
-				<!--出版社-->
-				<div>
-					哈尔滨出版社
-				</div>
-				<!--评分-->
-				<div>
-					8.5
-				</div>
-			</div>
-			<div class="col-md-2 col-sm-6 col-xs-12 bookItem" >
-				<!--图片-->
-				<div style="margin-top: 10px;">
-					<a href="bookDetails.html">
-					<img src="https://img3.doubanio.com/mpic/s2976745.jpg" />
-					</a>
-				</div>
-				<!--名称-->
-				<div>
-					金锁记
-				</div>
-				<!--作者-->
-				<div>
-					张爱玲
-				</div>
-				<!--出版社-->
-				<div>
-					哈尔滨出版社
-				</div>
-				<!--评分-->
-				<div>
-					8.5
-				</div>
-			</div>
-			<div class="col-md-2 col-sm-6 col-xs-12 bookItem" >
-				<!--图片-->
-				<div style="margin-top: 10px;">
-					<a href="bookDetails.html">
-					<img src="https://img3.doubanio.com/mpic/s2976745.jpg" />
-					</a>
-				</div>
-				<!--名称-->
-				<div>
-					金锁记
-				</div>
-				<!--作者-->
-				<div>
-					张爱玲
-				</div>
-				<!--出版社-->
-				<div>
-					哈尔滨出版社
-				</div>
-				<!--评分-->
-				<div>
-					8.5
-				</div>
-			</div>
-			
+
+
+
 		</div>
 		</div>
 	</body>

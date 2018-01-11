@@ -61,37 +61,36 @@ public class UserServiceImpl implements UserService {
 		}
 
 	}
-
+	
+	/**
+	 * 
+	 * TODO 简单描述该方法的实现功能（可选）. 
+	 * 返回值：
+	 * -1 代表用户没有注册
+	 * -2 代表用户密码错误
+	 * 用户登录成功 返回用户Id 
+	 * @see cn.zju.springboot.service.UserService#login(java.lang.String, java.lang.String)
+	 */
 	@Override
-	public String login(String userName,String passwd) {
-		if(StringUtils.isEmpty(userName)&& StringUtils.isEmpty(passwd))
-			return "账号名密码不能为空";
+	public int login(String userName,String passwd) {
 		
 		Example example = new Example(User.class);
 		example.createCriteria().andEqualTo("name", userName);
 		List<User> userList = userMapper.selectByExample(example);
 		if(userList == null) {
-			return "用户尚未注册";
+			return -1;
 		}
 		if(userList.get(0).getPassword().equals(passwd)) {
-			stringRedisTemplate.opsForValue().set(userName, passwd);
-			stringRedisTemplate.expire(userName, 30, TimeUnit.SECONDS);
-			return "登录成功";
+			return userList.get(0).getId();
 		}else {
-			return "用户名密码错误";
+			return -2;
 		}
 
 	}
 
 	@Override
-	public User getUserByName(String userName) {
-		if(StringUtils.isEmpty(userName))
-			return null;
-		Example example = new Example(User.class);
-		example.createCriteria().andEqualTo("name", userName);
-		List<User> userList = userMapper.selectByExample(example);
-		
-		return userList.get(0);
+	public User getUserBySession(int userId) {
+		return userMapper.selectByPrimaryKey(userId);
 	}
 
 	@Override
