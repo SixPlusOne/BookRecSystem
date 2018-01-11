@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,7 +97,7 @@ public class BookController {
 	}
 	
 	@GetMapping("/{bookId}")
-	public String getDetailedBookForm(@PathVariable int bookId,Model model, HttpServletRequest request){
+	public String getDetailedBookForm(@PathVariable int bookId,Model model, HttpServletRequest request, HttpServletResponse response){
 		HttpSession s = request.getSession();
 		Integer userId = (Integer)s.getAttribute("userId");
 		List<Comment> commentList = null;
@@ -106,8 +107,8 @@ public class BookController {
 			if (!commentList.isEmpty()) {
 				comment = commentList.get(0);
 			}
-			model.addAttribute("comment",comment);
 		}
+		model.addAttribute("comment",comment);
 		model.addAttribute("book",bookFormMapper.findone(bookId));
 		// 此处暂时不使用分页, 通过if判断只显示前5本书籍
 		List<BookForm> tem = bookFormMapper.getSimilarBooks(bookId);
