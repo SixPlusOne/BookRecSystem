@@ -11,8 +11,10 @@ package cn.zju.springboot.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -65,27 +67,54 @@ public class UserController {
 	
 	@RequestMapping(value = "login",method = RequestMethod.POST)
 	@ResponseBody
-	public String login(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+	public Object login(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+		Map<String, Object> result = new HashMap<>();
+		HttpSession session = request.getSession();
 		request.setCharacterEncoding("utf-8");
 		String userName = request.getParameter("username");
 		String passWord = request.getParameter("password");
-		if(StringUtils.isEmpty(userName)||StringUtils.isEmpty(passWord))
-			return "账号用户名密码错误";
+		if(StringUtils.isEmpty(userName)||StringUtils.isEmpty(passWord)) {
+			result.put("success", false);
+			result.put("Msg", "账号用户名密码错误");
+			return result;
+		}
 		User user = new User();
 		user.setName(userName);
 		user.setPassword(passWord);
-		return userService.login(userName, passWord);
+		int resultCode = userService.login(userName, passWord);
+		if(resultCode == -1) {
+			result.put("success", false);
+			result.put("Msg", "用户尚未注册");
+			return result;
+		}else if (resultCode == -2) {
+			session.invalidate();
+			result.put("success", false);
+			result.put("Msg", "登录失败，用户密码错误");
+			return result;
+		}else {
+			session.setAttribute("userId", resultCode);
+			result.put("success",true);
+			result.put("Msg", "登录成功");
+			return result;
+		}
+		
 		
 	}
 	
-	@RequestMapping("getUserByName")
+	@RequestMapping("getUser")
 	@ResponseBody
-	public Object getUserByName(HttpServletRequest request) {
-		String userName = request.getParameter("userName");
-		if(StringUtils.isEmpty(userName))
-			return "用户名不能为空";
+	public Object getUser(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		Map<String, Object> result = new HashMap<>();
+		if(session==null||session.getAttribute("userId")==null)
+		{
+			result.put("success", false);
+			result.put("Msg", "Time out,please login again!");
+			return result;
+		}
+		int userId = (int) session.getAttribute("userId");
 		
-		return userService.getUserByName(userName);
+		return userService.getUserBySession(userId);
 		
 	}
 	
