@@ -12,8 +12,6 @@ package cn.zju.springboot.controller;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,8 +27,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import cn.zju.springboot.pojo.Book;
-import cn.zju.springboot.pojo.Favor;
 import cn.zju.springboot.pojo.User;
 import cn.zju.springboot.service.UserService;
 
@@ -150,8 +146,14 @@ public class UserController {
 	
 	@RequestMapping("/updateName")
 	@ResponseBody
-	public Object updateName(HttpServletRequest request,HttpServletResponse response) {
-		int userId = Integer.parseInt(request.getParameter("userId"));
+	public Object updateName(HttpServletRequest request, HttpSession session, HttpServletResponse response) {
+		Map<String, Object> result = new HashMap<>();
+		if(session.getAttribute("userId") == null) {
+			result.put("success", false);
+			result.put("Msg", "Time out,please login again!");
+			return result;
+		}
+		int userId = (int) session.getAttribute("userId");
 		String userName = request.getParameter("userName");
 		if(StringUtils.isEmpty(userName)) {
 			return "昵称不能为空";
@@ -167,7 +169,14 @@ public class UserController {
 	 */
 	@GetMapping("/settings")
 	public Object queryUserFavor(Model model,HttpSession session) throws IOException{
-		User user = userService.getUserById(1);
+		Map<String, Object> result = new HashMap<>();
+		if(session.getAttribute("userId") == null) {
+			result.put("success", false);
+			result.put("Msg", "Time out,please login again!");
+			return result;
+		}
+		int userId = (int) session.getAttribute("userId");		
+		User user = userService.getUserById(userId);
 		model.addAttribute("user", user);
 		return "settings";
 	}

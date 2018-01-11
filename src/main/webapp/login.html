@@ -27,6 +27,9 @@
 	                            emulateJSON:true
 	                        }).then(function(res){
 		                        alert(res.data['Msg']);
+		                        if(res.data['success']){
+		                        	window.location.href="first_page.html";
+		                        }
 		                    },function(res){
 		                        alert(res.status);
 		                    });
@@ -61,8 +64,6 @@
 					
 				</div>
 
-				<br>
-				{{username}},{{password}}
 				
 			</div>
 		</form>
