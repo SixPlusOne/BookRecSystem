@@ -66,12 +66,11 @@ public class UserController {
 		Integer falseRes = new Integer(-1);
 		if(!res.equals(falseRes)) {
 			session.setAttribute("userId", res);
-			try {
-				response.sendRedirect("/first_page.html");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//			try {
+//				response.sendRedirect("/login.html");
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
 			return "登录成功";
 		} else {
 			return "账户名密码不匹配";

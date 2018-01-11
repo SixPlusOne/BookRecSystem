@@ -43,24 +43,18 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Integer register(User user) {
-		int insertResult = 0;
 		if(user == null)
 			return -1;
 		Example example = new Example(User.class);
 		example.createCriteria().andEqualTo("name", user.getName());
 		List<User> list = userMapper.selectByExample(example);
-		if(!list.isEmpty()) {
-			insertResult = userMapper.insert(user);
-			list = userMapper.selectByExample(example);
+		if(list.isEmpty()) {
+			userMapper.insertUserAndGetId(user);
+			return user.getId();
 		}else {
 			return -1;
 		}
-		if(insertResult > 0) {
-			return 1;
-		}else {
-			return list.get(0).getId();
-		}
-
+		
 	}
 	
 	/**

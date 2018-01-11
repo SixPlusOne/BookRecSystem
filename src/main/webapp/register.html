@@ -46,9 +46,11 @@
 						emulateJSON : true
 					}).then(function(res) {
 						alert(res.data);
+						window.location.href="/login.html";
 					}, function(res) {
 						alert(res.data);
 					});
+					
 				}
 			}
 		})

@@ -25,5 +25,6 @@ import cn.zju.springboot.pojo.User;
  */
 public interface UserMapper extends Mapper<User>{
 
+	public Integer insertUserAndGetId(User user);
 }
   
