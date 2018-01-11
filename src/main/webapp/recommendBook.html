@@ -145,7 +145,7 @@
 						var _this = this;
 						console.log(" ---------- 执行网络请求");
 						//Vue.source插件，目前已经被axios代替
-						axios.get('http://localhost:8080/tag/queryByNames/%E4%B8%89%E5%9B%BD,%E9%99%88%E6%9F%90')
+						axios.get('http://127.0.0.1:8080/tag/queryByNames/%E4%B8%89%E5%9B%BD,%E9%99%88%E6%9F%90')
 						.then(function(res){
 							console.log(res.data);
 							var dataLength = res.data.length < 12 ? res.data.length : 12;
@@ -168,7 +168,7 @@
 						bookItem.isCollected = !bookItem.isCollected;
 						bookItem.imgUrl = bookItem.isCollected ? "img/star_onmouseover.png" : "img/star_hollow_hover.png";
 						
-				axios.get('http://localhost:8080/userLikedBook/addLikedBook?bookId='+bookItem.id+'&userId=8')
+				axios.get('http://127.0.0.1:8080/userLikedBook/addLikedBook?bookId='+bookItem.id)
 				.then(function(res){
 							console.log(res.data);	
 						})
