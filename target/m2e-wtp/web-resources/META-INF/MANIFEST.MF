@@ -1,15 +1,9 @@
 Manifest-Version: 1.0
 Implementation-Title: BookRecSystem
 Implementation-Version: 0.0.1-SNAPSHOT
-<<<<<<< Updated upstream
-Built-By: cjl
+Built-By: wangy
 Implementation-Vendor-Id: com.zju.springboot
-Build-Jdk: 1.8.0_65
-=======
-Built-By: Administrator
-Implementation-Vendor-Id: com.zju.springboot
-Build-Jdk: 1.8.0_141
->>>>>>> Stashed changes
+Build-Jdk: 1.8.0_151
 Implementation-URL: http://projects.spring.io/spring-boot/BookRecSyste
  m/
 Created-By: Maven Integration for Eclipse
