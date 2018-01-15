@@ -16,6 +16,7 @@ public interface TagService {
 
 	public int updateTag(String oldName, String newName);
 	
+	public List<String> getTagsByUserId(int userId);
 	// 根据单个tag获得书籍
 	public Set<Book> getBooksByTagName(String name);
 	
