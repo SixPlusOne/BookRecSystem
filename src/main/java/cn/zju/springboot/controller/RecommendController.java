@@ -69,7 +69,6 @@ public class RecommendController {
 	@ResponseBody
 	public List<BookForm> getRecommendBooks(@PathVariable int userId) throws IOException{
 		return bookRecommendService.getRecommendBooks(userId);
-
 	}
 	
 	@GetMapping("/recommend_user_cf/{userId}")  //根据用户给出user-cf推荐书籍
