@@ -49,12 +49,16 @@ public class UserController {
 	
 	@RequestMapping("register")
 	@ResponseBody
-	public String register(HttpServletRequest request, HttpServletResponse response) {
+	public Object register(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, Object> result = new HashMap<>();
 		String userName = request.getParameter("username");
 		String password = request.getParameter("password");
 		HttpSession session = request.getSession();
-		if(StringUtils.isEmpty(userName)||StringUtils.isEmpty(password))
-			return "账号用户名密码错误";
+		if(StringUtils.isEmpty(userName)||StringUtils.isEmpty(password)) {
+			result.put("success", false);
+			result.put("Msg", "用户名/密码不得为空");
+			return result;
+		}
 		User user = new User();
 		user.setName(userName);
 		user.setPassword(password);
@@ -62,14 +66,13 @@ public class UserController {
 		Integer falseRes = new Integer(-1);
 		if(!res.equals(falseRes)) {
 			session.setAttribute("userId", res);
-//			try {
-//				response.sendRedirect("/login.html");
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-			return "登录成功";
+			result.put("success", true);
+			result.put("Msg", "注册成功");
+			return result;
 		} else {
-			return "账户名密码不匹配";
+			result.put("success", false);
+			result.put("Msg", "该用户名已经使用");
+			return result;
 		}
 		
 	}

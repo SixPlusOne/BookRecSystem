@@ -14,12 +14,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.dubbo.container.page.Page;
-import com.github.abel533.entity.Example;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -27,12 +24,8 @@ import cn.zju.springboot.mapper.AuthorMapper;
 import cn.zju.springboot.mapper.BookFormMapper;
 import cn.zju.springboot.mapper.BookMapper;
 import cn.zju.springboot.mapper.BookTagMapper;
-import cn.zju.springboot.pojo.Author;
 import cn.zju.springboot.pojo.Book;
 import cn.zju.springboot.pojo.BookForm;
-import cn.zju.springboot.pojo.BookTag;
-import cn.zju.springboot.pojo.Tag;
-import cn.zju.springboot.pojo.User;
 import cn.zju.springboot.service.AuthorRecommendService;
 import cn.zju.springboot.service.BookRecommendServiceImpl;
 import cn.zju.springboot.service.BookService;
