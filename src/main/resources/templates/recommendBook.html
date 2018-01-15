@@ -48,11 +48,11 @@
 							<a href="first_page.html">首页<span class="sr-only">(current)</span></a>
 						</li>
 						<li>
-							<a href="#">排行榜</a>
+							<a href="ranklist.html">排行榜</a>
 						</li>
-						<li>
+					<!--  	<li>
 							<a href="#">发现</a>
-						</li>
+						</li>-->
 						
 					</ul>
 					<ul class="nav nav-pills pull-right">
@@ -75,7 +75,7 @@
 			<p class="col-xs-10">
 				根据您选择的兴趣标签，荐书猜你对这些书籍感兴趣。选择想读加入收藏夹，开始你的阅读之旅把。
 			</p>
-			<button type="submit" href="personal_center.html">完成 <span class="badge pull-right"></span></button>	
+			<button type="submit" href="first_page.html">完成 <span class="badge pull-right"></span></button>	
 		</div>
 		
 		<div class="row" id="book_list">
@@ -119,7 +119,7 @@
 		
 		<div class="col-xs-4" align="center" >
 			<button href="select_tag.html" class="media-left">返回</button>
-			<button href="#" class="media-right">完成</button><span class="badge pull-right"></span>
+			<button href="first_page.html" class="media-right">完成</button><span class="badge pull-right"></span>
 		</div>	
 		<div class="col-xs-4" align="center">
 			
@@ -132,20 +132,52 @@
 				el: "#book_list",
 				data: {
 					bookList: [],
+					taglist:"",
 				},
 				//钩子函数，当所有DOM挂载在页面上时，加载此方法，相当于window.onload=function(){}
 				mounted:function(){
 //					//需要用$nextTick来保证所有节点挂载后才执行方法
 					this.$nextTick(function(){
 						this.bookView();
+						this.getUserTags();
+						
 					})
 				},
 				methods:{
+					
+					
+					getUserTags:function(){
+						console.log("..........in get tags");
+						axios.get('http://127.0.0.1:8080/tag/getTagsByUserId')
+				.then(function(res){
+							console.log(res.data);	
+							console.log(res.data);	
+							var dataLength = res.data.length < 3 ? res.data.length : 3;
+							for (var i = 0; i < dataLength; i++) {
+								if(i==0)
+									taglist = res.data[i];
+								else
+									taglist = taglist + ',' + res.data[i];
+								
+								_this.taglist.push(res.data[i]);
+							}
+							
+							
+							
+						})
+						.catch(function(error){
+							console.log(error);
+						});	
+						
+					},
+					
+					
+					
 					bookView:function(){
 						var _this = this;
 						console.log(" ---------- 执行网络请求");
 						//Vue.source插件，目前已经被axios代替
-						axios.get('http://localhost:8080/tag/queryByNames/%E4%B8%89%E5%9B%BD,%E9%99%88%E6%9F%90')
+						axios.get('http://127.0.0.1:8080/tag/queryByNames/'+taglist)
 						.then(function(res){
 							console.log(res.data);
 							var dataLength = res.data.length < 6 ? res.data.length : 6;
@@ -168,7 +200,7 @@
 						bookItem.isCollected = !bookItem.isCollected;
 						bookItem.imgUrl = bookItem.isCollected ? "img/star_onmouseover.png" : "img/star_hollow_hover.png";
 						
-				axios.get('http://localhost:8080/userLikedBook/addLikedBook?bookId='+bookItem.id)
+				axios.get('http://127.0.0.1:8080/userLikedBook/addLikedBook?bookId='+bookItem.id)
 				.then(function(res){
 							console.log(res.data);	
 						})
