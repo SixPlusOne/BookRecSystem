@@ -85,8 +85,8 @@ public class BookRecommendServiceImpl {
 		}
 		
 		List<BookForm> books=new LinkedList<BookForm>();
-		for(String bookName:strNames){
-			books.add(bookFormMapper.findbyname(bookName));
+		for (int i = 0; i<strNames.length && books.size() < 6; i++) {
+			books.add(bookFormMapper.findbyname(strNames[i]));
 		}
 		
 		return books;
