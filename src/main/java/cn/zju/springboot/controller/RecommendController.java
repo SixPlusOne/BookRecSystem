@@ -125,12 +125,13 @@ public class RecommendController {
 		//User user=(User)session.getAttribute("CURRENT_USER");
 		//List<BookForm> books=bookRecommendService.getRecommendBooks(user.getId());
 //		List<BookForm> books=bookRecommendService.getRecommendBooks(123);
-//		List<Author> authors=authorRecommendService.getAuthorRecommend(123);
+		List<Author> authors=authorRecommendService.getAuthorRecommend(userId);
 		List<BookForm> user_cf_books=bookRecommendService.getRecommendBooksByUserCF(userId);
 //		model.addAttribute("books",books);
-//		model.addAttribute("authors",authors);
-//	List<BookForm> hotBooks=bookService.getHotBookFormList();
+		model.addAttribute("authors",authors);
+		List<BookForm> hotBooks=bookService.getHotBookFormList();
 		model.addAttribute("user_cf_books",user_cf_books);
+		model.addAttribute("hotBooks",hotBooks);
 		return "first_page";
 		
 		
