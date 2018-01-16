@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>注册界面</title>
+	</head>
+	<!--
+    	作者：ji_ruitong@163.com
+    	时间：2017-12-05
+    	描述：注册界面
+    -->
+	<body>
+		<script>
+			function judgePassWord(pwd1,pwd2)
+			{
+				pwd1=request.getParameter("pwd1");
+				pwd2=request.getParameter("pwd2");
+
+				if (pwd1.equals(pwd2))
+				{
+  					
+				}
+				else
+				{
+  					alert("两次输入的密码不一致，请重新输入");
+				}
+			}
+		</script>
+		<form class="form-horizontal" role="form">
+		<br />
+		<br />
+		<br />
+		<br />
+		<div class="form-group" align="center">
+			<h3>注册成为会员</h3>
+			<label for="inputNickname" class="col-sm-2 control-label">昵称</label>
+			<div class="col-sm-4">
+				<!--昵称长度最大10位 -->
+				<input  class="form-control" maxlength="10" id="inputNickname" />
+			</div>
+			<label for="inputEmail" class="col-sm-2 control-label">邮箱</label>
+			<div class="col-sm-4">
+				<input type="email" class="form-control" id="inputEmail" />
+			</div>
+			<!--密码长度最大10位-->
+			<lable for="inputPassword" class="col-sm-2 control-label"> 密码 </lable>
+			<div class="col-lg-4">
+				<input type="password" maxlength="10" class="form-control" id=inputPassword name="inputPassword"/>
+			</div>
+			<lable for="inputPassword2" class="col-sm-2 control-label"> 确认密码 </lable>
+			<div class="col-lg-4">
+				<input type="password" maxlength="10" class="form-control" id=inputPassword2 name="inputPassword2"/>
+			</div>
+			<br />
+			<button type="submit" onclick="judgePassWord("inputPassword","inputPassword2")">注册</button>
+		</div>
+		</form>
+	</body>
+</html>

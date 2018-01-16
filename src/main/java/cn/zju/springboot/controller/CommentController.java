@@ -11,13 +11,13 @@ package cn.zju.springboot.controller;
 
 import java.io.IOException;
 import java.sql.Date;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -146,7 +146,7 @@ public class CommentController {
 	
 	@RequestMapping("insertIfAbsent")
 	@ResponseBody
-	public Object insertIfAbsent(HttpServletRequest request) {
+	public Object insertIfAbsent(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		Map<String, Object> result = new HashMap<>();
 		if(session==null||session.getAttribute("userId")==null)
@@ -166,6 +166,11 @@ public class CommentController {
 		comment.setContent(content);
 		comment.setCreateDate(new Date(System.currentTimeMillis()));
 		List<Comment> commentList = commentService.getCommentByUserIdAndBookId(userId, bookId);
+		try {
+			response.sendRedirect("http://127.0.0.1:8080/book/" + bookId);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		boolean res = true;
 		if (commentList.isEmpty()) {
 			res = commentService.insert(comment);

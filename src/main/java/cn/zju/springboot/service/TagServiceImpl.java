@@ -102,9 +102,9 @@ public class TagServiceImpl implements TagService {
 	}
 
 	// 根据指定用户返回对应标签
-	public List<String> getTagsByUserId(long userId) {
+	public List<String> getTagsByUserId(int userId) {
 		Example example = new Example(UserTag.class);
-		example.createCriteria().andEqualTo("user_id", userId);
+		example.createCriteria().andEqualTo("userId", userId);
 		List<UserTag> userTags = userTagMapper.selectByExample(example);
 		List<String> tags = new LinkedList<String>();
 		for (UserTag userTag : userTags) {

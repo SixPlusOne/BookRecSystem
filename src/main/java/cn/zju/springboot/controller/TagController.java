@@ -1,10 +1,13 @@
 package cn.zju.springboot.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,6 +33,25 @@ public class TagController {
 		return tagService.insertTag(tag);
 	}
 
+	@RequestMapping("getTagsByUserId")
+	@ResponseBody
+	public Object getTagsByUserId(HttpServletRequest request,HttpServletResponse response)
+	{
+		
+		response.setCharacterEncoding("UTF-8");
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
+        response.setHeader("Pragma", "no-cache"); // HTTP 1.0
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setDateHeader("Expires", 0); 
+		HttpSession session = request.getSession();
+		Map<String, Object> result = new HashMap<>();
+
+		Integer userId = (Integer) session.getAttribute("userId");
+		System.out.print("in java get tags by userid" + userId);
+		//System.out.print(tagService.getTagsByUserId(userId));
+		return tagService.getTagsByUserId(userId);
+	}
+	
 	@RequestMapping(value = "delete/{name}")
 	@ResponseBody
 	public Object deleteTagByName(@PathVariable("name") String name, HttpServletRequest request) {

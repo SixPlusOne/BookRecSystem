@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html>
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>个人中心</title>
-		<link rel="stylesheet" href="/css/bootstrap.css" />
-		<script type="text/javascript" src="/js/jquery-1.11.0.js"></script>
-		<script type="text/javascript" src="/js/bootstrap.js"></script>
+		<link rel="stylesheet" href="css/bootstrap.css" />
+		<script type="text/javascript" src="js/jquery-1.11.0.js"></script>
+		<script type="text/javascript" src="js/bootstrap.js"></script>
 		<style>
 			.bookItem{
 				/*border: 1px;width: 150px;*/
@@ -53,7 +52,10 @@
 						<li>
 							<a href="ranklist.html">排行榜</a>
 						</li>
-						</ul>
+						<li>
+							<a href="bookDetails.html">书籍详情</a>
+						</li>
+					</ul>
 					<ul class="nav nav-pills pull-right">
 						<li style="margin-right: 30px;">
 							<form class="navbar-form navbar-right">
@@ -77,13 +79,13 @@
 		<div class="col-md-12 column">
 			<div class="row clearfix">
 				<div class="col-md-2 column">
-					<img height="60px" width="60px" class="img-circle" src="img/buqu.jpg" />
+					<img height="60px" src="img/buqu.jpg" />
 				</div>
 				<div class="col-md-6 column">
 					<div class="row clearfix">
 						<div class="col-md-6 column">
-							<em><strong th:text="${user.name}">usrmame</strong></em>
-							<p th:text="${user.introduction}">
+							<em><strong>usrmame</strong></em>
+							<p>
 								 work hard and make progress everyday!!!
 							</p>
 						</div>
@@ -91,12 +93,12 @@
 					<div class="row clearfix">
 						<div class="col-md-3 column">
 							<p>
-								已经读了<span th:text="${userRead}">3</span>本书
+								已经读了3 本书
 							</p>
 						</div>
 						<div class="col-md-3 column">
 							<p>
-								想读<span th:text="${userFavor}">8</span>本
+								想读8本
 							</p>
 						</div>
 					</div>
@@ -104,7 +106,7 @@
 				<div class="col-md-4 column">
 					<ul class="nav nav-pills">
 						<li class="active">
-							 <a href="../../user/settings"> <span class="badge pull-right"></span>账号设置</a>
+							 <a href="#"> <span class="badge pull-right"></span>账号设置</a>
 						</li>
 						
 					</ul>
@@ -113,48 +115,18 @@
 			<hr />
 			<ul class="nav nav-tabs">
 				<li>
-					 <a href="../../userLikedBook/favor_books">收藏的书</a>
-				</li>
-				<li class="active">
-					 <a href="../../comment/read_books">读过的书</a>
+					 <a href="personal_center.html">我的动态</a>
 				</li>
 				<li>
-					 <a href="../../history/viewed_books">浏览的书</a>
+					 <a href="want_books.html">想看的书</a>
+				</li>
+				<li class="active">
+					 <a href="read.html">看过的书</a>
 				</li>
 	
 			</ul>
-			
-			<div class="row">
-			<!--一本书籍介绍-->
-				<!--中 - 4
-				小 - 6
-				超小 - 12-->
-			<div class="col-md-2 col-sm-6 col-xs-12 bookItem" th:each="readBook:${readBooks}" >
-				<!--图片-->
-				<div style="margin-top: 10px;">
-					<a th:href="@{'/book/'+${readBook.id}}">
-					<img th:src="${readBook.img2}"/>
-					</a>
-				</div>
-				<td>
-		
-				<p>
-				  <a  style="font-size:15px;" th:href="@{'/book/'+${readBook.id}}"  th:text="${readBook.name}" >
-                        </a>
-                        </p>
-					<p style="font-size:15px;" th:text="@{'出版社: '+${readBook.publisher}}">出版社: 中华书局</p>
-					<p style="font-size:15px;" th:text="@{'评分: '+${readBook.rating}}">评分: 9.5</p>
-					<p style="font-size:15px;" th:text="@{'定价: '+${readBook.price}}">定价: 70.00元</p>
-					<p style="font-size:15px;">装帧: 平装</p>
-					<p style="font-size:15px;" th:text="@{'ISBN: '+${readBook.isbn}}"></p>
-					
-				</td>
-			</div>
-			
-		</div>
-		</div>
 			<!--
-            	作者：
+            	作者：ji_ruitong@163.com
             	时间：2017-12-06
             	描述：
             

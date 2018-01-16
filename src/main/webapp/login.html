@@ -28,7 +28,7 @@
 	                        }).then(function(res){
 		                        alert(res.data['Msg']);
 		                        if(res.data['success']){
-		                        	window.location.href="first_page.html";
+		                        	window.location.href="first_page";
 		                        }
 		                    },function(res){
 		                        alert(res.status);
@@ -58,7 +58,7 @@
 					<h4>
 						<input type="button" value="登录" class="bottom" @click="login()" />
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<a href="#forget"  />忘记密码
+						<a href="/register.html"  />注册
 					
 					</h4>
 					

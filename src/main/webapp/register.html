@@ -45,8 +45,10 @@
 					}, {
 						emulateJSON : true
 					}).then(function(res) {
-						alert(res.data);
-						window.location.href="/login.html";
+                        alert(res.data['Msg']);
+                        if(res.data['success']){
+                        	window.location.href="/select_tag.html";
+                        }
 					}, function(res) {
 						alert(res.data);
 					});
